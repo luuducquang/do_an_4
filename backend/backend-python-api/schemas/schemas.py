@@ -7,7 +7,6 @@ class Roles(BaseModel):
     role_description: str
 
 class Users(BaseModel):
-    user_id: int
     username: str
     password: str
     email: str
