@@ -1,33 +1,36 @@
 from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Optional
 from datetime import datetime
+from bson import ObjectId
 
 class Roles(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
     role_name: str
-    role_description: str
+    role_description: Optional[str] = None
 
 class Users(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
     username: str
     password: str
     email: str
-    phone: Optional[str]
-    address: Optional[str]
-    loyalty_points: Optional[int]
+    phone: Optional[str] = None
+    address: Optional[str] = None
+    loyalty_points: Optional[int] = 0
     role_name: str
 
 class EmployeeTypes(BaseModel):
-    employee_type_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     employee_type_name: str
 
 class Employees(BaseModel):
-    employee_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     employee_type_id: str
     user_id: int
     hourly_rate: Optional[float]
     monthly_salary: Optional[float]
 
 class Shifts(BaseModel):
-    shift_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     employee_id: int
     shift_date: datetime
     start_time: datetime
@@ -35,7 +38,7 @@ class Shifts(BaseModel):
     hours_worked: Optional[float]
 
 class EmployeePayments(BaseModel):
-    payment_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     employee_id: int
     pay_period_start: datetime
     pay_period_end: datetime
@@ -43,7 +46,7 @@ class EmployeePayments(BaseModel):
     total_payment: Optional[float]
 
 class Bookings(BaseModel):
-    booking_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     user_id: int
     table_id: int
     booking_date: datetime
@@ -52,17 +55,17 @@ class Bookings(BaseModel):
     status: Optional[bool]
 
 class TableTypes(BaseModel):
-    table_type_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     table_type_name: str
 
 class Tables(BaseModel):
-    table_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     table_number: int
     type: str
     status: Optional[bool]
 
 class Rentals(BaseModel):
-    rental_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     user_id: int
     item_id: int
     rental_date: Optional[datetime]
@@ -72,39 +75,39 @@ class Rentals(BaseModel):
     status: Optional[bool]
 
 class RentalItems (BaseModel):
-    item_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     item_name: str
     rental_price_day: int
     rental_price_hours: int
     quantity_available: int
 
 class FoodOrders(BaseModel):
-    order_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     user_id: int
     order_date: str
     status: str
     total_price: Optional[float]
 
 class OrderItems(BaseModel):
-    order_item_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     order_id: int
     item_id: int
     quantity: int
     price: Optional[float]
 
 class Categorys(BaseModel):
-    category_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     category_name: str
 
 class MenuItems(BaseModel):
-    item_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     name: str
     stock_quantity: int
     price: Optional[float]
     category_id: Optional[int]
 
 class TimeSessions(BaseModel):
-    session_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     table_id: int
     start_time: datetime
     end_time: datetime
@@ -112,7 +115,7 @@ class TimeSessions(BaseModel):
 
 
 class PricingRules(BaseModel):
-    rate_id: int
+    id: Optional[str] = Field(None, alias="_id")  
     type_table_id: int
     rate_per_hour: int
     rate_per_minute: int

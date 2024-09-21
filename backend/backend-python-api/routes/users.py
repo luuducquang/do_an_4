@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 from pymongo.collection import Collection
 from config.database import database
-from schemas.schemas import Users, Roles
-from service.users import insert_user
+from schemas.schemas import Users
+from service.users import delete_user, insert_user, update_user
 
 
 router = APIRouter()
@@ -21,3 +21,13 @@ async def get_users():
 async def create_user(_data: Users):
     _id = insert_user(_data)
     return {"message": "Created successfully", "_id": _id}
+
+@router.put("/users/update")
+def edit_user(_data: Users):
+    result = update_user(_data, user_collection)
+    return result
+
+@router.delete("/users/delete/{user_id}")
+def remove_user(user_id: str):
+    response = delete_user(user_id, user_collection)
+    return response

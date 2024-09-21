@@ -1,0 +1,336 @@
+{
+	"info": {
+		"_postman_id": "18767c35-eed5-416c-b4a8-19e41a51d849",
+		"name": "DoAn4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28184714"
+	},
+	"item": [
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "addRole",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role_name\": \"TEST\",\r\n    \"role_description\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/roles/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRole",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/roles/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editRole",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66e8d948dce9cd35e12b63aa\",\r\n    \"role_name\": \"ADMIN\",\r\n    \"role_description\": \"adas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/roles/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteRole",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/roles/delete/66e8eb9acff658344050918c",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles",
+								"delete",
+								"66e8eb9acff658344050918c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "addUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"str6\",\r\n    \"password\": \"str2\",\r\n    \"email\": \"str2\",\r\n    \"role_name\": \"ADMIN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editUser",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":  \"66eec81c1999583a731922ad\",\r\n    \"username\": \"quang\",\r\n    \"password\": \"123\",\r\n    \"email\": \"quang@123\",\r\n    \"phone\": \"0912312313\",\r\n    \"address\": \"HY\",\r\n    \"loyalty_points\": 10,\r\n    \"role_name\": \"ADMIN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/delete/66eeb44f68c01ae367eb7aa0",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"delete",
+								"66eeb44f68c01ae367eb7aa0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "EmployeeTypes",
+			"item": [
+				{
+					"name": "getEmployeeType",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/employeetypes/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employeetypes",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addEmployeeType",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employee_type_name\": \"nhan vien\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/employeetypes/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employeetypes",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateEmployeeType",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66eed21f0477cd1ad9a7df14\",\r\n    \"employee_type_name\": \"nhan vien\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/employeetypes/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employeetypes",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteEmployeeType",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/employeetypes/delete/66eed21f0477cd1ad9a7df14",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employeetypes",
+								"delete",
+								"66eed21f0477cd1ad9a7df14"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		}
+	]
+}

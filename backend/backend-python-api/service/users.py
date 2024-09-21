@@ -1,10 +1,49 @@
+from bson import ObjectId
+from fastapi import HTTPException
 from pymongo.collection import Collection
 from schemas.schemas import Users
 from config.database import database
 
 user_collection: Collection = database['Users']
 
-def insert_user(user_data: Users) -> str:
-    dict = user_data.dict()
-    result = user_collection.insert_one(dict)
+def insert_user(_data: Users) -> str:
+    existing_username = user_collection.find_one({"username": _data.username})
+    if existing_username:
+        raise HTTPException(status_code=400, detail=f"Username '{_data.username}' already exists.")
+    result = user_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
+
+def update_user(_data: Users, user_collection: Collection):
+    if not _data.id:
+        raise HTTPException(status_code=400, detail="ID is required for update")
+
+    try:
+        object_id = ObjectId(_data.id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid ID format")
+
+    existing_user = user_collection.find_one({"_id": object_id})
+    if not existing_user:
+        raise HTTPException(status_code=404, detail="user not found")
+    
+    updated_user = user_collection.update_one(
+    {"_id": ObjectId(_data.id)},  
+    {"$set": _data.dict(exclude={"id"})} 
+)
+    
+    if updated_user.modified_count == 0:
+        raise HTTPException(status_code=400, detail="Update failed")
+
+    return {"message": "updated successfully"}
+
+
+def delete_user(user_id: str, user_collection: Collection):
+    if not ObjectId.is_valid(user_id):
+        raise HTTPException(status_code=400, detail="Invalid user ID")
+
+    result = user_collection.delete_one({"_id": ObjectId(user_id)})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="user not found")
+    
+    return {"message": "user deleted successfully"}
