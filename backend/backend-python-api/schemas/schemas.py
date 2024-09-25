@@ -25,13 +25,13 @@ class EmployeeTypes(BaseModel):
 class Employees(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     employee_type_id: str
-    user_id: int
+    user_id: str
     hourly_rate: Optional[float]
     monthly_salary: Optional[float]
 
 class Shifts(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
-    employee_id: int
+    employee_id: str
     shift_date: datetime
     start_time: datetime
     end_time: datetime
@@ -39,7 +39,7 @@ class Shifts(BaseModel):
 
 class EmployeePayments(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
-    employee_id: int
+    employee_id: str
     pay_period_start: datetime
     pay_period_end: datetime
     total_hours: Optional[float]
@@ -47,8 +47,8 @@ class EmployeePayments(BaseModel):
 
 class Bookings(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
-    user_id: int
-    table_id: int
+    user_id: str
+    table_id: str
     booking_date: datetime
     start_time: datetime
     end_time: datetime
@@ -66,8 +66,8 @@ class Tables(BaseModel):
 
 class Rentals(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
-    user_id: int
-    item_id: int
+    user_id: str
+    item_id: str
     rental_date: Optional[datetime]
     return_date: Optional[datetime]
     quantity: int
@@ -83,15 +83,15 @@ class RentalItems (BaseModel):
 
 class FoodOrders(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
-    user_id: int
+    user_id: str
     order_date: str
     status: str
     total_price: Optional[float]
 
 class OrderItems(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
-    order_id: int
-    item_id: int
+    order_id: str
+    item_id: str
     quantity: int
     price: Optional[float]
 
@@ -108,7 +108,7 @@ class MenuItems(BaseModel):
 
 class TimeSessions(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
-    table_id: int
+    table_id: str
     start_time: datetime
     end_time: datetime
     price: Optional[float]
@@ -116,7 +116,7 @@ class TimeSessions(BaseModel):
 
 class PricingRules(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
-    type_table_id: int
+    type_table_id: str
     rate_per_hour: int
     rate_per_minute: int
 

@@ -302,6 +302,315 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Employees",
+			"item": [
+				{
+					"name": "getEmployee",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/employees/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employees",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addEmployee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employee_type_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"hourly_rate\": 20000,\r\n    \"monthly_salary\": 3000000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/employees/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employees",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editEmployee",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66efb4bb18bc67560c5b7906\",\r\n    \"employee_type_id\": \"2fgfjfgjxsw5w534dg\",\r\n    \"user_id\": \"1gfjfgjxsw5w534dg\",\r\n    \"hourly_rate\": 30000,\r\n    \"monthly_salary\": 4000000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/employees/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employees",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteEmployee",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/employees/delete/66efb4bb18bc67560c5b7906",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employees",
+								"delete",
+								"66efb4bb18bc67560c5b7906"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "EmployeePayMents",
+			"item": [
+				{
+					"name": "getEmployeePayment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/employeepayments/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employeepayments",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addEmployeePayment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employee_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"pay_period_start\": \"2019-01-31T10:00:00.000Z\",\r\n    \"pay_period_end\": \"2019-01-31T10:00:00.000Z\",\r\n    \"total_hours\": 100,\r\n    \"total_payment\": 3000000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/employeepayments/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employeepayments",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editEmployeePayment",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66f429ea42a99110e5093371\",\r\n    \"employee_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"pay_period_start\": \"2019-01-31T10:00:00.000Z\",\r\n    \"pay_period_end\": \"2019-01-31T10:00:00.000Z\",\r\n    \"total_hours\": 101,\r\n    \"total_payment\": 4000000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/employeepayments/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employeepayments",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteEmployeePayment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/employeepayments/delete/66f429ea42a99110e5093371",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employeepayments",
+								"delete",
+								"66f429ea42a99110e5093371"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shifts",
+			"item": [
+				{
+					"name": "getShift",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/shifts/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shifts",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addShift",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employee_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"shift_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"start_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"end_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"hours_worked\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/shifts/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shifts",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editShift",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66f433306660667aa4137eb3\",\r\n    \"employee_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"shift_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"start_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"end_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"hours_worked\": 1001\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/shifts/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shifts",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteShift",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/shifts/delete/66f433306660667aa4137eb3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shifts",
+								"delete",
+								"66f433306660667aa4137eb3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "upload",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"type": "file",
+							"src": "postman-cloud:///1ef7ae62-571b-4390-8e37-a2b89137f88e"
+						}
+					]
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
