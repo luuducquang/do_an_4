@@ -592,6 +592,486 @@
 			]
 		},
 		{
+			"name": "Bookings",
+			"item": [
+				{
+					"name": "getBooking",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/bookings/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"bookings",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addBooking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"table_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"booking_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"start_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"end_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/bookings/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"bookings",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editBooking",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\": \"66f7ebc98721b50fa6891900\",\r\n    \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"table_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"booking_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"start_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"end_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"status\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/bookings/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"bookings",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteBooking",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/bookings/delete/66f7ebc98721b50fa6891900",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"bookings",
+								"delete",
+								"66f7ebc98721b50fa6891900"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TableTypes",
+			"item": [
+				{
+					"name": "addTableType",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"table_type_name\": \"ban1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/tabletypes/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tabletypes",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTableType",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tabletypes/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tabletypes",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editTableType",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":  \"66f7f0843bba28672d537138\",\r\n    \"table_type_name\": \"ban11\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/tabletypes/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tabletypes",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTableType",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tabletypes/delete/66f7f0843bba28672d537138",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tabletypes",
+								"delete",
+								"66f7f0843bba28672d537138"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tables",
+			"item": [
+				{
+					"name": "addTable",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"table_number\": 1,\r\n    \"table_type_id\": \"12312gfdgdgdfg31\",\r\n    \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/tables/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tables",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTable",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tables/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tables",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editTable",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66f7f22db976c53543917b4e\",\r\n    \"table_number\": 2,\r\n    \"table_type_id\": \"12312gfdgdgdfg31\",\r\n    \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/tables/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tables",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTable",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tables/delete/66f7f22db976c53543917b4e",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tables",
+								"delete",
+								"66f7f22db976c53543917b4e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rentals",
+			"item": [
+				{
+					"name": "addRental",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"12312gfdgdgdfg31\",\r\n    \"item_id\": \"12312gfdgdgdfg31\",\r\n    \"rental_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"return_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"quantity\": 1,\r\n    \"price\": 100000,\r\n    \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/rentals/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rentals",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRental",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/rentals/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rentals",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editRental",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66f7f3c461dc529cb839eef5\",\r\n    \"user_id\": \"12312gfdgdgdfg31\",\r\n    \"item_id\": \"12312gfdgdgdfg31\",\r\n    \"rental_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"return_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"quantity\": 111,\r\n    \"price\": 100000,\r\n    \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/rentals/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rentals",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteRental",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/rentals/delete/66f7f3c461dc529cb839eef5",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rentals",
+								"delete",
+								"66f7f3c461dc529cb839eef5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RentalItems",
+			"item": [
+				{
+					"name": "addRentalItem",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"item_name\": \"gay\",\r\n    \"rental_price_day\": 10000,\r\n    \"rental_price_hours\": 10000,\r\n    \"quantity_available\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/rentalitems/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rentalitems",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRentalItem",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/rentalitems/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rentalitems",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editRentalItem",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66f7f6bedb74a5ef99e88b38\",\r\n    \"item_name\": \"gay\",\r\n    \"rental_price_day\": 10000,\r\n    \"rental_price_hours\": 10000,\r\n    \"quantity_available\": 1001\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/rentalitems/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rentalitems",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteRentalItem",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/rentalitems/delete/66f7f6bedb74a5ef99e88b38",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rentalitems",
+								"delete",
+								"66f7f6bedb74a5ef99e88b38"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "upload",
 			"request": {
 				"method": "POST",

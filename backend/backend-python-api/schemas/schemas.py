@@ -61,7 +61,7 @@ class TableTypes(BaseModel):
 class Tables(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     table_number: int
-    type: str
+    table_type_id: str
     status: Optional[bool]
 
 class Rentals(BaseModel):
