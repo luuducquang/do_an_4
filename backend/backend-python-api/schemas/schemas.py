@@ -84,7 +84,7 @@ class RentalItems (BaseModel):
 class FoodOrders(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     user_id: str
-    order_date: str
+    order_date: datetime
     status: str
     total_price: Optional[float]
 
@@ -104,7 +104,7 @@ class MenuItems(BaseModel):
     name: str
     stock_quantity: int
     price: Optional[float]
-    category_id: Optional[int]
+    category_id: Optional[str]
 
 class TimeSessions(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  

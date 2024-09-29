@@ -12,6 +12,12 @@ from routes.tableTypes import router as tableTypes_router
 from routes.tables import router as tables_router
 from routes.rentals import router as rentals_router
 from routes.rentalItems import router as rentalItems_router
+from routes.foodorders import router as foodOrders_router
+from routes.orderItems import router as orderItems_router
+from routes.categorys import router as categorys_router
+from routes.menuItems import router as menuItems_router
+from routes.timeSessions import router as timeSessions_router
+from routes.pricingRules import router as pricingRules_router
 
 app = FastAPI()
 
@@ -27,5 +33,11 @@ app.include_router(tableTypes_router)
 app.include_router(tables_router)
 app.include_router(rentals_router)
 app.include_router(rentalItems_router)
+app.include_router(foodOrders_router)
+app.include_router(orderItems_router)
+app.include_router(categorys_router)
+app.include_router(menuItems_router)
+app.include_router(timeSessions_router)
+app.include_router(pricingRules_router)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")

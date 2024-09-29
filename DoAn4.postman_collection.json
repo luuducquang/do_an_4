@@ -1072,6 +1072,582 @@
 			]
 		},
 		{
+			"name": "FoodOrders",
+			"item": [
+				{
+					"name": "addFoodOrder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"12312gfdgdgdfg31\",\r\n    \"order_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"status\": \"da dat hang\",\r\n    \"total_price\": 10000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/foodorders/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"foodorders",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getFoodOrder",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/foodorders/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"foodorders",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editFoodOrder",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66f831a1e3fd66143ef40c24\",\r\n    \"user_id\": \"12312gfdgdgdfg31\",\r\n    \"order_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"status\": \"da dat hang\",\r\n    \"total_price\": 100001\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/foodorders/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"foodorders",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteFoodOrder",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/foodorders/delete/66f831a1e3fd66143ef40c24",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"foodorders",
+								"delete",
+								"66f831a1e3fd66143ef40c24"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OrderItems",
+			"item": [
+				{
+					"name": "addOrderItem",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"order_id\": \"12312gfdgdgdfg31\",\r\n    \"item_id\": \"12312gfdgdgdfg31\",\r\n    \"quantity\": 1,\r\n    \"price\": 10000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/orderitems/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"orderitems",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOrderItem",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/orderitems/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"orderitems",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editOrderItem",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66f83340729ef73c559f956a\",\r\n    \"order_id\": \"12312gfdgdgdfg31\",\r\n    \"item_id\": \"12312gfdgdgdfg31\",\r\n    \"quantity\": 1,\r\n    \"price\": 100001\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/orderitems/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"orderitems",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteOrderItem",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/orderitems/delete/66f83340729ef73c559f956a",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"orderitems",
+								"delete",
+								"66f83340729ef73c559f956a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categorys",
+			"item": [
+				{
+					"name": "addCategory",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category_name\": \"sua chua\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/categorys/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categorys",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCategory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/categorys/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categorys",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editCategory",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66f834156de5e68c7b907236\",\r\n    \"category_name\": \"sua chuaa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/categorys/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categorys",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCategory",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/categorys/delete/66f834156de5e68c7b907236",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categorys",
+								"delete",
+								"66f834156de5e68c7b907236"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MenuItems",
+			"item": [
+				{
+					"name": "addMenuItems",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"sua chua\",\r\n    \"stock_quantity\": 1,\r\n    \"price\": 1000,\r\n    \"category_id\": \"qweqweq5we5qw15eq\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/menuitems/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"menuitems",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMenuItems",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/menuitems/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"menuitems",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editMenuItems",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66f8d241363f4dac36fc3081\",\r\n    \"name\": \"sua chua\",\r\n    \"stock_quantity\": 11,\r\n    \"price\": 1000,\r\n    \"category_id\": \"qweqweq5we5qw15eq\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/menuitems/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"menuitems",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteMenuItems",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/menuitems/delete/66f8d241363f4dac36fc3081",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"menuitems",
+								"delete",
+								"66f8d241363f4dac36fc3081"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TimeSessions",
+			"item": [
+				{
+					"name": "getTimeSession",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/timesessions/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"timesessions",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addTimeSession",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"table_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"start_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"end_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"price\": 100000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/timesessions/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"timesessions",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editTimeSession",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66f8d439e1baa74a5bc36758\",\r\n    \"table_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"start_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"end_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"price\": 1000001\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/timesessions/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"timesessions",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTimeSession",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/timesessions/delete/66f8d439e1baa74a5bc36758",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"timesessions",
+								"delete",
+								"66f8d439e1baa74a5bc36758"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PricingRules",
+			"item": [
+				{
+					"name": "getPricingRule",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/pricingrules/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pricingrules",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addPricingRule",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type_table_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"rate_per_hour\": 90000,\r\n    \"rate_per_minute\": 100000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/pricingrules/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pricingrules",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editPricingRule",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66f8d51f8752ac18b6ac02ee\",\r\n    \"type_table_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"rate_per_hour\": 90000,\r\n    \"rate_per_minute\": 1000001\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/pricingrules/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pricingrules",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePricingRule",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/pricingrules/delete/66f8d51f8752ac18b6ac02ee",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pricingrules",
+								"delete",
+								"66f8d51f8752ac18b6ac02ee"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "upload",
 			"request": {
 				"method": "POST",
@@ -1080,14 +1656,21 @@
 					"mode": "formdata",
 					"formdata": [
 						{
-							"key": "",
+							"key": "file",
 							"type": "file",
-							"src": "postman-cloud:///1ef7ae62-571b-4390-8e37-a2b89137f88e"
+							"src": "postman-cloud:///1ef7e1a4-e82f-4730-8dfe-db55b9795956"
 						}
 					]
 				},
 				"url": {
-					"raw": ""
+					"raw": "{{host}}/upload/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"upload",
+						""
+					]
 				}
 			},
 			"response": []
