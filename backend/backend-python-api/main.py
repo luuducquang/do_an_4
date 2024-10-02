@@ -19,6 +19,7 @@ from routes.menuItems import router as menuItems_router
 from routes.timeSessions import router as timeSessions_router
 from routes.pricingRules import router as pricingRules_router
 from routes.news import router as news_router
+from routes.login import router as login_router
 
 app = FastAPI()
 
@@ -41,5 +42,6 @@ app.include_router(menuItems_router)
 app.include_router(timeSessions_router)
 app.include_router(pricingRules_router)
 app.include_router(news_router)
+app.include_router(login_router)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")

@@ -3,6 +3,10 @@ from typing import Optional
 from datetime import datetime
 from bson import ObjectId
 
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
 class Roles(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     role_name: str

@@ -1,11 +1,12 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from pymongo.collection import Collection
 from config.database import database
 from schemas.schemas import Users
 from service.users import delete_user, insert_user, update_user
+from sercurity import validate_token
 
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(validate_token)])
 
 user_collection: Collection = database['Users']
 
