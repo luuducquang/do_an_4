@@ -208,6 +208,102 @@
 			]
 		},
 		{
+			"name": "News",
+			"item": [
+				{
+					"name": "getNew",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/news/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"news",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addNew",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"title\": \"Hot bi-a\",\r\n    \"content\": \"Giảm giá 50% giờ chơi\",\r\n    \"image\": \"/image\",\r\n    \"view\": 100,\r\n    \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/news/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"news",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editNew",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"66fc18ac6e10c49320877414\",\r\n    \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"title\": \"Hot bi-a\",\r\n    \"content\": \"Giảm giá 50% giờ chơi\",\r\n    \"image\": \"/image\",\r\n    \"view\": 1001,\r\n    \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/news/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"news",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteNew",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/news/delete/66fc18ac6e10c49320877414",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"news",
+								"delete",
+								"66fc18ac6e10c49320877414"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "EmployeeTypes",
 			"item": [
 				{

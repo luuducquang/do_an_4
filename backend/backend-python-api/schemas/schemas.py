@@ -18,6 +18,15 @@ class Users(BaseModel):
     loyalty_points: Optional[int] = 0
     role_name: str
 
+class News(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
+    user_id: str
+    title: str
+    content: str
+    image: str
+    view: int
+    status: bool
+
 class EmployeeTypes(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     employee_type_name: str
