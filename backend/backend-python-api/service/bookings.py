@@ -9,6 +9,7 @@ booking_collection: Collection = database['Bookings']
 def insert_booking(_data: Bookings) -> str:
     result = booking_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
+    
 
 def update_booking(_data: Bookings, booking_collection: Collection):
     if not _data.id:

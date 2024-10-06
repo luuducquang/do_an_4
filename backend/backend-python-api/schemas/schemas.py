@@ -16,9 +16,11 @@ class Users(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     username: str
     password: str
+    fullname: Optional[str] = None
     email: str
     phone: Optional[str] = None
     address: Optional[str] = None
+    avatar: Optional[str] = None
     loyalty_points: Optional[int] = 0
     role_name: str
 

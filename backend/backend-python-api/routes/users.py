@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends
+from typing import Optional
+from bson import ObjectId
+from fastapi import APIRouter, Body, Depends, HTTPException
 from pymongo.collection import Collection
 from config.database import database
 from schemas.schemas import Users
@@ -6,7 +8,8 @@ from service.users import delete_user, insert_user, update_user
 from sercurity import validate_token
 
 
-router = APIRouter(dependencies=[Depends(validate_token)])
+router = APIRouter()
+# dependencies=[Depends(validate_token)]
 
 user_collection: Collection = database['Users']
 
@@ -17,6 +20,50 @@ async def get_users():
         data["_id"] = str(data["_id"])
         datas.append(data)
     return datas
+
+@router.get("/users/get/{user_id}")
+async def get_user_by_id(user_id: str):
+    if not ObjectId.is_valid(user_id):
+        raise HTTPException(status_code=400, detail="Invalid ID format")
+
+    user = user_collection.find_one({"_id": ObjectId(user_id)})
+
+    if user is None:
+        raise HTTPException(status_code=404, detail="user not found")
+
+    user["_id"] = str(user["_id"])
+    return user
+
+@router.post("/users/search")
+async def search_user(
+    page: int = Body(...),
+    pageSize: int = Body(...),
+    username: Optional[str] = Body(None)
+):
+    if page <= 0 or pageSize <= 0:
+        raise HTTPException(status_code=400, detail="Page and pageSize must be greater than 0")
+    
+    skip = (page - 1) * pageSize
+
+    query = {}
+    if username:
+        query["username"] = {"$regex": username, "$options": "i"}
+
+    total_items = user_collection.count_documents(query)
+
+    users = user_collection.find(query).skip(skip).limit(pageSize)
+
+    data = []
+    for user in users:
+        user["_id"] = str(user["_id"])
+        data.append(user)
+
+    return {
+        "page":page,
+        "pageSize":pageSize,
+        "totalItems": total_items,
+        "data": data,
+    }
 
 @router.post("/users/add")
 async def create_user(_data: Users):

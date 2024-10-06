@@ -61,7 +61,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\":\"66e8d948dce9cd35e12b63aa\",\r\n    \"role_name\": \"ADMIN\",\r\n    \"role_description\": \"adas\"\r\n}",
+							"raw": "{\r\n    \"_id\":\"66e8d948dce9cd35e12b63aa\",\r\n    \"role_name\": \"ADMIN\",\r\n    \"role_description\": \"aasaa\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -203,6 +203,33 @@
 								"users",
 								"delete",
 								"66eeb44f68c01ae367eb7aa0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"search"
 							]
 						}
 					},
@@ -718,7 +745,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"table_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"booking_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"start_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"end_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"status\": true\r\n}",
+							"raw": "{\r\n    \"user_id\": \"fgfjfgjxsw5w534dg1\",\r\n    \"table_id\": \"fgfjfgjxsw5w534dg7\",\r\n    \"booking_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"start_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"end_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"status\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -779,6 +806,33 @@
 								"bookings",
 								"delete",
 								"66f7ebc98721b50fa6891900"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchBooking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\": 1,\r\n    \"pageSize\": 3,\r\n    \"booking_date\": \"2019-01-31T10:00:00\",\r\n    \"status\": true\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/bookings/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"bookings",
+								"search"
 							]
 						}
 					},
@@ -1372,7 +1426,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"category_name\": \"sua chua\"\r\n}",
+							"raw": "{\r\n    \"category_name\": \"bim bim\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1451,6 +1505,52 @@
 								"categorys",
 								"delete",
 								"66f834156de5e68c7b907236"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchCategory",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\": 1,\r\n    \"pageSize\": 3\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/categorys/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categorys",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getbyidCategory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/categorys/get/66f8342e6de5e68c7b907237",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categorys",
+								"get",
+								"66f8342e6de5e68c7b907237"
 							]
 						}
 					},
