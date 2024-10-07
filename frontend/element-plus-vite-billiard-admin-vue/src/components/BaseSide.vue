@@ -43,13 +43,6 @@
             </el-menu-item>
         </router-link>
 
-        <router-link to="/rate">
-            <el-menu-item index="6">
-                <el-icon><ChatLineRound /></el-icon>
-                <template #title>Đánh giá</template>
-            </el-menu-item>
-        </router-link>
-
         <el-sub-menu index="7-8">
             <template #title>
                 <el-icon><CollectionTag /></el-icon>

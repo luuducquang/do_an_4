@@ -4,28 +4,28 @@ from bson import ObjectId
 from fastapi import APIRouter, Body, HTTPException
 from pymongo.collection import Collection
 from config.database import database
-from schemas.schemas import Categorys
-from service.categorys import delete_category, insert_category, update_category
+from schemas.schemas import CategoryRentalItems
+from service.categoryRentalItems import delete_categoryrentalitem, insert_categoryrentalitem, update_categoryrentalitem
 
 
 router = APIRouter()
 
-category_collection: Collection = database['Categorys']
+categoryrentalitem_collection: Collection = database['CategoryRentalItems']
 
-@router.get("/categorys/get")
+@router.get("/categoryrentalitems/get")
 async def get_category():
     datas = []
-    for data in category_collection.find():
+    for data in categoryrentalitem_collection.find():
         data["_id"] = str(data["_id"])
         datas.append(data)
     return datas
 
-@router.get("/categorys/get/{category_id}")
+@router.get("/categoryrentalitems/get/{category_id}")
 async def get_category_by_id(category_id: str):
     if not ObjectId.is_valid(category_id):
         raise HTTPException(status_code=400, detail="Invalid ID format")
 
-    category = category_collection.find_one({"_id": ObjectId(category_id)})
+    category = categoryrentalitem_collection.find_one({"_id": ObjectId(category_id)})
 
     if category is None:
         raise HTTPException(status_code=404, detail="Category not found")
@@ -33,7 +33,7 @@ async def get_category_by_id(category_id: str):
     category["_id"] = str(category["_id"])
     return category
 
-@router.post("/categorys/search")
+@router.post("/categoryrentalitems/search")
 async def search_category(
     page: int = Body(...),
     pageSize: int = Body(...),
@@ -48,12 +48,12 @@ async def search_category(
     if category_name:
         query["category_name"] = {"$regex": category_name, "$options": "i"}
 
-    total_items = category_collection.count_documents(query)
+    total_items = categoryrentalitem_collection.count_documents(query)
 
-    categorys = category_collection.find(query).skip(skip).limit(pageSize)
+    categoryRentalitems = categoryrentalitem_collection.find(query).skip(skip).limit(pageSize)
 
     data = []
-    for category in categorys:
+    for category in categoryRentalitems:
         category["_id"] = str(category["_id"])
         data.append(category)
 
@@ -64,17 +64,17 @@ async def search_category(
         "data": data,
     }
 
-@router.post("/categorys/add")
-async def create_category(_data: Categorys):
-    _id = insert_category(_data)
+@router.post("/categoryrentalitems/add")
+async def create_category(_data: CategoryRentalItems):
+    _id = insert_categoryrentalitem(_data)
     return {"message": "Created successfully", "_id": _id}
 
-@router.put("/categorys/update")
-def edit_category(_data: Categorys):
-    result = update_category(_data, category_collection)
+@router.put("/categoryrentalitems/update")
+def edit_category(_data: CategoryRentalItems):
+    result = update_categoryrentalitem(_data, categoryrentalitem_collection)
     return result
 
-@router.delete("/categorys/delete/{category_id}")
+@router.delete("/categoryrentalitems/delete/{category_id}")
 def remove_category(category_id: str):
-    response = delete_category(category_id, category_collection)
+    response = delete_categoryrentalitem(category_id, categoryrentalitem_collection)
     return response

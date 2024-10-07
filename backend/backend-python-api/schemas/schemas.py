@@ -76,8 +76,25 @@ class TableTypes(BaseModel):
 class Tables(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     table_number: int
+    image:str
     table_type_id: str
     status: Optional[bool]
+
+class Suppliers(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
+    name: str
+    phone:str
+    address: str
+
+class Manufactors(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
+    name: str
+    phone:str
+    address: str
+
+class CategoryRentalItems(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
+    category_name: str
 
 class Rentals(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
@@ -91,10 +108,19 @@ class Rentals(BaseModel):
 
 class RentalItems (BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
+    manufactor_id: str
+    category_id: str
     item_name: str
+    image: str
+    price: int
+    price_reduction: int
     rental_price_day: int
     rental_price_hours: int
     quantity_available: int
+    view: int
+    origin: str
+    description: str
+    description_detail: str
 
 class FoodOrders(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
@@ -110,13 +136,14 @@ class OrderItems(BaseModel):
     quantity: int
     price: Optional[float]
 
-class Categorys(BaseModel):
+class CategoryMenuItems(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     category_name: str
 
 class MenuItems(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     name: str
+    image:str
     stock_quantity: int
     price: Optional[float]
     category_id: Optional[str]
@@ -134,5 +161,22 @@ class PricingRules(BaseModel):
     type_table_id: str
     rate_per_hour: int
     rate_per_minute: int
+
+class ImportBills(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
+    user_id: str
+    import_date: datetime
+    total_price: int
+
+class ImportItems(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
+    import_id: str
+    item_id: str
+    quantity: int
+    price: int
+
+
+
+
 
 
