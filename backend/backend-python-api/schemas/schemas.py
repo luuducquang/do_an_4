@@ -103,7 +103,7 @@ class Rentals(BaseModel):
     rental_date: Optional[datetime]
     return_date: Optional[datetime]
     quantity: int
-    price: Optional[float]
+    price: Optional[int]
     status: Optional[bool]
 
 class RentalItems (BaseModel):
@@ -127,14 +127,15 @@ class FoodOrders(BaseModel):
     user_id: str
     order_date: datetime
     status: str
-    total_price: Optional[float]
+    total_price: Optional[int]
 
 class OrderItems(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     order_id: str
     item_id: str
     quantity: int
-    price: Optional[float]
+    unit_price: int
+    total_price: int
 
 class CategoryMenuItems(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
@@ -145,7 +146,7 @@ class MenuItems(BaseModel):
     name: str
     image:str
     stock_quantity: int
-    price: Optional[float]
+    price: Optional[int]
     category_id: Optional[str]
 
 class TimeSessions(BaseModel):
@@ -153,7 +154,7 @@ class TimeSessions(BaseModel):
     table_id: str
     start_time: datetime
     end_time: datetime
-    price: Optional[float]
+    price: Optional[int]
 
 
 class PricingRules(BaseModel):
@@ -173,7 +174,8 @@ class ImportItems(BaseModel):
     import_id: str
     item_id: str
     quantity: int
-    price: int
+    unit_price: int
+    total_price: int
 
 
 
