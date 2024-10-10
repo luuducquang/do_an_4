@@ -48,7 +48,7 @@
                 <el-icon><CollectionTag /></el-icon>
                 <span>Danh mục</span>
             </template>
-            <router-link to="/category">
+            <router-link to="/categorymenuitem">
                 <el-menu-item index="7">Danh mục đồ ăn</el-menu-item>
             </router-link>
         </el-sub-menu>
@@ -61,7 +61,7 @@
             <router-link to="/manufactor">
                 <el-menu-item index="9">Hãng sản xuất</el-menu-item>
             </router-link>
-            <router-link to="/distributor">
+            <router-link to="/supplier">
                 <el-menu-item index="10">Nhà phân phối</el-menu-item>
             </router-link>
         </el-sub-menu>
@@ -118,7 +118,7 @@ const activeIndex = computed(() => {
     if (path.startsWith("/category")) return "7";
     if (path.startsWith("/categoryoffer")) return "8";
     if (path.startsWith("/manufactor")) return "9";
-    if (path.startsWith("/distributor")) return "10";
+    if (path.startsWith("/supplier")) return "10";
     if (path.startsWith("/advertisement")) return "11";
     if (path.startsWith("/slide")) return "12";
     if (path.startsWith("/typeaccount")) return "13";

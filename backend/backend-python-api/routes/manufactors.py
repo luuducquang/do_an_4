@@ -1,4 +1,6 @@
-from fastapi import APIRouter
+from typing import Optional
+from bson import ObjectId
+from fastapi import APIRouter, Body, HTTPException
 from pymongo.collection import Collection
 from config.database import database
 from schemas.schemas import Manufactors
@@ -16,6 +18,51 @@ async def get_manufactor():
         data["_id"] = str(data["_id"])
         datas.append(data)
     return datas
+
+@router.get("/manufactors/get/{manufactor_id}")
+async def get_manufactor_by_id(manufactor_id: str):
+    if not ObjectId.is_valid(manufactor_id):
+        raise HTTPException(status_code=400, detail="Invalid ID format")
+
+    manufactor = manufactor_collection.find_one({"_id": ObjectId(manufactor_id)})
+
+    if manufactor is None:
+        raise HTTPException(status_code=404, detail="manufactor not found")
+
+    manufactor["_id"] = str(manufactor["_id"])
+    return manufactor
+
+@router.post("/manufactors/search")
+async def search_manufactor(
+    page: int = Body(...),
+    pageSize: int = Body(...),
+    name: Optional[str] = Body(None)
+):
+    if page <= 0 or pageSize <= 0:
+        raise HTTPException(status_code=400, detail="Page and pageSize must be greater than 0")
+    
+    skip = (page - 1) * pageSize
+
+    query = {}
+    if name:
+        query["name"] = {"$regex": name, "$options": "i"}
+
+    total_items = manufactor_collection.count_documents(query)
+
+    manufactors = manufactor_collection.find(query).skip(skip).limit(pageSize)
+
+    data = []
+    for manufactor in manufactors:
+        manufactor["_id"] = str(manufactor["_id"])
+        data.append(manufactor)
+
+    return {
+        "page":page,
+        "pageSize":pageSize,
+        "totalItems": total_items,
+        "data": data,
+    }
+
 
 @router.post("/manufactors/add")
 async def create_manufactor(_data: Manufactors):

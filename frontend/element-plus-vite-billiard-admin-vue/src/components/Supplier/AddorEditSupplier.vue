@@ -9,12 +9,16 @@
             :size="formSize"
             status-icon
         >
-            <el-form-item label="Tên quyền" prop="tenLoai">
-                <el-input v-model="ruleForm.role_name" />
+            <el-form-item label="Tên hãng" prop="name">
+                <el-input v-model="ruleForm.name" />
             </el-form-item>
 
-            <el-form-item label="Mô tả" prop="moTa">
-                <el-input v-model="ruleForm.role_description" />
+            <el-form-item label="Số điện thoại" prop="phone">
+                <el-input v-model="ruleForm.phone" />
+            </el-form-item>
+
+            <el-form-item label="Địa chỉ" prop="address">
+                <el-input v-model="ruleForm.address" />
             </el-form-item>
 
             <el-form-item>
@@ -34,13 +38,12 @@ import { Plus } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import router from "~/router";
 import { useRoute } from "vue-router";
-import { Roles } from "~/constant/api";
+import { Suppliers } from "~/constant/api";
 import {
-    createTypeAccount,
-    getbyIdTypeAccount,
-    updateTypeAccount,
-} from "~/services/typeaccount.service";
-import { ExecException } from "child_process";
+    createSuppliers,
+    getbyIdSuppliers,
+    updateSuppliers,
+} from "~/services/supplier.service";
 import axios from "axios";
 
 const formSize = ref<ComponentSize>("default");
@@ -57,32 +60,46 @@ const Notification = (
     });
 };
 
-const ruleForm = reactive<Roles>({
-    role_name: "",
-    role_description: "",
+const ruleForm = reactive<Suppliers>({
+    name: "",
+    phone: "",
+    address: "",
 });
 
 const rules = reactive<FormRules>({
-    role_name: [
+    name: [
         {
             required: true,
-            message: "Vui lòng nhập tên loại tài khoản",
+            message: "Vui lòng nhập tên hãng",
             trigger: "blur",
         },
     ],
-    role_description: [
+    phone: [
         {
             required: true,
-            message: "Vui lòng nhập mô tả",
+            message: "Vui lòng nhập số điện thoại",
+            trigger: "blur",
+        },
+        {
+            pattern: /^[0-9]{10,11}$/,
+            message: "Số điện thoại không hợp lệ. Vui lòng nhập 10-11 số.",
+            trigger: "blur",
+        },
+    ],
+    address: [
+        {
+            required: true,
+            message: "Vui lòng nhập địa chỉ",
             trigger: "blur",
         },
     ],
 });
 
 const fetchById = async (id: string) => {
-    const resNewId = await getbyIdTypeAccount(id);
-    ruleForm.role_name = resNewId?.role_name;
-    ruleForm.role_description = resNewId?.role_description;
+    const resNewId = await getbyIdSuppliers(id);
+    ruleForm.name = resNewId?.name;
+    ruleForm.phone = resNewId?.phone;
+    ruleForm.address = resNewId?.address;
 };
 
 onMounted(() => {
@@ -99,13 +116,14 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         if (valid) {
             if (route.params.id) {
                 try {
-                    await updateTypeAccount({
+                    await updateSuppliers({
                         _id: String(route.params.id),
-                        role_name: ruleForm.role_name,
-                        role_description: ruleForm.role_description,
+                        name: ruleForm.name,
+                        phone: ruleForm.phone,
+                        address: ruleForm.address,
                     });
                     Notification("Cập nhật thành công", "success");
-                    router.push("/typeaccount");
+                    router.push("/supplier");
                 } catch (error) {
                     if (axios.isAxiosError(error)) {
                         Notification(error.response?.data.detail, "warning");
@@ -113,12 +131,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 }
             } else {
                 try {
-                    await createTypeAccount({
-                        role_name: ruleForm.role_name,
-                        role_description: ruleForm.role_description,
+                    await createSuppliers({
+                        name: ruleForm.name,
+                        phone: ruleForm.phone,
+                        address: ruleForm.address,
                     });
                     Notification("Thêm thành công", "success");
-                    router.push("/typeaccount");
+                    router.push("/supplier");
                 } catch (error) {
                     if (axios.isAxiosError(error)) {
                         Notification(error.response?.data.detail, "warning");

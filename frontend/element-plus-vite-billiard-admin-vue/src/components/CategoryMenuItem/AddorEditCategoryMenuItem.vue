@@ -36,7 +36,7 @@ import {
     createCategory,
     getbyIdCategory,
     updateCategory,
-} from "~/services/category.service";
+} from "~/services/categorymenuitem.service";
 
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
@@ -89,13 +89,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                     category_name: ruleForm.category_name,
                 });
                 Notification("Cập nhật thành công", "success");
-                router.push("/category");
+                router.push("/categorymenuitem");
             } else {
                 await createCategory({
                     category_name: ruleForm.category_name,
                 });
                 Notification("Thêm thành công", "success");
-                router.push("/category");
+                router.push("/categorymenuitem");
             }
         } else {
             Notification("Bạn cần điền đủ thông tin", "warning");

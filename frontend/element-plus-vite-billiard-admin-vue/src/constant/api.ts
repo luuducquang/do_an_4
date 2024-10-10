@@ -52,61 +52,6 @@ export interface ImgDetail {
     status: number;
 }
 
-export interface BillSell {
-    maHoaDon?: number;
-    tenTaiKhoan?: string;
-    trangThai: string;
-    ngayTao?: Date;
-    tongGia: number;
-    tenKH: string;
-    diaChi?: string;
-    email: string;
-    sdt: string;
-    diaChiGiaoHang?: string;
-    maSanPham?: number;
-    soLuong?: number;
-    donGia?: number;
-    tongTien?: number;
-}
-
-export interface TableBillSell {
-    maChiTietHoaDon?: number;
-    stt?: number;
-    maSanPham: number;
-    hinhAnh?: string;
-    soLuong: number | string;
-    originalSoLuong?: number;
-    donGia: number;
-    tongTien: number;
-}
-
-export interface ImportBill {
-    maHoaDon?: number;
-    maNhaPhanPhoi?: number;
-    tenNhaPhanPhoi?: string;
-    ngayTao?: Date;
-    kieuThanhToan: string;
-    tongGia: number;
-    tenTaiKhoan?: string;
-    maSanPham?: number;
-    soLuong?: number;
-    donViTinh?: string;
-    donGia?: number;
-    tongTien?: number;
-}
-
-export interface TableImportBill {
-    maChiTietHoaDon?: number;
-    stt?: number;
-    maSanPham: number;
-    hinhAnh?: string;
-    soLuong: number | string;
-    originalSoLuong?: number;
-    donViTinh?: string;
-    donGia: number;
-    tongTien: number;
-}
-
 export interface News {
     maTinTuc?: number;
     tieuDe: string;
@@ -133,13 +78,27 @@ export interface Users {
     _id?: string;
     username: string;
     password: string;
-    fullname:string;
+    fullname: string;
     email: string;
     phone: string;
     address: string;
     avatar: string;
     loyalty_points: number;
     role_name: string;
+}
+
+export interface Manufactors {
+    _id?: string;
+    name: string;
+    phone: string;
+    address: string;
+}
+
+export interface Suppliers {
+    _id?: string;
+    name: string;
+    phone: string;
+    address: string;
 }
 
 export interface OptionSelect {

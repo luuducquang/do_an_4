@@ -240,7 +240,6 @@ const fetchById = async (id: string) => {
             url: apiImage + resNewId.avatar,
         },
     ];
-    console.log(fileListImg);
 };
 
 onMounted(() => {

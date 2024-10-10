@@ -105,19 +105,21 @@ const routes = [
                 ],
             },
             {
-                path: "category",
-                name: "Category",
+                path: "categorymenuitem",
+                name: "CategoryMenuItem",
                 component: LayoutView,
                 meta: {
-                    breadcrumbName: "Danh mục",
+                    breadcrumbName: "Danh mục đồ ăn",
                     requiresAuth: true,
                 },
                 children: [
                     {
                         path: "",
-                        name: "ListCategory",
+                        name: "ListCategoryMenuItem",
                         component: () =>
-                            import("~/components/Category/ListCategory.vue"),
+                            import(
+                                "~/components/CategoryMenuItem/ListCategoryMenuItem.vue"
+                            ),
                         meta: {
                             breadcrumbName: "Danh sách",
                             requiresAuth: true,
@@ -128,10 +130,10 @@ const routes = [
                         name: "AddCategory",
                         component: () =>
                             import(
-                                "~/components/Category/AddorEditCategory.vue"
+                                "~/components/CategoryMenuItem/AddorEditCategoryMenuItem.vue"
                             ),
                         meta: {
-                            breadcrumbName: "Thêm danh mục",
+                            breadcrumbName: "Thêm danh mục đồ ăn",
                             requiresAuth: true,
                         },
                     },
@@ -140,10 +142,102 @@ const routes = [
                         name: "EditCategory",
                         component: () =>
                             import(
-                                "~/components/Category/AddorEditCategory.vue"
+                                "~/components/CategoryMenuItem/AddorEditCategoryMenuItem.vue"
                             ),
                         meta: {
-                            breadcrumbName: "Sửa danh mục",
+                            breadcrumbName: "Sửa danh mục đồ ăn",
+                            requiresAuth: true,
+                        },
+                    },
+                ],
+            },
+            {
+                path: "manufactor",
+                name: "Manufactor",
+                component: LayoutView,
+                meta: {
+                    breadcrumbName: "Hãng sản xuất",
+                    requiresAuth: true,
+                },
+                children: [
+                    {
+                        path: "",
+                        name: "ListManufactor",
+                        component: () =>
+                            import(
+                                "~/components/Manufactor/ListManufactor.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Danh sách",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "add",
+                        name: "AddManufactor",
+                        component: () =>
+                            import(
+                                "~/components/Manufactor/AddorEditManufactor.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Thêm hãng sản xuất",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "edit/:id",
+                        name: "EditManufactor",
+                        component: () =>
+                            import(
+                                "~/components/Manufactor/AddorEditManufactor.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Sửa hãng sản xuất",
+                            requiresAuth: true,
+                        },
+                    },
+                ],
+            },
+            {
+                path: "supplier",
+                name: "Supplier",
+                component: LayoutView,
+                meta: {
+                    breadcrumbName: "Nhà phân phối",
+                    requiresAuth: true,
+                },
+                children: [
+                    {
+                        path: "",
+                        name: "ListSupplier",
+                        component: () =>
+                            import("~/components/Supplier/ListSupplier.vue"),
+                        meta: {
+                            breadcrumbName: "Danh sách",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "add",
+                        name: "AddSupplier",
+                        component: () =>
+                            import(
+                                "~/components/Supplier/AddorEditSupplier.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Thêm nhà phân phối",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "edit/:id",
+                        name: "EditSupplier",
+                        component: () =>
+                            import(
+                                "~/components/Supplier/AddorEditSupplier.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Sửa nhà phân phối",
                             requiresAuth: true,
                         },
                     },

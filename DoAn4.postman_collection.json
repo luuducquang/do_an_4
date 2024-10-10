@@ -946,7 +946,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"table_number\": 1,\r\n    \"table_type_id\": \"12312gfdgdgdfg31\",\r\n    \"status\": true\r\n}",
+							"raw": "{\r\n    \"table_number\": 1,\r\n    \"image\": \"\",\r\n    \"table_type_id\": \"12312gfdgdgdfg31\",\r\n    \"status\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -991,7 +991,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\":\"66f7f22db976c53543917b4e\",\r\n    \"table_number\": 2,\r\n    \"table_type_id\": \"12312gfdgdgdfg31\",\r\n    \"status\": true\r\n}",
+							"raw": "{\r\n    \"_id\":\"66f7f22db976c53543917b4e\",\r\n    \"table_number\": 2,\r\n    \"image\": \"\",\r\n    \"table_type_id\": \"12312gfdgdgdfg31\",\r\n    \"status\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1025,6 +1025,421 @@
 								"tables",
 								"delete",
 								"66f7f22db976c53543917b4e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Suppliers",
+			"item": [
+				{
+					"name": "getSupplier",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/suppliers/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"suppliers",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addSupplier",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"fgfjfgjxsw5w534dg\",\r\n    \"phone\": \"01923891203\",\r\n    \"address\": \"Giảm giá 50% giờ chơi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/suppliers/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"suppliers",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editSupplier",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"6703a843a7be5d99babaa360\",\r\n    \"name\": \"fgfjfgjxsw5w123534dg\",\r\n    \"phone\": \"Hot bi-a\",\r\n    \"address\": \"Giảm giá 50% giờ chơi\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/suppliers/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"suppliers",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteSupllier",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/suppliers/delete/6703a843a7be5d99babaa360",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"suppliers",
+								"delete",
+								"6703a843a7be5d99babaa360"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getbyidSupplier",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "searchSupplier",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/suppliers/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"suppliers",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Manufactors",
+			"item": [
+				{
+					"name": "getmManufactor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/manufactors/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"manufactors",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addManufactor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"fgfjfgjxsw5w534dg\",\r\n    \"phone\": \"0982731731\",\r\n    \"address\": \"Giảm giá 50% giờ chơi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/manufactors/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"manufactors",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editManufactor",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"6703a2ee3eb0d4224697201a\",\r\n    \"name\": \"fgfjfgjxsw5w123534dg\",\r\n    \"phone\": \"Hot bi-a\",\r\n    \"address\": \"Giảm giá 50% giờ chơi\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/manufactors/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"manufactors",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteManufactor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/manufactors/delete/6703a2ee3eb0d4224697201a",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"manufactors",
+								"delete",
+								"6703a2ee3eb0d4224697201a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getbyidManufactor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/manufactors/get/6703a2d73e0d42246972019",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"manufactors",
+								"get",
+								"6703a2d73e0d42246972019"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchManufactor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/manufactors/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"manufactors",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CategoryRentalItems",
+			"item": [
+				{
+					"name": "addCategoryRentalItem",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category_name\": \"bim bim\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/categoryrentalitems/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categoryrentalitems",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCategoryRentalItem",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/categoryrentalitems/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categoryrentalitems",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editCategoryRentalItem",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"6703a50bb3ec6cd088b24840\",\r\n    \"category_name\": \"sua chuaa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/categoryrentalitems/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categoryrentalitems",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCategoryRentalItem",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/categoryrentalitems/delete/6703a50bb3ec6cd088b24840",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categoryrentalitems",
+								"delete",
+								"6703a50bb3ec6cd088b24840"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchCategoryRentalItem",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\": 1,\r\n    \"pageSize\": 3\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/categoryrentalitems/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categoryrentalitems",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getbyidCategoryRentalItem",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/categoryrentalitems/get/6703a523b3ec6cd088b24841",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categoryrentalitems",
+								"get",
+								"6703a523b3ec6cd088b24841"
 							]
 						}
 					},
@@ -1138,7 +1553,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"item_name\": \"gay\",\r\n    \"rental_price_day\": 10000,\r\n    \"rental_price_hours\": 10000,\r\n    \"quantity_available\": 100\r\n}",
+							"raw": "{\r\n    \"manufactor_id\": \"1312dfwet23sdf235\",\r\n    \"category_id\": \"1312dfwet23sdf235\",\r\n    \"item_name\": \"gay\",\r\n    \"image\": \"\",\r\n    \"price\": 10000,\r\n    \"price_reduction\": 10000,\r\n    \"rental_price_day\": 10000,\r\n    \"rental_price_hours\": 10000,\r\n    \"quantity_available\": 100,\r\n    \"view\": 100,\r\n    \"origin\": \"Korea\",\r\n    \"description\": \"123123123sdsdf\",\r\n    \"description_detail\": \"123123123sdsdf\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1183,7 +1598,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\":\"66f7f6bedb74a5ef99e88b38\",\r\n    \"item_name\": \"gay\",\r\n    \"rental_price_day\": 10000,\r\n    \"rental_price_hours\": 10000,\r\n    \"quantity_available\": 1001\r\n}",
+							"raw": "{\r\n    \"_id\":\"66f7f6bedb74a5ef99e88b38\",\r\n    \"manufactor_id\": \"1312dfwet23sdf235\",\r\n    \"category_id\": \"1312dfwet23sdf235\",\r\n    \"item_name\": \"gay\",\r\n    \"image\": \"\",\r\n    \"price\": 10000,\r\n    \"price_reduction\": 10000,\r\n    \"rental_price_day\": 10000,\r\n    \"rental_price_hours\": 10000,\r\n    \"quantity_available\": 100,\r\n    \"view\": 100,\r\n    \"origin\": \"Korea\",\r\n    \"description\": \"123123123sdsdf\",\r\n    \"description_detail\": \"123123123sdsdf\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1330,7 +1745,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"order_id\": \"12312gfdgdgdfg31\",\r\n    \"item_id\": \"12312gfdgdgdfg31\",\r\n    \"quantity\": 1,\r\n    \"price\": 10000\r\n}",
+							"raw": "{\r\n    \"order_id\": \"12312gfdgdgdfg31\",\r\n    \"item_id\": \"12312gfdgdgdfg31\",\r\n    \"quantity\": 1,\r\n    \"unit_price\": 10000,\r\n    \"total_price\": 10000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1375,7 +1790,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\":\"66f83340729ef73c559f956a\",\r\n    \"order_id\": \"12312gfdgdgdfg31\",\r\n    \"item_id\": \"12312gfdgdgdfg31\",\r\n    \"quantity\": 1,\r\n    \"price\": 100001\r\n}",
+							"raw": "{\r\n    \"_id\":\"66f83340729ef73c559f956a\",\r\n    \"order_id\": \"12312gfdgdgdfg31\",\r\n    \"item_id\": \"12312gfdgdgdfg31\",\r\n    \"quantity\": 1,\r\n    \"unit_price\": 10000,\r\n    \"total_price\": 10000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1417,10 +1832,10 @@
 			]
 		},
 		{
-			"name": "Categorys",
+			"name": "CategoryMenuItems",
 			"item": [
 				{
-					"name": "addCategory",
+					"name": "addCategoryMenuItem",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -1434,12 +1849,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/categorys/add",
+							"raw": "{{host}}/categorymenuitems/add",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"categorys",
+								"categorymenuitems",
 								"add"
 							]
 						}
@@ -1447,17 +1862,17 @@
 					"response": []
 				},
 				{
-					"name": "getCategory",
+					"name": "getCategoryMenuItem",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/categorys/get",
+							"raw": "{{host}}/categorymenuitems/get",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"categorys",
+								"categorymenuitems",
 								"get"
 							]
 						}
@@ -1465,7 +1880,7 @@
 					"response": []
 				},
 				{
-					"name": "editCategory",
+					"name": "editCategoryMenuItem",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -1479,12 +1894,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/categorys/update",
+							"raw": "{{host}}/categorymenuitems/update",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"categorys",
+								"categorymenuitems",
 								"update"
 							]
 						}
@@ -1492,17 +1907,17 @@
 					"response": []
 				},
 				{
-					"name": "deleteCategory",
+					"name": "deleteCategoryMenuItem",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/categorys/delete/66f834156de5e68c7b907236",
+							"raw": "{{host}}/categorymenuitems/delete/66f834156de5e68c7b907236",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"categorys",
+								"categorymenuitems",
 								"delete",
 								"66f834156de5e68c7b907236"
 							]
@@ -1511,7 +1926,7 @@
 					"response": []
 				},
 				{
-					"name": "searchCategory",
+					"name": "searchCategoryMenuItem",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -1525,12 +1940,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/categorys/search",
+							"raw": "{{host}}/categorymenuitems/search",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"categorys",
+								"categorymenuitems",
 								"search"
 							]
 						}
@@ -1538,17 +1953,17 @@
 					"response": []
 				},
 				{
-					"name": "getbyidCategory",
+					"name": "getbyidCategoryMenuItem",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/categorys/get/66f8342e6de5e68c7b907237",
+							"raw": "{{host}}/categorymenuitems/get/66f8342e6de5e68c7b907237",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"categorys",
+								"categorymenuitems",
 								"get",
 								"66f8342e6de5e68c7b907237"
 							]
@@ -1568,7 +1983,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"sua chua\",\r\n    \"stock_quantity\": 1,\r\n    \"price\": 1000,\r\n    \"category_id\": \"qweqweq5we5qw15eq\"\r\n}",
+							"raw": "{\r\n    \"name\": \"sua chua\",\r\n    \"stock_quantity\": 1,\r\n    \"image\": \"\",\r\n    \"price\": 1000,\r\n    \"category_id\": \"qweqweq5we5qw15eq\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1613,7 +2028,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\":\"66f8d241363f4dac36fc3081\",\r\n    \"name\": \"sua chua\",\r\n    \"stock_quantity\": 11,\r\n    \"price\": 1000,\r\n    \"category_id\": \"qweqweq5we5qw15eq\"\r\n}",
+							"raw": "{\r\n    \"_id\":\"66f8d241363f4dac36fc3081\",\r\n    \"name\": \"sua chua\",\r\n    \"stock_quantity\": 11,\r\n    \"image\": \"\",\r\n    \"price\": 1000,\r\n    \"category_id\": \"qweqweq5we5qw15eq\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1839,6 +2254,198 @@
 								"pricingrules",
 								"delete",
 								"66f8d51f8752ac18b6ac02ee"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ImportBills",
+			"item": [
+				{
+					"name": "getImportBill",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/importbills/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"importbills",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addImportBill",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"import_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"total_price\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/importbills/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"importbills",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editImportBill",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"6703aa6aab75119c1201951a\",\r\n    \"user_id\": \"fgfjfgjxsw5w5314dg\",\r\n    \"import_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"total_price\": 100\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/importbills/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"importbills",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteImportBill",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/importbills/delete/6703aa6aab75119c1201951a",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"importbills",
+								"delete",
+								"6703aa6aab75119c1201951a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ImportItems",
+			"item": [
+				{
+					"name": "getImportItem",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/importitems/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"importitems",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addImportItem",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"import_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"item_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"quantity\": 1,\r\n    \"unit_price\": 100,\r\n    \"total_price\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/importitems/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"importitems",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editImportItem",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"6703ac35d6934953bc31f32c\",\r\n    \"import_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"item_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"quantity\": 1,\r\n    \"unit_price\": 100,\r\n    \"total_price\": 100\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/importitems/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"importitems",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteImportItem",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/importitems/delete/6703ac35d6934953bc31f32c",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"importitems",
+								"delete",
+								"6703ac35d6934953bc31f32c"
 							]
 						}
 					},
