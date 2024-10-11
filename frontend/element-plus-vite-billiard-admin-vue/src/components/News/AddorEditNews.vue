@@ -9,11 +9,11 @@
             :size="formSize"
             status-icon
         >
-            <el-form-item label="Tiêu đề" prop="tieuDe">
-                <el-input v-model="ruleForm.tieuDe" :rows="4" type="textarea" />
+            <el-form-item label="Tiêu đề" prop="title">
+                <el-input v-model="ruleForm.title" :rows="4" type="textarea" />
             </el-form-item>
 
-            <el-form-item label="Ảnh sản phẩm" prop="hinhAnh">
+            <el-form-item label="Ảnh sản phẩm" prop="image">
                 <el-upload
                     :file-list="fileListImg"
                     class="upload-demo"
@@ -26,18 +26,18 @@
                 </el-upload>
             </el-form-item>
 
-            <el-form-item label="Trạng thái" prop="trangThai">
+            <el-form-item label="Trạng thái" prop="status">
                 <el-select
-                    v-model="ruleForm.trangThai"
+                    v-model="ruleForm.status"
                     placeholder="Vui lòng chọn"
                 >
-                <el-option label="Hiện" value="Hiện" />
-                    <el-option label="Ẩn" value="Ẩn" />
+                    <el-option label="Hiện" :value="true" />
+                    <el-option label="Ẩn" :value="false" />
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="Nội dung" prop="noiDung">
-                <ckeditor :editor="editor" v-model="ruleForm.noiDung" />
+            <el-form-item label="Nội dung" prop="content">
+                <ckeditor :editor="editor" v-model="ruleForm.content" />
             </el-form-item>
 
             <el-form-item>
@@ -69,6 +69,7 @@ import { useRoute } from "vue-router";
 import { News } from "~/constant/api";
 import { apiImage } from "~/constant/request";
 import { createNew, getbyIdNews, updateNew } from "~/services/news.service";
+import axios from "axios";
 
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
@@ -89,35 +90,35 @@ const Notification = (
 };
 
 const ruleForm = reactive<News>({
-    tieuDe: "",
-    hinhAnh: "",
-    trangThai: "Hiện",
-    noiDung: "",
+    title: "",
+    image: "",
+    status: true,
+    content: "",
 });
 
 const rules = reactive<FormRules>({
-    tieuDe: [
+    title: [
         {
             required: true,
             message: "Vui lòng nhập tiêu đề",
             trigger: "blur",
         },
     ],
-    hinhAnh: [
+    image: [
         {
             required: true,
             message: "Vui lòng chọn ảnh",
             trigger: "blur",
         },
     ],
-    trangThai: [
+    status: [
         {
             required: true,
             message: "Vui lòng chọn trạng thái",
             trigger: "blur",
         },
     ],
-    noiDung: [
+    content: [
         {
             required: true,
             message: "Vui lòng nhập nội dung",
@@ -128,41 +129,40 @@ const rules = reactive<FormRules>({
 
 const uploadProps = {
     name: "file",
-    action: `${apiImage}/api-admin/Image/upload`,
+    action: `${apiImage}/upload`,
     headers: {
         authorization: `Bearer ${token}`,
     },
 };
-
 const fileListImg = ref<UploadUserFile[]>([]);
 
 const handlerChange = (file: UploadUserFile, fileList: UploadUserFile[]) => {
     fileListImg.value = fileList.slice(-1);
-    ruleForm.hinhAnh = "/img/" + fileListImg.value[0].name;
+    ruleForm.image = "/static/uploads/" + fileListImg.value[0].name;
 };
 
 const handleRemoveImg: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
-    ruleForm.hinhAnh = "";
+    ruleForm.image = "";
 };
 
-const fetchById = async (id: number) => {
+const fetchById = async (id: string) => {
     const resNewId = await getbyIdNews(id);
-    ruleForm.tieuDe = resNewId?.tieuDe;
-    ruleForm.hinhAnh = resNewId?.hinhAnh;
-    ruleForm.trangThai = resNewId?.trangThai;
-    ruleForm.noiDung = resNewId?.noiDung;
+    ruleForm.title = resNewId?.title;
+    ruleForm.image = resNewId?.image;
+    ruleForm.status = resNewId?.status;
+    ruleForm.content = resNewId?.content;
 
     fileListImg.value = [
         {
-            name: resNewId.hinhAnh,
-            url: apiImage + resNewId.hinhAnh,
+            name: resNewId.image,
+            url: apiImage + resNewId.image,
         },
     ];
 };
 
 onMounted(() => {
     if (route.params.id) {
-        fetchById(Number(route.params.id));
+        fetchById(String(route.params.id));
     }
 });
 
@@ -173,26 +173,38 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         const valid = await formEl.validate();
         if (valid) {
             if (route.params.id) {
-                await updateNew({
-                    MaTinTuc: Number(route.params.id),
-                    TieuDe: ruleForm.tieuDe,
-                    NoiDung: ruleForm.noiDung,
-                    HinhAnh: ruleForm.hinhAnh,
-                    MaTaiKhoan: useStore.user.mataikhoan,
-                    TrangThai: ruleForm.trangThai,
-                });
-                Notification("Cập nhật thành công", "success");
-                router.push("/news");
+                try {
+                    await updateNew({
+                        _id: String(route.params.id),
+                        title: ruleForm.title,
+                        content: ruleForm.content,
+                        image: ruleForm.image,
+                        user_id: useStore.user._id,
+                        status: ruleForm.status,
+                    });
+                    Notification("Cập nhật thành công", "success");
+                    router.push("/news");
+                } catch (error) {
+                    if (axios.isAxiosError(error)) {
+                        Notification(error.response?.data.detail, "warning");
+                    }
+                }
             } else {
-                await createNew({
-                    TieuDe: ruleForm.tieuDe,
-                    NoiDung: ruleForm.noiDung,
-                    HinhAnh: ruleForm.hinhAnh,
-                    MaTaiKhoan: useStore.user.mataikhoan,
-                    TrangThai: ruleForm.trangThai,
-                });
-                Notification("Thêm thành công", "success");
-                router.push("/news");
+                try {
+                    await createNew({
+                        title: ruleForm.title,
+                        content: ruleForm.content,
+                        image: ruleForm.image,
+                        user_id: useStore.user._id,
+                        status: ruleForm.status,
+                    });
+                    Notification("Thêm thành công", "success");
+                    router.push("/news");
+                } catch (error) {
+                    if (axios.isAxiosError(error)) {
+                        Notification(error.response?.data.detail, "warning");
+                    }
+                }
             }
         } else {
             Notification("Bạn cần điền đủ thông tin", "warning");

@@ -6,34 +6,38 @@
             ></el-button>
         </div>
         <el-table :data="tableData" class="table_content">
-            <el-table-column label="Hình ảnh" align="center" prop="hinhAnh">
+            <el-table-column label="Hình ảnh" align="center" prop="image">
                 <template #default="scope">
                     <img
-                        :src="apiImage + scope.row.hinhAnh"
+                        :src="apiImage + scope.row.image"
                         alt="Hình ảnh sản phẩm"
                         class="img_item"
                     /> </template
             ></el-table-column>
-            <el-table-column label="Tiêu đề" align="center" prop="tieuDe">
+            <el-table-column label="Tiêu đề" align="center" prop="title">
                 <template #default="scope">
-                    <span :title="scope.row.tieuDe" class="name_item">{{
-                        scope.row.tieuDe
+                    <span :title="scope.row.title" class="name_item">{{
+                        scope.row.title
                     }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="Người đăng" align="center" prop="hoTen" />
-            <el-table-column label="Lượt xem" align="center" prop="luotXem" />
-            <el-table-column label="Trạng thái" align="center" prop="trangThai">
+            <el-table-column
+                label="Người đăng"
+                align="center"
+                prop="fullname"
+            />
+            <el-table-column label="Lượt xem" align="center" prop="view" />
+            <el-table-column label="Trạng thái" align="center" prop="status">
                 <template #default="scope">
                     <p
                         :style="{
                             color:
-                                scope.row.trangThai === 'Hiện'
+                                scope.row.status === 'Hiện'
                                     ? '#33CC33'
                                     : '#CC3333',
                         }"
                     >
-                        {{ scope.row.trangThai }}
+                        {{ scope.row.status ? "Hiện" : "Ẩn" }}
                     </p>
                 </template>
             </el-table-column>
@@ -57,7 +61,7 @@
                         cancel-button-text="No"
                         icon-color="#626AEF"
                         title="Bạn có muốn xoá không?"
-                        @confirm="() => confirmEvent(scope.row.maTinTuc)"
+                        @confirm="() => confirmEvent(scope.row._id)"
                     >
                         <template #reference>
                             <el-button size="small" type="danger">
@@ -95,6 +99,7 @@ const loading = ref(false);
 const tableData = ref<News[]>([]);
 
 const currentPage = ref(1);
+const currentPageSize = ref(10);
 const totalItemPage = ref(0);
 
 const Notification = (
@@ -114,12 +119,12 @@ watch(currentPage, (newPage: number, oldPage: number) => {
 });
 
 const handleEdit = (index: number, row: News) => {
-    router.push(`/news/edit/${row.maTinTuc}`);
+    router.push(`/news/edit/${row._id}`);
 };
 
-const confirmEvent = async (Id: number) => {
+const confirmEvent = async (Id: string) => {
     try {
-        await deleteNew([Id]);
+        await deleteNew(Id);
         Notification("Xoá thành công", "success");
         fetchData(search.value);
     } catch (error) {
@@ -133,8 +138,8 @@ const fetchData = async (searchTerm = "") => {
     try {
         const payLoad = {
             page: currentPage.value,
-            pageSize: 10,
-            TieuDe: searchTerm,
+            pageSize: currentPageSize.value,
+            title: searchTerm,
         };
         const res = await searchNews(payLoad);
         totalItemPage.value = res.totalItems;

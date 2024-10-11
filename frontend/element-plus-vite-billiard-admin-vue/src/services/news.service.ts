@@ -5,32 +5,30 @@ import { apiClient } from "~/constant/request";
 export const searchNews = async (
     data: Record<string, string | number>
 ): Promise<ResponseData<News>> => {
-    const res = await apiClient?.post(`${NewUrl}/search-tintuc`, data);
+    const res = await apiClient?.post(`${NewUrl}/search`, data);
     return res?.data;
 };
 
 export const createNew = async (
-    data: Record<string, string | number>
+    data: Record<string, string | number | boolean>
 ): Promise<News> => {
-    const res = await apiClient?.post(`${NewUrl}/create-tintuc`, data);
+    const res = await apiClient?.post(`${NewUrl}/add`, data);
     return res?.data;
 };
 
 export const updateNew = async (
-    data: Record<string, string | number>
-): Promise<any> => {
-    const res = await apiClient?.put(`${NewUrl}/update-tintuc`, data);
+    data: Record<string, string | number | boolean>
+): Promise<News> => {
+    const res = await apiClient?.put(`${NewUrl}/update`, data);
     return res?.data;
 };
 
-export const deleteNew = async (data: Array<number>): Promise<News> => {
-    const res = await apiClient?.delete(`${NewUrl}/delete-tintuc`, {
-        data: data,
-    });
+export const deleteNew = async (id: string): Promise<News> => {
+    const res = await apiClient?.delete(`${NewUrl}/delete/${id}`);
     return res?.data;
 };
 
-export const getbyIdNews = async (maTinTuc: number): Promise<any> => {
-    const res = await apiClient?.get(`${NewUrl}/getbyid-tintuc/` + maTinTuc);
+export const getbyIdNews = async (id: string): Promise<any> => {
+    const res = await apiClient?.get(`${NewUrl}/get/` + id);
     return res?.data;
 };

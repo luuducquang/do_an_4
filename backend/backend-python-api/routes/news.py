@@ -1,4 +1,6 @@
-from fastapi import APIRouter
+from typing import Optional
+from bson import ObjectId
+from fastapi import APIRouter, Body, HTTPException
 from pymongo.collection import Collection
 from config.database import database
 from schemas.schemas import News
@@ -8,6 +10,7 @@ from service.news import delete_new, insert_new, update_new
 router = APIRouter()
 
 new_collection: Collection = database['News']
+user_collection: Collection = database['Users']
 
 @router.get("/news/get")
 async def get_new():
@@ -16,6 +19,64 @@ async def get_new():
         data["_id"] = str(data["_id"])
         datas.append(data)
     return datas
+
+@router.get("/news/get/{new_id}")
+async def get_new_by_id(new_id: str):
+    if not ObjectId.is_valid(new_id):
+        raise HTTPException(status_code=400, detail="Invalid ID format")
+
+    new = new_collection.find_one({"_id": ObjectId(new_id)})
+
+    if new is None:
+        raise HTTPException(status_code=404, detail="News not found")
+
+    new_collection.update_one({"_id": ObjectId(new_id)}, {"$inc": {"view": 1}})
+
+    user = user_collection.find_one({"_id": ObjectId(new["user_id"])})
+    if user:
+        new["fullname"] = user.get("fullname", "Unknown")
+    else:
+        new["fullname"] = "Unknown"
+
+    new["_id"] = str(new["_id"])
+    return new
+
+@router.post("/news/search")
+async def search_new(
+    page: int = Body(...),
+    pageSize: int = Body(...),
+    title: Optional[str] = Body(None)
+):
+    if page <= 0 or pageSize <= 0:
+        raise HTTPException(status_code=400, detail="Page and pageSize must be greater than 0")
+    
+    skip = (page - 1) * pageSize
+
+    query = {}
+    if title:
+        query["title"] = {"$regex": title, "$options": "i"}
+
+    total_items = new_collection.count_documents(query)
+
+    news = new_collection.find(query).skip(skip).limit(pageSize)
+
+    data = []
+    for new in news:
+        new["_id"] = str(new["_id"])
+        user = user_collection.find_one({"_id": ObjectId(new["user_id"])})
+        if user:
+            new["fullname"] = user.get("fullname", "Unknown")
+        else:
+            new["fullname"] = "Unknown"
+        data.append(new)
+
+    return {
+        "page":page,
+        "pageSize":pageSize,
+        "totalItems": total_items,
+        "data": data,
+    }
+
 
 @router.post("/news/add")
 async def create_new(_data: News):

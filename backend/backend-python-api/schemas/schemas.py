@@ -30,7 +30,7 @@ class News(BaseModel):
     title: str
     content: str
     image: str
-    view: int
+    view: Optional[int] = 0
     status: bool
 
 class EmployeeTypes(BaseModel):

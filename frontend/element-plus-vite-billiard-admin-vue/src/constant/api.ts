@@ -5,17 +5,6 @@ export interface ResponseData<T> {
     totalItems: number;
 }
 
-export interface User {
-    anhdaidien: string;
-    email: string;
-    hoten: string;
-    maLoaitaikhoan: number;
-    mataikhoan: number;
-    sodienthoai: string;
-    taikhoan: string;
-    token: string;
-}
-
 export interface Product {
     maSanPham?: number;
     tenSanPham: string;
@@ -53,14 +42,14 @@ export interface ImgDetail {
 }
 
 export interface News {
-    maTinTuc?: number;
-    tieuDe: string;
-    noiDung: string;
-    hinhAnh: string;
-    maTaiKhoan?: number;
-    luotXem?: number;
-    hoTen?: string;
-    trangThai: string;
+    _id?: string;
+    user_id?: string;
+    title: string;
+    content: string;
+    image: string;
+    view?: number;
+    status: boolean;
+    fullname?: string;
 }
 
 export interface Categorys {
@@ -85,6 +74,7 @@ export interface Users {
     avatar: string;
     loyalty_points: number;
     role_name: string;
+    token?: string;
 }
 
 export interface Manufactors {
