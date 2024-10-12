@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from bson import ObjectId
+from fastapi import APIRouter, HTTPException
 from pymongo.collection import Collection
 from config.database import database
 from schemas.schemas import EmployeeTypes
@@ -16,6 +17,19 @@ async def get_employeetype():
         data["_id"] = str(data["_id"])
         datas.append(data)
     return datas
+
+@router.get("/employeetypes/get/{employeetype_id}")
+async def get_employeetype_by_id(employeetype_id: str):
+    if not ObjectId.is_valid(employeetype_id):
+        raise HTTPException(status_code=400, detail="Invalid ID format")
+
+    employeetype = employeetype_collection.find_one({"_id": ObjectId(employeetype_id)})
+
+    if employeetype is None:
+        raise HTTPException(status_code=404, detail="employeetype not found")
+
+    employeetype["_id"] = str(employeetype["_id"])
+    return employeetype
 
 @router.post("/employeetypes/add")
 async def create_employeetype(_data: EmployeeTypes):

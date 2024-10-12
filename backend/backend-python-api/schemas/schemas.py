@@ -41,7 +41,7 @@ class Employees(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     employee_type_id: str
     user_id: str
-    hourly_rate: Optional[float]
+    hourly_rate: Optional[float]    
     monthly_salary: Optional[float]
 
 class Shifts(BaseModel):

@@ -9,8 +9,8 @@
             :size="formSize"
             status-icon
         >
-            <el-form-item label="Danh mục" prop="category_name">
-                <el-input v-model="ruleForm.category_name" />
+            <el-form-item label="Tên loại" prop="employee_type_name">
+                <el-input v-model="ruleForm.employee_type_name" />
             </el-form-item>
 
             <el-form-item>
@@ -30,13 +30,14 @@ import { Plus } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import router from "~/router";
 import { useRoute } from "vue-router";
-import { CategoryMenuItems } from "~/constant/api";
-import { apiImage } from "~/constant/request";
+import { EmployeeTypes } from "~/constant/api";
 import {
-    createCategoryMenuItem,
-    getbyIdCategoryMenuItem,
-    updateCategoryMenuItem,
-} from "~/services/categorymenuitem.service";
+    createEmployeeType,
+    getbyIdEmployeeType,
+    updateEmployeeType,
+} from "~/services/employeetype.service";
+import { ExecException } from "child_process";
+import axios from "axios";
 
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
@@ -52,23 +53,23 @@ const Notification = (
     });
 };
 
-const ruleForm = reactive<CategoryMenuItems>({
-    category_name: "",
+const ruleForm = reactive<EmployeeTypes>({
+    employee_type_name: "",
 });
 
 const rules = reactive<FormRules>({
-    category_name: [
+    employee_type_name: [
         {
             required: true,
-            message: "Vui lòng nhập tên danh mục",
+            message: "Vui lòng nhập tên loại nhân viên",
             trigger: "blur",
         },
     ],
 });
 
 const fetchById = async (id: string) => {
-    const resNewId = await getbyIdCategoryMenuItem(id);
-    ruleForm.category_name = resNewId?.category_name;
+    const resNewId = await getbyIdEmployeeType(id);
+    ruleForm.employee_type_name = resNewId?.employee_type_name;
 };
 
 onMounted(() => {
@@ -84,18 +85,30 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         const valid = await formEl.validate();
         if (valid) {
             if (route.params.id) {
-                await updateCategoryMenuItem({
-                    _id: String(route.params.id),
-                    category_name: ruleForm.category_name,
-                });
-                Notification("Cập nhật thành công", "success");
-                router.push("/categorymenuitem");
+                try {
+                    await updateEmployeeType({
+                        _id: String(route.params.id),
+                        employee_type_name: ruleForm.employee_type_name,
+                    });
+                    Notification("Cập nhật thành công", "success");
+                    router.push("/employeetype");
+                } catch (error) {
+                    if (axios.isAxiosError(error)) {
+                        Notification(error.response?.data.detail, "warning");
+                    }
+                }
             } else {
-                await createCategoryMenuItem({
-                    category_name: ruleForm.category_name,
-                });
-                Notification("Thêm thành công", "success");
-                router.push("/categorymenuitem");
+                try {
+                    await createEmployeeType({
+                        employee_type_name: ruleForm.employee_type_name,
+                    });
+                    Notification("Thêm thành công", "success");
+                    router.push("/employeetype");
+                } catch (error) {
+                    if (axios.isAxiosError(error)) {
+                        Notification(error.response?.data.detail, "warning");
+                    }
+                }
             }
         } else {
             Notification("Bạn cần điền đủ thông tin", "warning");

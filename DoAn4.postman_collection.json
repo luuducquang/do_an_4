@@ -121,7 +121,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"quang2\",\r\n    \"password\": \"1\",\r\n    \"email\": \"str2\",\r\n    \"role_name\": \"ADMIN\"\r\n}",
+							"raw": "{\r\n    \"username\": \"quang2\",\r\n    \"password\": \"1\",\r\n    \"email\": \"str2\",\r\n    \"role_name\": \"ADMIN\",\r\n    \"fullname\": \"luuducquang\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -265,7 +265,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"title\": \"Hot bi-a\",\r\n    \"content\": \"Giảm giá 50% giờ chơi\",\r\n    \"image\": \"/image\",\r\n    \"view\": 100,\r\n    \"status\": true\r\n}",
+							"raw": "{\r\n    \"user_id\": \"67091c27cc4dce5436908fa0\",\r\n    \"title\": \"Hot bi-a\",\r\n    \"content\": \"Giảm giá 50% giờ chơi\",\r\n    \"image\": \"/image\",\r\n    \"view\": 100,\r\n    \"status\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -318,14 +318,60 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/news/delete/66fc18ac6e10c49320877414",
+							"raw": "{{host}}/news/delete/66fc18c26e10c49320877415",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"news",
 								"delete",
-								"66fc18ac6e10c49320877414"
+								"66fc18c26e10c49320877415"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getbyidNew",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/news/get/66fc18c26e10c49320877415",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"news",
+								"get",
+								"66fc18c26e10c49320877415"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchNew",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/news/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"news",
+								"search"
 							]
 						}
 					},
@@ -457,7 +503,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"employee_type_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"hourly_rate\": 20000,\r\n    \"monthly_salary\": 3000000\r\n}",
+							"raw": "{\r\n    \"employee_type_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"user_id\": \"67028fe139aaf288793baf7b\",\r\n    \"hourly_rate\": 20000,\r\n    \"monthly_salary\": 3000000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -484,7 +530,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\":\"66efb4bb18bc67560c5b7906\",\r\n    \"employee_type_id\": \"2fgfjfgjxsw5w534dg\",\r\n    \"user_id\": \"1gfjfgjxsw5w534dg\",\r\n    \"hourly_rate\": 30000,\r\n    \"monthly_salary\": 4000000\r\n}",
+							"raw": "{\r\n    \"_id\":\"66efb4bb18bc67560c5b7906\",\r\n    \"employee_type_id\": \"2fgfjfgjxsw5w534dg\",\r\n    \"user_id\": \"67028fe139aaf288793baf7a\",\r\n    \"hourly_rate\": 30000,\r\n    \"monthly_salary\": 4000000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -518,6 +564,41 @@
 								"employees",
 								"delete",
 								"66efb4bb18bc67560c5b7906"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getbyidEmployee",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "searchEmployee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10,\r\n    \"search_term\":\"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/employees/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employees",
+								"search"
 							]
 						}
 					},
@@ -1041,13 +1122,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/suppliers/get",
+							"raw": "{{host}}/suppliers/get/6707f03468bdb4f6bb0aec86",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"suppliers",
-								"get"
+								"get",
+								"6707f03468bdb4f6bb0aec86"
 							]
 						}
 					},
@@ -1130,7 +1212,18 @@
 					"name": "getbyidSupplier",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{host}}/suppliers/get/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"suppliers",
+								"get",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -1315,7 +1408,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"category_name\": \"bim bim\"\r\n}",
+							"raw": "{\r\n    \"category_name\": \"sua chua\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

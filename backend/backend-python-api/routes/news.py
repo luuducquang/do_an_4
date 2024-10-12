@@ -45,7 +45,7 @@ async def get_new_by_id(new_id: str):
 async def search_new(
     page: int = Body(...),
     pageSize: int = Body(...),
-    title: Optional[str] = Body(None)
+    search_term: Optional[str] = Body(None)
 ):
     if page <= 0 or pageSize <= 0:
         raise HTTPException(status_code=400, detail="Page and pageSize must be greater than 0")
@@ -53,8 +53,21 @@ async def search_new(
     skip = (page - 1) * pageSize
 
     query = {}
-    if title:
-        query["title"] = {"$regex": title, "$options": "i"}
+    if search_term:
+        query["$or"] = [
+            {"title": {"$regex": search_term, "$options": "i"}},
+            {"content": {"$regex": search_term, "$options": "i"}},
+            {"view": {"$regex": search_term, "$options": "i"}},
+        ]
+
+    user_ids = []
+    if search_term:
+        user_query = {"fullname": {"$regex": search_term, "$options": "i"}}
+        users = user_collection.find(user_query)
+        user_ids = [str(user["_id"]) for user in users]
+
+    if user_ids:
+        query["$or"].append({"user_id": {"$in": user_ids}})
 
     total_items = new_collection.count_documents(query)
 
@@ -63,19 +76,21 @@ async def search_new(
     data = []
     for new in news:
         new["_id"] = str(new["_id"])
+
         user = user_collection.find_one({"_id": ObjectId(new["user_id"])})
         if user:
-            new["fullname"] = user.get("fullname", "Unknown")
+            new["fullname"] = user.get("fullname", "")
         else:
-            new["fullname"] = "Unknown"
+            new["fullname"] = ""
         data.append(new)
 
     return {
-        "page":page,
-        "pageSize":pageSize,
+        "page": page,
+        "pageSize": pageSize,
         "totalItems": total_items,
         "data": data,
     }
+
 
 
 @router.post("/news/add")

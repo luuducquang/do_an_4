@@ -26,9 +26,7 @@ export const deleteTypeAccount = async (id: string): Promise<Roles> => {
     return res?.data;
 };
 
-export const getbyIdTypeAccount = async (
-    maLoaitaikhoan: string
-): Promise<Roles> => {
-    const res = await apiClient?.get(`${TypeAccountUrl}/get/` + maLoaitaikhoan);
+export const getbyIdTypeAccount = async (id: string): Promise<Roles> => {
+    const res = await apiClient?.get(`${TypeAccountUrl}/get/` + id);
     return res?.data;
 };

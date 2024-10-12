@@ -36,7 +36,7 @@ async def get_manufactor_by_id(manufactor_id: str):
 async def search_manufactor(
     page: int = Body(...),
     pageSize: int = Body(...),
-    name: Optional[str] = Body(None)
+    search_term: Optional[str] = Body(None)
 ):
     if page <= 0 or pageSize <= 0:
         raise HTTPException(status_code=400, detail="Page and pageSize must be greater than 0")
@@ -44,8 +44,12 @@ async def search_manufactor(
     skip = (page - 1) * pageSize
 
     query = {}
-    if name:
-        query["name"] = {"$regex": name, "$options": "i"}
+    if search_term:
+        query["$or"] = [
+            {"name": {"$regex": search_term, "$options": "i"}},
+            {"phone": {"$regex": search_term, "$options": "i"}},
+            {"address": {"$regex": search_term, "$options": "i"}},
+        ]
 
     total_items = manufactor_collection.count_documents(query)
 

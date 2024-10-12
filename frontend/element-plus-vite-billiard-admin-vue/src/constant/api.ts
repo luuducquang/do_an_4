@@ -19,28 +19,6 @@ export interface Product {
     trangThai: boolean;
 }
 
-export interface FormProduct extends Product {
-    maChiTietSanPham?: number;
-    maDanhMuc: number;
-    madanhmucuudai: number;
-    anhChiTiet: ImgDetail[];
-    gianhap: number;
-    gia: number;
-    trangThai: boolean;
-    maNhaSanXuat: number;
-    maNhaPhanPhoi: number;
-    xuatXu: string;
-    moTa: string;
-    chiTiet: string;
-}
-
-export interface ImgDetail {
-    id?: number;
-    maSanPham?: number;
-    linkAnh: string;
-    status: number;
-}
-
 export interface News {
     _id?: string;
     user_id?: string;
@@ -52,7 +30,12 @@ export interface News {
     fullname?: string;
 }
 
-export interface Categorys {
+export interface CategoryMenuItems {
+    _id?: string;
+    category_name: string;
+}
+
+export interface CategoryRentalItems {
     _id?: string;
     category_name: string;
 }
@@ -89,6 +72,20 @@ export interface Suppliers {
     name: string;
     phone: string;
     address: string;
+}
+
+export interface EmployeeTypes {
+    _id?: string;
+    employee_type_name: string;
+}
+
+export interface Employees {
+    _id?: string;
+    employee_type_id: string;
+    user_id: string;
+    hourly_rate: Float32Array;
+    monthly_salary: Float32Array;
+    user_info: Users;
 }
 
 export interface OptionSelect {

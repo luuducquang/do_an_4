@@ -11,17 +11,23 @@
                     {{ (currentPage - 1) * currentPageSize + scope.$index + 1 }}
                 </template>
             </el-table-column>
-            <el-table-column
-                label="Danh mục"
-                align="center"
-                prop="category_name"
-            />
+            <el-table-column label="Tên hãng" align="center" prop="name">
+            </el-table-column>
+            <el-table-column label="Số điện thoại" align="center" prop="phone">
+                <template #default="scope">
+                    <a :href="`tel://${scope.row.phone}`"
+                        ><span>{{ scope.row.phone }}</span></a
+                    >
+                </template>
+            </el-table-column>
+            <el-table-column label="Địa chỉ" align="center" prop="address">
+            </el-table-column>
             <el-table-column align="right">
                 <template #header>
                     <el-input
                         v-model="search"
                         size="small"
-                        placeholder="Nhập thông tin cần tìm"
+                        placeholder="Nhập tên hãng"
                     />
                 </template>
                 <template #default="scope">
@@ -53,7 +59,6 @@
                 layout="prev, pager, next"
                 v-model:current-page="currentPage"
                 :total="totalItemPage"
-                :page-size="currentPageSize"
             />
         </div>
     </el-card>
@@ -63,19 +68,18 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { CirclePlus, StarFilled } from "@element-plus/icons-vue";
 import debounce from "~/utils/debounce";
-import { CategoryMenuItems } from "~/constant/api";
+import { Manufactors } from "~/constant/api";
 import {
-    deleteCategoryMenuItem,
-    searchCategoryMenuItem,
-} from "~/services/categorymenuitem.service";
+    deleteManufactor,
+    searchManufactor,
+} from "~/services/manufactor.service";
 import router from "~/router";
 import { ElMessage } from "element-plus";
-import axios from "axios";
 
 const search = ref("");
 const loading = ref(false);
 
-const tableData = ref<CategoryMenuItems[]>([]);
+const tableData = ref<Manufactors[]>([]);
 
 const currentPage = ref(1);
 const currentPageSize = ref(10);
@@ -97,19 +101,18 @@ watch(currentPage, (newPage: number, oldPage: number) => {
     }
 });
 
-const handleEdit = (index: number, row: CategoryMenuItems) => {
-    router.push(`/categorymenuitem/edit/${row._id}`);
+const handleEdit = (index: number, row: Manufactors) => {
+    router.push(`/manufactor/edit/${row._id}`);
 };
 
 const confirmEvent = async (Id: string) => {
     try {
-        await deleteCategoryMenuItem(Id);
+        await deleteManufactor(Id);
         Notification("Xoá thành công", "success");
         fetchData(search.value);
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            Notification(error.response?.data.detail, "warning");
-        }
+        console.error("Error deleting =:", error);
+        Notification("Lỗi khi xoá =", "error");
     }
 };
 
@@ -119,9 +122,9 @@ const fetchData = async (searchTerm = "") => {
         const payLoad = {
             page: currentPage.value,
             pageSize: currentPageSize.value,
-            search_term: searchTerm,
+            name: searchTerm,
         };
-        const res = await searchCategoryMenuItem(payLoad);
+        const res = await searchManufactor(payLoad);
         totalItemPage.value = res.totalItems;
         tableData.value = res.data;
     } catch (error) {
@@ -143,7 +146,7 @@ onMounted(() => {
 });
 
 const handlerAdd = () => {
-    router.push("/categorymenuitem/add");
+    router.push("/manufactor/add");
 };
 </script>
 
@@ -163,9 +166,9 @@ const handlerAdd = () => {
 }
 
 .img_item {
-    width: 70px;
+    width: 150px;
     height: 70px;
-    object-fit: cover;
+    object-fit: contain;
 }
 .name_item {
     cursor: pointer;

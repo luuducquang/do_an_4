@@ -1,36 +1,40 @@
-import { Categorys, ResponseData } from "~/constant/api";
+import { CategoryMenuItems, ResponseData } from "~/constant/api";
 import { apiClient } from "../constant/request";
-import { CategoryUrl } from "~/constant/endpoints";
+import { CategoryMenuItemUrl } from "~/constant/endpoints";
 
-export const searchCategory = async (
+export const searchCategoryMenuItem = async (
     data: Record<string, string | number>
-): Promise<ResponseData<Categorys>> => {
-    const res = await apiClient?.post(`${CategoryUrl}/search`, data);
+): Promise<ResponseData<CategoryMenuItems>> => {
+    const res = await apiClient?.post(`${CategoryMenuItemUrl}/search`, data);
     return res?.data;
 };
 
-export const createCategory = async (
+export const createCategoryMenuItem = async (
     data: Record<string, string | number | boolean>
-): Promise<Categorys> => {
-    const res = await apiClient?.post(`${CategoryUrl}/add`, data);
+): Promise<CategoryMenuItems> => {
+    const res = await apiClient?.post(`${CategoryMenuItemUrl}/add`, data);
     return res?.data;
 };
 
-export const updateCategory = async (
+export const updateCategoryMenuItem = async (
     data: Record<string, string | number | boolean>
-): Promise<Categorys> => {
-    const res = await apiClient?.put(`${CategoryUrl}/update`, data);
+): Promise<CategoryMenuItems> => {
+    const res = await apiClient?.put(`${CategoryMenuItemUrl}/update`, data);
     return res?.data;
 };
 
-export const deleteCategory = async (id: String): Promise<Categorys> => {
-    const res = await apiClient?.delete(`${CategoryUrl}/delete/` + id);
+export const deleteCategoryMenuItem = async (
+    id: String
+): Promise<CategoryMenuItems> => {
+    const res = await apiClient?.delete(`${CategoryMenuItemUrl}/delete/` + id);
     return res?.data;
 };
 
-export const getbyIdCategory = async (
+export const getbyIdCategoryMenuItem = async (
     category_name: string
-): Promise<Categorys> => {
-    const res = await apiClient?.get(`${CategoryUrl}/get/` + category_name);
+): Promise<CategoryMenuItems> => {
+    const res = await apiClient?.get(
+        `${CategoryMenuItemUrl}/get/` + category_name
+    );
     return res?.data;
 };

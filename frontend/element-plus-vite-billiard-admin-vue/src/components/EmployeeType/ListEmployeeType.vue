@@ -6,24 +6,14 @@
             ></el-button>
         </div>
         <el-table :data="tableData" class="table_content">
-            <el-table-column label="STT" align="center">
-                <template #default="scope">
-                    {{ (currentPage - 1) * currentPageSize + scope.$index + 1 }}
-                </template>
-            </el-table-column>
+            <el-table-column label="STT" align="center" prop="stt" />
             <el-table-column
-                label="Danh mục"
+                label="Tên loại nhân viên"
                 align="center"
-                prop="category_name"
+                prop="employee_type_name"
             />
+
             <el-table-column align="right">
-                <template #header>
-                    <el-input
-                        v-model="search"
-                        size="small"
-                        placeholder="Nhập thông tin cần tìm"
-                    />
-                </template>
                 <template #default="scope">
                     <el-button
                         size="small"
@@ -47,39 +37,20 @@
                 </template>
             </el-table-column>
         </el-table>
-        <div class="pagination_wrapper">
-            <el-pagination
-                background
-                layout="prev, pager, next"
-                v-model:current-page="currentPage"
-                :total="totalItemPage"
-                :page-size="currentPageSize"
-            />
-        </div>
     </el-card>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { CirclePlus, StarFilled } from "@element-plus/icons-vue";
-import debounce from "~/utils/debounce";
-import { CategoryMenuItems } from "~/constant/api";
+import { EmployeeTypes } from "~/constant/api";
 import {
-    deleteCategoryMenuItem,
-    searchCategoryMenuItem,
-} from "~/services/categorymenuitem.service";
+    deleteEmployeeType,
+    getAllEmployeeType,
+} from "~/services/employeetype.service";
 import router from "~/router";
 import { ElMessage } from "element-plus";
 import axios from "axios";
-
-const search = ref("");
-const loading = ref(false);
-
-const tableData = ref<CategoryMenuItems[]>([]);
-
-const currentPage = ref(1);
-const currentPageSize = ref(10);
-const totalItemPage = ref(0);
 
 const Notification = (
     message: string,
@@ -91,21 +62,18 @@ const Notification = (
     });
 };
 
-watch(currentPage, (newPage: number, oldPage: number) => {
-    if (newPage !== oldPage) {
-        fetchData(search.value);
-    }
-});
+const tableData = ref<EmployeeTypes[]>([]);
+const loading = ref(false);
 
-const handleEdit = (index: number, row: CategoryMenuItems) => {
-    router.push(`/categorymenuitem/edit/${row._id}`);
+const handleEdit = (index: number, row: EmployeeTypes) => {
+    router.push(`/employeetype/edit/${row._id}`);
 };
 
 const confirmEvent = async (Id: string) => {
     try {
-        await deleteCategoryMenuItem(Id);
+        await deleteEmployeeType(Id);
         Notification("Xoá thành công", "success");
-        fetchData(search.value);
+        fetchData();
     } catch (error) {
         if (axios.isAxiosError(error)) {
             Notification(error.response?.data.detail, "warning");
@@ -113,17 +81,20 @@ const confirmEvent = async (Id: string) => {
     }
 };
 
-const fetchData = async (searchTerm = "") => {
+const fetchData = async () => {
     loading.value = true;
     try {
-        const payLoad = {
-            page: currentPage.value,
-            pageSize: currentPageSize.value,
-            search_term: searchTerm,
-        };
-        const res = await searchCategoryMenuItem(payLoad);
-        totalItemPage.value = res.totalItems;
-        tableData.value = res.data;
+        const res = await getAllEmployeeType();
+        tableData.value = res.map(function (
+            value: EmployeeTypes,
+            index: number
+        ) {
+            return {
+                stt: index + 1,
+                _id: value._id,
+                employee_type_name: value.employee_type_name,
+            };
+        });
     } catch (error) {
         console.error("Error fetching:", error);
         tableData.value = [];
@@ -132,18 +103,12 @@ const fetchData = async (searchTerm = "") => {
     }
 };
 
-const debouncedFetchData = debounce(fetchData, 300);
-
-watch(search, (newSearch) => {
-    debouncedFetchData(newSearch);
-});
-
 onMounted(() => {
-    fetchData(search.value);
+    fetchData();
 });
 
 const handlerAdd = () => {
-    router.push("/categorymenuitem/add");
+    router.push("/employeetype/add");
 };
 </script>
 
@@ -163,9 +128,9 @@ const handlerAdd = () => {
 }
 
 .img_item {
-    width: 70px;
+    width: 150px;
     height: 70px;
-    object-fit: cover;
+    object-fit: contain;
 }
 .name_item {
     cursor: pointer;
@@ -184,12 +149,5 @@ const handlerAdd = () => {
 .rate_product_star {
     color: #ffcc00;
     font-size: 20px;
-}
-
-.pagination_wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 10px 0;
 }
 </style>

@@ -19,7 +19,7 @@
                     <el-input
                         v-model="search"
                         size="small"
-                        placeholder="Nhập tên tài khoản"
+                        placeholder="Nhập thông tin cần tìm"
                     />
                 </template>
                 <template #default="scope">
@@ -114,7 +114,7 @@ const fetchData = async (searchTerm = "") => {
         const payLoad = {
             page: currentPage.value,
             pageSize: currentPageSize.value,
-            username: searchTerm,
+            search_term: searchTerm,
         };
         const res = await searchAccount(payLoad);
         totalItemPage.value = res.totalItems;

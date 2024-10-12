@@ -38,7 +38,7 @@ async def get_user_by_id(user_id: str):
 async def search_user(
     page: int = Body(...),
     pageSize: int = Body(...),
-    username: Optional[str] = Body(None)
+    search_term: Optional[str] = Body(None)
 ):
     if page <= 0 or pageSize <= 0:
         raise HTTPException(status_code=400, detail="Page and pageSize must be greater than 0")
@@ -46,8 +46,13 @@ async def search_user(
     skip = (page - 1) * pageSize
 
     query = {}
-    if username:
-        query["username"] = {"$regex": username, "$options": "i"}
+    if search_term:
+        query["$or"] = [
+            {"username": {"$regex": search_term, "$options": "i"}},
+            {"fullname": {"$regex": search_term, "$options": "i"}},
+            {"email": {"$regex": search_term, "$options": "i"}},
+            {"phone": {"$regex": search_term, "$options": "i"}}
+        ]
 
     total_items = user_collection.count_documents(query)
 

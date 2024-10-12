@@ -25,14 +25,14 @@
 
         <el-sub-menu index="3-4">
             <template #title>
-                <el-icon><Tickets /></el-icon>
-                <span>Hóa đơn</span>
+                <el-icon><Ship /></el-icon>
+                <span>Nhân viên</span>
             </template>
-            <router-link to="/billsell">
-                <el-menu-item index="3">Hoá đơn bán</el-menu-item>
+            <router-link to="/employeetype">
+                <el-menu-item index="3">Loại nhân viên</el-menu-item>
             </router-link>
-            <router-link to="/importbill">
-                <el-menu-item index="4">Hoá đơn nhập</el-menu-item>
+            <router-link to="/employee">
+                <el-menu-item index="4">Nhân viên</el-menu-item>
             </router-link>
         </el-sub-menu>
 
@@ -50,6 +50,9 @@
             </template>
             <router-link to="/categorymenuitem">
                 <el-menu-item index="7">Danh mục đồ ăn</el-menu-item>
+            </router-link>
+            <router-link to="/categoryrentalitem">
+                <el-menu-item index="8">Danh mục thuê</el-menu-item>
             </router-link>
         </el-sub-menu>
 
@@ -101,6 +104,7 @@ import {
     Connection,
     User,
     Mug,
+    Ship,
 } from "@element-plus/icons-vue";
 
 const isCollapse = ref(false);

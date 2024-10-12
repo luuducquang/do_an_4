@@ -37,7 +37,7 @@ async def get_category_by_id(category_id: str):
 async def search_category(
     page: int = Body(...),
     pageSize: int = Body(...),
-    category_name: Optional[str] = Body(None)
+    search_term: Optional[str] = Body(None)
 ):
     if page <= 0 or pageSize <= 0:
         raise HTTPException(status_code=400, detail="Page and pageSize must be greater than 0")
@@ -45,8 +45,10 @@ async def search_category(
     skip = (page - 1) * pageSize
 
     query = {}
-    if category_name:
-        query["category_name"] = {"$regex": category_name, "$options": "i"}
+    if search_term:
+        query["$or"] = [
+            {"category_name": {"$regex": search_term, "$options": "i"}},
+        ]
 
     total_items = categoryrentalitem_collection.count_documents(query)
 

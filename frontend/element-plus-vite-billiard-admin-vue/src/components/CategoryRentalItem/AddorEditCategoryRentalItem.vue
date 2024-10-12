@@ -30,13 +30,12 @@ import { Plus } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import router from "~/router";
 import { useRoute } from "vue-router";
-import { CategoryMenuItems } from "~/constant/api";
-import { apiImage } from "~/constant/request";
+import { CategoryRentalItems } from "~/constant/api";
 import {
-    createCategoryMenuItem,
-    getbyIdCategoryMenuItem,
-    updateCategoryMenuItem,
-} from "~/services/categorymenuitem.service";
+    createCategoryRentalItem,
+    getbyIdCategoryRentalItem,
+    updateCategoryRentalItem,
+} from "~/services/categoryrentalitem.service";
 
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
@@ -52,7 +51,7 @@ const Notification = (
     });
 };
 
-const ruleForm = reactive<CategoryMenuItems>({
+const ruleForm = reactive<CategoryRentalItems>({
     category_name: "",
 });
 
@@ -67,7 +66,7 @@ const rules = reactive<FormRules>({
 });
 
 const fetchById = async (id: string) => {
-    const resNewId = await getbyIdCategoryMenuItem(id);
+    const resNewId = await getbyIdCategoryRentalItem(id);
     ruleForm.category_name = resNewId?.category_name;
 };
 
@@ -84,18 +83,18 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         const valid = await formEl.validate();
         if (valid) {
             if (route.params.id) {
-                await updateCategoryMenuItem({
+                await updateCategoryRentalItem({
                     _id: String(route.params.id),
                     category_name: ruleForm.category_name,
                 });
                 Notification("Cập nhật thành công", "success");
-                router.push("/categorymenuitem");
+                router.push("/categoryrentalitem");
             } else {
-                await createCategoryMenuItem({
+                await createCategoryRentalItem({
                     category_name: ruleForm.category_name,
                 });
                 Notification("Thêm thành công", "success");
-                router.push("/categorymenuitem");
+                router.push("/categoryrentalitem");
             }
         } else {
             Notification("Bạn cần điền đủ thông tin", "warning");

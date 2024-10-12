@@ -64,6 +64,98 @@ const routes = [
                 ],
             },
             {
+                path: "employeetype",
+                name: "EmployeeType",
+                component: LayoutView,
+                meta: {
+                    breadcrumbName: "Loại nhân viên",
+                    requiresAuth: true,
+                },
+                children: [
+                    {
+                        path: "",
+                        name: "ListEmployeeType",
+                        component: () =>
+                            import(
+                                "~/components/EmployeeType/ListEmployeeType.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Danh sách",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "add",
+                        name: "AddEmployeeType",
+                        component: () =>
+                            import(
+                                "~/components/EmployeeType/AddorEditEmployeeType.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Thêm loại nhân viên",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "edit/:id",
+                        name: "EditEmployeeType",
+                        component: () =>
+                            import(
+                                "~/components/EmployeeType/AddorEditEmployeeType.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Sửa loại nhân viên",
+                            requiresAuth: true,
+                        },
+                    },
+                ],
+            },
+            {
+                path: "employee",
+                name: "Employee",
+                component: LayoutView,
+                meta: {
+                    breadcrumbName: "Nhân viên",
+                    requiresAuth: true,
+                },
+                children: [
+                    {
+                        path: "",
+                        name: "ListEmployee",
+                        component: () =>
+                            import("~/components/Employee/ListEmployee.vue"),
+                        meta: {
+                            breadcrumbName: "Danh sách",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "add",
+                        name: "AddEmployee",
+                        component: () =>
+                            import(
+                                "~/components/Employee/AddorEditEmployee.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Thêm nhân viên",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "edit/:id",
+                        name: "EditEmployee",
+                        component: () =>
+                            import(
+                                "~/components/Employee/AddorEditEmployee.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Sửa nhân viên",
+                            requiresAuth: true,
+                        },
+                    },
+                ],
+            },
+            {
                 path: "news",
                 name: "News",
                 component: LayoutView,
@@ -146,6 +238,53 @@ const routes = [
                             ),
                         meta: {
                             breadcrumbName: "Sửa danh mục đồ ăn",
+                            requiresAuth: true,
+                        },
+                    },
+                ],
+            },
+            {
+                path: "categoryrentalitem",
+                name: "CategoryRentalItem",
+                component: LayoutView,
+                meta: {
+                    breadcrumbName: "Danh mục thuê",
+                    requiresAuth: true,
+                },
+                children: [
+                    {
+                        path: "",
+                        name: "ListCategoryRentalItem",
+                        component: () =>
+                            import(
+                                "~/components/CategoryRentalItem/ListCategoryRentalItem.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Danh sách",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "add",
+                        name: "AddCategory",
+                        component: () =>
+                            import(
+                                "~/components/CategoryRentalItem/AddorEditCategoryRentalItem.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Thêm danh mục thuê",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "edit/:id",
+                        name: "EditCategory",
+                        component: () =>
+                            import(
+                                "~/components/CategoryRentalItem/AddorEditCategoryRentalItem.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Sửa danh mục thuê",
                             requiresAuth: true,
                         },
                     },
