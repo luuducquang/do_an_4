@@ -503,7 +503,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"employee_type_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"user_id\": \"67028fe139aaf288793baf7b\",\r\n    \"hourly_rate\": 20000,\r\n    \"monthly_salary\": 3000000\r\n}",
+							"raw": "{\r\n    \"employee_type_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"user_id\": \"67028fe139aaf288793baf7a\",\r\n    \"hourly_rate\": 20000,\r\n    \"monthly_salary\": 3000000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -573,7 +573,18 @@
 					"name": "getbyidEmployee",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{host}}/employees/get/670a6c6f943937dfeb191ff7",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employees",
+								"get",
+								"670a6c6f943937dfeb191ff7"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2051,14 +2062,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/categorymenuitems/get/66f8342e6de5e68c7b907237",
+							"raw": "{{host}}/categorymenuitems/get/6703a4edb3ec6cd088b2483f",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"categorymenuitems",
 								"get",
-								"66f8342e6de5e68c7b907237"
+								"6703a4edb3ec6cd088b2483f"
 							]
 						}
 					},

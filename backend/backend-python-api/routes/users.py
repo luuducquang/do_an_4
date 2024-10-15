@@ -4,7 +4,7 @@ from fastapi import APIRouter, Body, Depends, HTTPException
 from pymongo.collection import Collection
 from config.database import database
 from schemas.schemas import Users
-from service.users import delete_user, insert_user, update_user
+from service.users import ser_get_users,ser_delete_user, ser_insert_user, ser_update_user
 from sercurity import validate_token
 
 
@@ -15,11 +15,7 @@ user_collection: Collection = database['Users']
 
 @router.get("/users/get")
 async def get_users():
-    datas = []
-    for data in user_collection.find():
-        data["_id"] = str(data["_id"])
-        datas.append(data)
-    return datas
+    return ser_get_users()
 
 @router.get("/users/get/{user_id}")
 async def get_user_by_id(user_id: str):
@@ -72,15 +68,15 @@ async def search_user(
 
 @router.post("/users/add")
 async def create_user(_data: Users):
-    _id = insert_user(_data)
+    _id = ser_insert_user(_data)
     return {"message": "Created successfully", "_id": _id}
 
 @router.put("/users/update")
 def edit_user(_data: Users):
-    result = update_user(_data, user_collection)
+    result = ser_update_user(_data, user_collection)
     return result
 
 @router.delete("/users/delete/{user_id}")
 def remove_user(user_id: str):
-    response = delete_user(user_id, user_collection)
+    response = ser_delete_user(user_id, user_collection)
     return response

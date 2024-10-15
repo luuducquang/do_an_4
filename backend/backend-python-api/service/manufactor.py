@@ -6,11 +6,18 @@ from config.database import database
 
 manufactor_collection: Collection = database['Manufactors']
 
-def insert_manufactor(_data: Manufactors) -> str:
+def ser_get_manufactor():
+    datas = []
+    for data in manufactor_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_manufactor(_data: Manufactors) -> str:
     result = manufactor_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_manufactor(_data: Manufactors, manufactor_collection: Collection):
+def ser_update_manufactor(_data: Manufactors, manufactor_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -34,7 +41,7 @@ def update_manufactor(_data: Manufactors, manufactor_collection: Collection):
     return {"message": "updated successfully"}
 
 
-def delete_manufactor(manufactor_id: str, manufactor_collection: Collection):
+def ser_delete_manufactor(manufactor_id: str, manufactor_collection: Collection):
     if not ObjectId.is_valid(manufactor_id):
         raise HTTPException(status_code=400, detail="Invalid manufactor ID")
 

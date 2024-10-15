@@ -6,14 +6,21 @@ from config.database import database
 
 user_collection: Collection = database['Users']
 
-def insert_user(_data: Users) -> str:
+def ser_get_users():
+    datas = []
+    for data in user_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_user(_data: Users) -> str:
     existing_username = user_collection.find_one({"username": _data.username})
     if existing_username:
         raise HTTPException(status_code=400, detail=f"Username '{_data.username}' already exists.")
     result = user_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_user(_data: Users, user_collection: Collection):
+def ser_update_user(_data: Users, user_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -37,7 +44,7 @@ def update_user(_data: Users, user_collection: Collection):
     return {"message": "updated successfully"}
 
 
-def delete_user(user_id: str, user_collection: Collection):
+def ser_delete_user(user_id: str, user_collection: Collection):
     if not ObjectId.is_valid(user_id):
         raise HTTPException(status_code=400, detail="Invalid user ID")
 

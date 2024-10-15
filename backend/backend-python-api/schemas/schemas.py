@@ -1,7 +1,12 @@
+from fastapi import Body
 from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
-from bson import ObjectId
+
+class Searchs(BaseModel):
+    page: int = Body(...),
+    pageSize: int = Body(...),
+    search_term: Optional[str] = Body(None)
 
 class LoginRequest(BaseModel):
     username: str

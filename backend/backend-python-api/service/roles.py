@@ -4,7 +4,16 @@ from schemas.schemas import Roles
 from bson import ObjectId
 from config.database import database
 
-def insert_role(_data: Roles, role_collection: Collection):
+role_collection: Collection = database['Roles']
+
+def ser_get_roles():
+    datas = []
+    for data in role_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_role(_data: Roles, role_collection: Collection):
     existing_role = role_collection.find_one({"role_name": {"$regex": f"^{_data.role_name}$", "$options": "i"}})
     
     if existing_role:
@@ -14,7 +23,7 @@ def insert_role(_data: Roles, role_collection: Collection):
     return str(result.inserted_id)
 
 
-def update_role(_data: Roles, role_collection: Collection):
+def ser_update_role(_data: Roles, role_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -46,7 +55,7 @@ def update_role(_data: Roles, role_collection: Collection):
     return {"message": "updated successfully"}
 
 
-def delete_role(role_id: str, role_collection: Collection):
+def ser_delete_role(role_id: str, role_collection: Collection):
     if not ObjectId.is_valid(role_id):
         raise HTTPException(status_code=400, detail="Invalid role ID")
 

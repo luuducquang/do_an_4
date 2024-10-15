@@ -6,11 +6,18 @@ from config.database import database
 
 menuitem_collection: Collection = database['MenuItems']
 
-def insert_menuitem(_data: MenuItems) -> str:
+def ser_get_menuitem():
+    datas = []
+    for data in menuitem_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_menuitem(_data: MenuItems) -> str:
     result = menuitem_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_menuitem(_data: MenuItems, menuitem_collection: Collection):
+def ser_update_menuitem(_data: MenuItems, menuitem_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -34,7 +41,7 @@ def update_menuitem(_data: MenuItems, menuitem_collection: Collection):
     return {"message": "updated successfully"}
 
 
-def delete_menuitem(menuitem_id: str, menuitem_collection: Collection):
+def ser_delete_menuitem(menuitem_id: str, menuitem_collection: Collection):
     if not ObjectId.is_valid(menuitem_id):
         raise HTTPException(status_code=400, detail="Invalid menuitem ID")
 

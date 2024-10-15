@@ -82,15 +82,13 @@ export interface EmployeeTypes {
 export interface Employees {
     _id?: string;
     employee_type_id: string;
-    user_id: string;
-    hourly_rate: Float32Array;
-    monthly_salary: Float32Array;
-    user_info: Users;
+    user_id?: string;
+    hourly_rate: number;
+    monthly_salary: number;
+    user_info?: Users;
 }
 
 export interface OptionSelect {
     value: string | number;
     label: string;
-    gia?: number;
-    hinhAnh?: string;
 }

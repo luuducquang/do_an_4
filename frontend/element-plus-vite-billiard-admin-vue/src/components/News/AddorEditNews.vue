@@ -146,16 +146,16 @@ const handleRemoveImg: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
 };
 
 const fetchById = async (id: string) => {
-    const resNewId = await getbyIdNews(id);
-    ruleForm.title = resNewId?.title;
-    ruleForm.image = resNewId?.image;
-    ruleForm.status = resNewId?.status;
-    ruleForm.content = resNewId?.content;
+    const resId = await getbyIdNews(id);
+    ruleForm.title = resId?.title;
+    ruleForm.image = resId?.image;
+    ruleForm.status = resId?.status;
+    ruleForm.content = resId?.content;
 
     fileListImg.value = [
         {
-            name: resNewId.image,
-            url: apiImage + resNewId.image,
+            name: resId.image,
+            url: apiImage + resId.image,
         },
     ];
 };

@@ -6,11 +6,18 @@ from config.database import database
 
 tabletype_collection: Collection = database['TableTypes']
 
-def insert_tabletype(_data: TableTypes) -> str:
+def ser_get_tabletype():
+    datas = []
+    for data in tabletype_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_tabletype(_data: TableTypes) -> str:
     result = tabletype_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_tabletype(_data: TableTypes, tabletype_collection: Collection):
+def ser_update_tabletype(_data: TableTypes, tabletype_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -34,7 +41,7 @@ def update_tabletype(_data: TableTypes, tabletype_collection: Collection):
     return {"message": "updated successfully"}
 
 
-def delete_tabletype(tabletype_id: str, tabletype_collection: Collection):
+def ser_delete_tabletype(tabletype_id: str, tabletype_collection: Collection):
     if not ObjectId.is_valid(tabletype_id):
         raise HTTPException(status_code=400, detail="Invalid tableType ID")
 

@@ -6,11 +6,18 @@ from config.database import database
 
 new_collection: Collection = database['News']
 
-def insert_new(_data: News) -> str:
+def ser_get_new():
+    datas = []
+    for data in new_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_new(_data: News) -> str:
     result = new_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_new(_data: News, new_collection: Collection):
+def ser_update_new(_data: News, new_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -34,7 +41,7 @@ def update_new(_data: News, new_collection: Collection):
     return {"message": "updated successfully"}
 
 
-def delete_new(new_id: str, new_collection: Collection):
+def ser_delete_new(new_id: str, new_collection: Collection):
     if not ObjectId.is_valid(new_id):
         raise HTTPException(status_code=400, detail="Invalid new ID")
 

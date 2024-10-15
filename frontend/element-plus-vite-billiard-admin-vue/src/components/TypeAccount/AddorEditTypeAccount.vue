@@ -80,9 +80,9 @@ const rules = reactive<FormRules>({
 });
 
 const fetchById = async (id: string) => {
-    const resNewId = await getbyIdTypeAccount(id);
-    ruleForm.role_name = resNewId?.role_name;
-    ruleForm.role_description = resNewId?.role_description;
+    const resId = await getbyIdTypeAccount(id);
+    ruleForm.role_name = resId?.role_name;
+    ruleForm.role_description = resId?.role_description;
 };
 
 onMounted(() => {

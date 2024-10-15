@@ -6,11 +6,18 @@ from config.database import database
 
 importitem_collection: Collection = database['ImportItems']
 
-def insert_importitem(_data: ImportItems) -> str:
+def ser_get_importitem():
+    datas = []
+    for data in importitem_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_importitem(_data: ImportItems) -> str:
     result = importitem_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_importitem(_data: ImportItems, importitem_collection: Collection):
+def ser_update_importitem(_data: ImportItems, importitem_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -34,7 +41,7 @@ def update_importitem(_data: ImportItems, importitem_collection: Collection):
     return {"message": "updated successfully"}
 
 
-def delete_importitem(importitem_id: str, importitem_collection: Collection):
+def ser_delete_importitem(importitem_id: str, importitem_collection: Collection):
     if not ObjectId.is_valid(importitem_id):
         raise HTTPException(status_code=400, detail="Invalid importitem ID")
 

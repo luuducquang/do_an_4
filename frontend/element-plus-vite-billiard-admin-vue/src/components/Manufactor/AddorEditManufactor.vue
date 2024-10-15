@@ -41,13 +41,10 @@ import type {
     UploadUserFile,
 } from "element-plus";
 import { Plus } from "@element-plus/icons-vue";
-import { useUserStore } from "~/store";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { ElMessage } from "element-plus";
 import router from "~/router";
 import { useRoute } from "vue-router";
 import { Manufactors } from "~/constant/api";
-import { apiImage } from "~/constant/request";
 import {
     createManufactor,
     getbyIdManufactor,
@@ -57,11 +54,8 @@ import axios from "axios";
 
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
-const useStore = useUserStore();
-const token = useStore.user.token;
 const route = useRoute();
 
-const editor = ClassicEditor;
 
 const Notification = (
     message: string,
@@ -111,10 +105,10 @@ const rules = reactive<FormRules>({
 const fileListImg = ref<UploadUserFile[]>([]);
 
 const fetchById = async (id: string) => {
-    const resNewId = await getbyIdManufactor(id);
-    ruleForm.name = resNewId?.name;
-    ruleForm.phone = resNewId?.phone;
-    ruleForm.address = resNewId?.address;
+    const resId = await getbyIdManufactor(id);
+    ruleForm.name = resId?.name;
+    ruleForm.phone = resId?.phone;
+    ruleForm.address = resId?.address;
 };
 
 onMounted(() => {

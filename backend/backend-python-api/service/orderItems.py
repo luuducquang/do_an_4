@@ -6,11 +6,18 @@ from config.database import database
 
 orderitem_collection: Collection = database['OrderItems']
 
-def insert_orderitem(_data: OrderItems) -> str:
+def ser_get_orderitem():
+    datas = []
+    for data in orderitem_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_orderitem(_data: OrderItems) -> str:
     result = orderitem_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_orderitem(_data: OrderItems, orderitem_collection: Collection):
+def ser_update_orderitem(_data: OrderItems, orderitem_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -34,7 +41,7 @@ def update_orderitem(_data: OrderItems, orderitem_collection: Collection):
     return {"message": "updated successfully"}
 
 
-def delete_orderitem(orderitem_id: str, orderitem_collection: Collection):
+def ser_delete_orderitem(orderitem_id: str, orderitem_collection: Collection):
     if not ObjectId.is_valid(orderitem_id):
         raise HTTPException(status_code=400, detail="Invalid orderitem ID")
 

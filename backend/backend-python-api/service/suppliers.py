@@ -6,11 +6,18 @@ from config.database import database
 
 supplier_collection: Collection = database['Suppliers']
 
-def insert_supplier(_data: Suppliers) -> str:
+def ser_get_supplier():
+    datas = []
+    for data in supplier_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_supplier(_data: Suppliers) -> str:
     result = supplier_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_supplier(_data: Suppliers, supplier_collection: Collection):
+def ser_update_supplier(_data: Suppliers, supplier_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -34,7 +41,7 @@ def update_supplier(_data: Suppliers, supplier_collection: Collection):
     return {"message": "updated successfully"}
 
 
-def delete_supplier(supplier_id: str, supplier_collection: Collection):
+def ser_delete_supplier(supplier_id: str, supplier_collection: Collection):
     if not ObjectId.is_valid(supplier_id):
         raise HTTPException(status_code=400, detail="Invalid supplier ID")
 

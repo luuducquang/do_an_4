@@ -66,8 +66,8 @@ const rules = reactive<FormRules>({
 });
 
 const fetchById = async (id: string) => {
-    const resNewId = await getbyIdCategoryRentalItem(id);
-    ruleForm.category_name = resNewId?.category_name;
+    const resId = await getbyIdCategoryRentalItem(id);
+    ruleForm.category_name = resId?.category_name;
 };
 
 onMounted(() => {

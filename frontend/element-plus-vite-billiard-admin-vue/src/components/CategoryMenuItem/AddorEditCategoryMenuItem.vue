@@ -31,7 +31,6 @@ import { ElMessage } from "element-plus";
 import router from "~/router";
 import { useRoute } from "vue-router";
 import { CategoryMenuItems } from "~/constant/api";
-import { apiImage } from "~/constant/request";
 import {
     createCategoryMenuItem,
     getbyIdCategoryMenuItem,
@@ -67,8 +66,8 @@ const rules = reactive<FormRules>({
 });
 
 const fetchById = async (id: string) => {
-    const resNewId = await getbyIdCategoryMenuItem(id);
-    ruleForm.category_name = resNewId?.category_name;
+    const resId = await getbyIdCategoryMenuItem(id);
+    ruleForm.category_name = resId?.category_name;
 };
 
 onMounted(() => {

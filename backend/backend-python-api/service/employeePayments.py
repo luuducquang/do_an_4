@@ -6,11 +6,18 @@ from config.database import database
 
 employeepayment_collection: Collection = database['EmployeePayments']
 
-def insert_employeepayment(_data: EmployeePayments) -> str:
+def ser_get_employeepayment():
+    datas = []
+    for data in employeepayment_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_employeepayment(_data: EmployeePayments) -> str:
     result = employeepayment_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_employeepayment(_data: EmployeePayments, employeepayment_collection: Collection):
+def ser_update_employeepayment(_data: EmployeePayments, employeepayment_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -34,7 +41,7 @@ def update_employeepayment(_data: EmployeePayments, employeepayment_collection: 
     return {"message": "updated successfully"}
 
 
-def delete_employeepayment(employeepayment_id: str, employeepayment_collection: Collection):
+def ser_delete_employeepayment(employeepayment_id: str, employeepayment_collection: Collection):
     if not ObjectId.is_valid(employeepayment_id):
         raise HTTPException(status_code=400, detail="Invalid employee ID")
 

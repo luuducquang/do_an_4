@@ -85,13 +85,11 @@ import type {
 } from "element-plus";
 import { Plus } from "@element-plus/icons-vue";
 import { useUserStore } from "~/store";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { ElMessage } from "element-plus";
 import router from "~/router";
 import { useRoute } from "vue-router";
 import { Users, OptionSelect } from "~/constant/api";
 import { apiImage } from "~/constant/request";
-import { createNew, getbyIdNews, updateNew } from "~/services/news.service";
 import { getAllTypeAccount } from "~/services/typeaccount.service";
 import {
     createAccount,
@@ -170,6 +168,11 @@ const rules = reactive<FormRules>({
             message: "Vui lòng nhập số điện thoại",
             trigger: "blur",
         },
+        {
+            pattern: /^[0-9]{10,11}$/,
+            message: "Số điện thoại không hợp lệ. Vui lòng nhập 10-11 số.",
+            trigger: "blur",
+        },
     ],
     role_name: [
         {
@@ -224,20 +227,20 @@ const handleRemoveImg: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
 };
 
 const fetchById = async (id: string) => {
-    const resNewId = await getDetailAccount(id);
-    ruleForm.username = resNewId?.username || "";
-    ruleForm.email = resNewId?.email || "";
-    ruleForm.fullname = resNewId?.fullname || "";
-    ruleForm.password = resNewId?.password || "";
-    ruleForm.address = resNewId?.address || "";
-    ruleForm.phone = resNewId?.phone || "";
-    ruleForm.role_name = String(resNewId?.role_name || "");
-    ruleForm.avatar = resNewId?.avatar || "";
+    const resId = await getDetailAccount(id);
+    ruleForm.username = resId?.username || "";
+    ruleForm.email = resId?.email || "";
+    ruleForm.fullname = resId?.fullname || "";
+    ruleForm.password = resId?.password || "";
+    ruleForm.address = resId?.address || "";
+    ruleForm.phone = resId?.phone || "";
+    ruleForm.role_name = String(resId?.role_name || "");
+    ruleForm.avatar = resId?.avatar || "";
 
     fileListImg.value = [
         {
-            name: resNewId.avatar,
-            url: apiImage + resNewId.avatar,
+            name: resId.avatar,
+            url: apiImage + resId.avatar,
         },
     ];
 };

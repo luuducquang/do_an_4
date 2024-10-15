@@ -6,11 +6,18 @@ from config.database import database
 
 foodorder_collection: Collection = database['FoodOrders']
 
-def insert_foodorder(_data: FoodOrders) -> str:
+def ser_get_foodorder():
+    datas = []
+    for data in foodorder_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_foodorder(_data: FoodOrders) -> str:
     result = foodorder_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_foodorder(_data: FoodOrders, foodorder_collection: Collection):
+def ser_update_foodorder(_data: FoodOrders, foodorder_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -34,7 +41,7 @@ def update_foodorder(_data: FoodOrders, foodorder_collection: Collection):
     return {"message": "updated successfully"}
 
 
-def delete_foodorder(foodorder_id: str, foodorder_collection: Collection):
+def ser_delete_foodorder(foodorder_id: str, foodorder_collection: Collection):
     if not ObjectId.is_valid(foodorder_id):
         raise HTTPException(status_code=400, detail="Invalid foodorder ID")
 

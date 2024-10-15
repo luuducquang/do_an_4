@@ -6,11 +6,18 @@ from config.database import database
 
 pricingrule_collection: Collection = database['PricingRules']
 
-def insert_pricingrule(_data: PricingRules) -> str:
+def ser_get_pricingrule():
+    datas = []
+    for data in pricingrule_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_pricingrule(_data: PricingRules) -> str:
     result = pricingrule_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_pricingrule(_data: PricingRules, pricingrule_collection: Collection):
+def ser_update_pricingrule(_data: PricingRules, pricingrule_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -34,7 +41,7 @@ def update_pricingrule(_data: PricingRules, pricingrule_collection: Collection):
     return {"message": "updated successfully"}
 
 
-def delete_pricingrule(pricingrule_id: str, pricingrule_collection: Collection):
+def ser_delete_pricingrule(pricingrule_id: str, pricingrule_collection: Collection):
     if not ObjectId.is_valid(pricingrule_id):
         raise HTTPException(status_code=400, detail="Invalid pricingrule ID")
 

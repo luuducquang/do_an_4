@@ -11,23 +11,50 @@
                     {{ (currentPage - 1) * currentPageSize + scope.$index + 1 }}
                 </template>
             </el-table-column>
-            <el-table-column label="Tên hãng" align="center" prop="name">
-            </el-table-column>
-            <el-table-column label="Số điện thoại" align="center" prop="phone">
+            <el-table-column
+                label="Hình ảnh"
+                align="center"
+                prop="user_info.avatar"
+            >
                 <template #default="scope">
-                    <a :href="`tel://${scope.row.phone}`"
-                        ><span>{{ scope.row.phone }}</span></a
-                    >
+                    <img
+                        :src="apiImage + scope.row.user_info.avatar"
+                        alt="Hình ảnh sản phẩm"
+                        class="img_item"
+                    /> </template
+            ></el-table-column>
+            <el-table-column
+                label="Tên nhân viên"
+                align="center"
+                prop="user_info.fullname"
+            >
+            </el-table-column>
+            <el-table-column
+                label="Lương theo giờ"
+                align="center"
+                prop="hourly_rate"
+            >
+                <template #default="scope">
+                    <p>{{ ConvertPrice(scope.row.hourly_rate) }}</p>
                 </template>
             </el-table-column>
-            <el-table-column label="Địa chỉ" align="center" prop="address">
+            <el-table-column
+                label="Lương theo tháng"
+                align="center"
+                prop="monthly_salary"
+            >
+                <template #default="scope">
+                    <p>
+                        {{ ConvertPrice(scope.row.monthly_salary) }}
+                    </p>
+                </template>
             </el-table-column>
             <el-table-column align="right">
                 <template #header>
                     <el-input
                         v-model="search"
                         size="small"
-                        placeholder="Nhập tên hãng"
+                        placeholder="Nhập thông tin cần tìm"
                     />
                 </template>
                 <template #default="scope">
@@ -68,18 +95,17 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { CirclePlus, StarFilled } from "@element-plus/icons-vue";
 import debounce from "~/utils/debounce";
-import { Manufactors } from "~/constant/api";
-import {
-    deleteManufactor,
-    searchManufactor,
-} from "~/services/manufactor.service";
+import { Employees } from "~/constant/api";
+import { deleteEmployee, searchEmployee } from "~/services/employee.service";
 import router from "~/router";
 import { ElMessage } from "element-plus";
+import { apiImage } from "~/constant/request";
+import ConvertPrice from "~/utils/convertprice";
 
 const search = ref("");
 const loading = ref(false);
 
-const tableData = ref<Manufactors[]>([]);
+const tableData = ref<Employees[]>([]);
 
 const currentPage = ref(1);
 const currentPageSize = ref(10);
@@ -101,13 +127,13 @@ watch(currentPage, (newPage: number, oldPage: number) => {
     }
 });
 
-const handleEdit = (index: number, row: Manufactors) => {
-    router.push(`/manufactor/edit/${row._id}`);
+const handleEdit = (index: number, row: Employees) => {
+    router.push(`/employee/edit/${row._id}`);
 };
 
 const confirmEvent = async (Id: string) => {
     try {
-        await deleteManufactor(Id);
+        await deleteEmployee(Id);
         Notification("Xoá thành công", "success");
         fetchData(search.value);
     } catch (error) {
@@ -122,11 +148,12 @@ const fetchData = async (searchTerm = "") => {
         const payLoad = {
             page: currentPage.value,
             pageSize: currentPageSize.value,
-            name: searchTerm,
+            search_term: searchTerm,
         };
-        const res = await searchManufactor(payLoad);
+        const res = await searchEmployee(payLoad);
         totalItemPage.value = res.totalItems;
         tableData.value = res.data;
+        console.log(res.data);
     } catch (error) {
         console.error("Error fetching:", error);
         tableData.value = [];
@@ -146,7 +173,7 @@ onMounted(() => {
 });
 
 const handlerAdd = () => {
-    router.push("/manufactor/add");
+    router.push("/employee/add");
 };
 </script>
 

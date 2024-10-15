@@ -6,11 +6,30 @@ from config.database import database
 
 employeetype_collection: Collection = database['EmployeeTypes']
 
-def insert_employeetype(_data: EmployeeTypes) -> str:
+def ser_get_employeetype():
+    datas = []
+    for data in employeetype_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_getbyid_employeetype(employeetype_id:str):
+    if not ObjectId.is_valid(employeetype_id):
+        raise HTTPException(status_code=400, detail="Invalid ID format")
+
+    employeetype = employeetype_collection.find_one({"_id": ObjectId(employeetype_id)})
+
+    if employeetype is None:
+        raise HTTPException(status_code=404, detail="employeetype not found")
+
+    employeetype["_id"] = str(employeetype["_id"])
+    return employeetype
+
+def ser_insert_employeetype(_data: EmployeeTypes) -> str:
     result = employeetype_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_employeetype(_data: EmployeeTypes, employeetype_collection: Collection):
+def ser_update_employeetype(_data: EmployeeTypes, employeetype_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -34,7 +53,7 @@ def update_employeetype(_data: EmployeeTypes, employeetype_collection: Collectio
     return {"message": "updated successfully"}
 
 
-def delete_employeetype(employeetype_id: str, employeetype_collection: Collection):
+def ser_delete_employeetype(employeetype_id: str, employeetype_collection: Collection):
     if not ObjectId.is_valid(employeetype_id):
         raise HTTPException(status_code=400, detail="Invalid employeeType ID")
 

@@ -6,11 +6,18 @@ from config.database import database
 
 rentalitem_collection: Collection = database['RentalItems']
 
-def insert_rentalitem(_data: RentalItems) -> str:
+def ser_get_rentalitem():
+    datas = []
+    for data in rentalitem_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_rentalitem(_data: RentalItems) -> str:
     result = rentalitem_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_rentalitem(_data: RentalItems, rentalitem_collection: Collection):
+def ser_update_rentalitem(_data: RentalItems, rentalitem_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -34,7 +41,7 @@ def update_rentalitem(_data: RentalItems, rentalitem_collection: Collection):
     return {"message": "updated successfully"}
 
 
-def delete_rentalitem(rentalitem_id: str, rentalitem_collection: Collection):
+def ser_delete_rentalitem(rentalitem_id: str, rentalitem_collection: Collection):
     if not ObjectId.is_valid(rentalitem_id):
         raise HTTPException(status_code=400, detail="Invalid rentalitem ID")
 

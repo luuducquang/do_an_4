@@ -4,7 +4,7 @@ from fastapi import APIRouter, Body, HTTPException
 from pymongo.collection import Collection
 from config.database import database
 from schemas.schemas import Suppliers
-from service.suppliers import delete_supplier, insert_supplier, update_supplier
+from service.suppliers import ser_get_supplier,ser_delete_supplier, ser_insert_supplier, ser_update_supplier
 
 
 router = APIRouter()
@@ -13,11 +13,7 @@ supplier_collection: Collection = database['Suppliers']
 
 @router.get("/suppliers/get")
 async def get_supplier():
-    datas = []
-    for data in supplier_collection.find():
-        data["_id"] = str(data["_id"])
-        datas.append(data)
-    return datas
+    return ser_get_supplier()
 
 @router.get("/suppliers/get/{supplier_id}")
 async def get_supplier_by_id(supplier_id: str):
@@ -69,15 +65,15 @@ async def search_supplier(
 
 @router.post("/suppliers/add")
 async def create_supplier(_data: Suppliers):
-    _id = insert_supplier(_data)
+    _id = ser_insert_supplier(_data)
     return {"message": "Created successfully", "_id": _id}
 
 @router.put("/suppliers/update")
 def edit_supplier(_data: Suppliers):
-    result = update_supplier(_data, supplier_collection)
+    result = ser_update_supplier(_data, supplier_collection)
     return result
 
 @router.delete("/suppliers/delete/{supplier_id}")
 def remove_supplier(supplier_id: str):
-    response = delete_supplier(supplier_id, supplier_collection)
+    response = ser_delete_supplier(supplier_id, supplier_collection)
     return response

@@ -6,11 +6,18 @@ from config.database import database
 
 timesession_collection: Collection = database['TimeSessions']
 
-def insert_timesession(_data: TimeSessions) -> str:
+def ser_get_timesession():
+    datas = []
+    for data in timesession_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_timesession(_data: TimeSessions) -> str:
     result = timesession_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_timesession(_data: TimeSessions, timesession_collection: Collection):
+def ser_update_timesession(_data: TimeSessions, timesession_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -34,7 +41,7 @@ def update_timesession(_data: TimeSessions, timesession_collection: Collection):
     return {"message": "updated successfully"}
 
 
-def delete_timesession(timesession_id: str, timesession_collection: Collection):
+def ser_delete_timesession(timesession_id: str, timesession_collection: Collection):
     if not ObjectId.is_valid(timesession_id):
         raise HTTPException(status_code=400, detail="Invalid timesession ID")
 

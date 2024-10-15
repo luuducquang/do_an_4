@@ -6,11 +6,18 @@ from config.database import database
 
 table_collection: Collection = database['Tables']
 
-def insert_table(_data: Tables) -> str:
+def ser_get_table():
+    datas = []
+    for data in table_collection.find():
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_insert_table(_data: Tables) -> str:
     result = table_collection.insert_one(_data.dict(exclude={"id"}))
     return str(result.inserted_id)
 
-def update_table(_data: Tables, table_collection: Collection):
+def ser_update_table(_data: Tables, table_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -34,7 +41,7 @@ def update_table(_data: Tables, table_collection: Collection):
     return {"message": "updated successfully"}
 
 
-def delete_table(table_id: str, table_collection: Collection):
+def ser_delete_table(table_id: str, table_collection: Collection):
     if not ObjectId.is_valid(table_id):
         raise HTTPException(status_code=400, detail="Invalid table ID")
 

@@ -96,10 +96,10 @@ const rules = reactive<FormRules>({
 });
 
 const fetchById = async (id: string) => {
-    const resNewId = await getbyIdSuppliers(id);
-    ruleForm.name = resNewId?.name;
-    ruleForm.phone = resNewId?.phone;
-    ruleForm.address = resNewId?.address;
+    const resId = await getbyIdSuppliers(id);
+    ruleForm.name = resId?.name;
+    ruleForm.phone = resId?.phone;
+    ruleForm.address = resId?.address;
 };
 
 onMounted(() => {
