@@ -92,7 +92,7 @@ def ser_search_employee(_data:Searchs):
 
     total_items = employee_collection.count_documents(employee_query)
 
-    employees = employee_collection.find(employee_query).skip(skip).limit(pageSize)
+    employees = employee_collection.find(employee_query).skip(skip).limit(_data.pageSize)
 
     data = []
     for employee in employees:

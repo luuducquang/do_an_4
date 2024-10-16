@@ -23,7 +23,6 @@ async def get_category_by_id(category_id: str):
 @router.post("/categorymenuitems/search")
 async def search_category(_data:Searchs):
     return ser_search_categorymenuitem(_data)
-    
 
 @router.post("/categorymenuitems/add")
 async def create_category(_data: CategoryMenuItems):

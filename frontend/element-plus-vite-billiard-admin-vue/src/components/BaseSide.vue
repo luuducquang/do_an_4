@@ -16,6 +16,19 @@
             </el-menu-item-group>
         </el-sub-menu>
 
+        <el-sub-menu index="">
+            <template #title>
+                <el-icon><Box /></el-icon>
+                <span>Quản lý bàn</span>
+            </template>
+            <router-link to="/tabletype">
+                <el-menu-item index="3">Loại bàn</el-menu-item>
+            </router-link>
+            <router-link to="/table">
+                <el-menu-item index="4">Bàn</el-menu-item>
+            </router-link>
+        </el-sub-menu>
+
         <router-link to="/product">
             <el-menu-item index="2">
                 <el-icon><Mug /></el-icon>
@@ -33,6 +46,12 @@
             </router-link>
             <router-link to="/employee">
                 <el-menu-item index="4">Nhân viên</el-menu-item>
+            </router-link>
+            <router-link to="/shift">
+                <el-menu-item index="4">Ca làm việc</el-menu-item>
+            </router-link>
+            <router-link to="/employeepayment">
+                <el-menu-item index="4">Lương</el-menu-item>
             </router-link>
         </el-sub-menu>
 
@@ -105,6 +124,7 @@ import {
     User,
     Mug,
     Ship,
+    Box,
 } from "@element-plus/icons-vue";
 
 const isCollapse = ref(false);

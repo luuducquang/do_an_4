@@ -11,17 +11,11 @@
                     {{ (currentPage - 1) * currentPageSize + scope.$index + 1 }}
                 </template>
             </el-table-column>
-            <el-table-column label="Ảnh đại diện" align="center" prop="avatar">
-                <template #default="scope">
-                    <img
-                        :src="apiImage + scope.row.avatar"
-                        alt="Ảnh đại diện"
-                        class="img_item"
-                    /> </template
-            ></el-table-column>
-            <el-table-column label="Tài khoản" align="center" prop="username" />
-            <el-table-column label="Email" align="center" prop="email" />
-
+            <el-table-column
+                label="Loại bàn"
+                align="center"
+                prop="table_type_name"
+            />
             <el-table-column align="right">
                 <template #header>
                     <el-input
@@ -69,17 +63,19 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { CirclePlus, StarFilled } from "@element-plus/icons-vue";
 import debounce from "~/utils/debounce";
-import { Users } from "~/constant/api";
-import { deleteAccount, searchAccount } from "~/services/account.service";
+import { TableTypes } from "~/constant/api";
+import {
+    deleteTableType,
+    searchTableType,
+} from "~/services/tabletype.service";
 import router from "~/router";
 import { ElMessage } from "element-plus";
-import { apiImage } from "~/constant/request";
 import axios from "axios";
 
 const search = ref("");
 const loading = ref(false);
 
-const tableData = ref<Users[]>([]);
+const tableData = ref<TableTypes[]>([]);
 
 const currentPage = ref(1);
 const currentPageSize = ref(10);
@@ -101,13 +97,13 @@ watch(currentPage, (newPage: number, oldPage: number) => {
     }
 });
 
-const handleEdit = (index: number, row: Users) => {
-    router.push(`/account/edit/${row._id}`);
+const handleEdit = (index: number, row: TableTypes) => {
+    router.push(`/tabletype/edit/${row._id}`);
 };
 
 const confirmEvent = async (Id: string) => {
     try {
-        await deleteAccount(Id);
+        await deleteTableType(Id);
         Notification("Xoá thành công", "success");
         fetchData(search.value);
     } catch (error) {
@@ -125,9 +121,10 @@ const fetchData = async (searchTerm = "") => {
             pageSize: currentPageSize.value,
             search_term: searchTerm,
         };
-        const res = await searchAccount(payLoad);
+        const res = await searchTableType(payLoad);
         totalItemPage.value = res.totalItems;
         tableData.value = res.data;
+        console.log(res.data);
     } catch (error) {
         console.error("Error fetching:", error);
         tableData.value = [];
@@ -147,7 +144,7 @@ onMounted(() => {
 });
 
 const handlerAdd = () => {
-    router.push("/account/add");
+    router.push("/tabletype/add");
 };
 </script>
 
@@ -167,9 +164,9 @@ const handlerAdd = () => {
 }
 
 .img_item {
-    width: 150px;
+    width: 70px;
     height: 70px;
-    object-fit: contain;
+    object-fit: cover;
 }
 .name_item {
     cursor: pointer;

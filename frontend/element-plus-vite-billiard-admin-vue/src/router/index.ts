@@ -64,6 +64,51 @@ const routes = [
                 ],
             },
             {
+                path: "tabletype",
+                name: "TableType",
+                component: LayoutView,
+                meta: {
+                    breadcrumbName: "Loại bàn",
+                    requiresAuth: true,
+                },
+                children: [
+                    {
+                        path: "",
+                        name: "ListTableType",
+                        component: () =>
+                            import("~/components/TableType/ListTableType.vue"),
+                        meta: {
+                            breadcrumbName: "Danh sách",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "add",
+                        name: "AddTableType",
+                        component: () =>
+                            import(
+                                "~/components/TableType/AddorEditTableType.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Thêm loại bàn",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "edit/:id",
+                        name: "EditTableType",
+                        component: () =>
+                            import(
+                                "~/components/TableType/AddorEditTableType.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Sửa loại bàn",
+                            requiresAuth: true,
+                        },
+                    },
+                ],
+            },
+            {
                 path: "employeetype",
                 name: "EmployeeType",
                 component: LayoutView,

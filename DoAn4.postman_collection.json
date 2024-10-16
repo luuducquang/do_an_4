@@ -942,7 +942,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"table_type_name\": \"ban1\"\r\n}",
+							"raw": "{\r\n    \"table_type_name\": \"ban2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1021,6 +1021,52 @@
 								"tabletypes",
 								"delete",
 								"66f7f0843bba28672d537138"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getbyidTableType",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tabletypes/get/670f1e20d5439b57ae40f480",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tabletypes",
+								"get",
+								"670f1e20d5439b57ae40f480"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchTableType",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/tabletypes/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tabletypes",
+								"search"
 							]
 						}
 					},

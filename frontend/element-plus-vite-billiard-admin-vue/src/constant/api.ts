@@ -19,6 +19,11 @@ export interface Product {
     trangThai: boolean;
 }
 
+export interface TableTypes {
+    _id?: string;
+    table_type_name: string;
+}
+
 export interface News {
     _id?: string;
     user_id?: string;
