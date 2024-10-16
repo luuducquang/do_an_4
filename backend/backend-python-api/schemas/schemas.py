@@ -81,7 +81,6 @@ class TableTypes(BaseModel):
 class Tables(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     table_number: int
-    image:str
     table_type_id: str
     status: Optional[bool]
 

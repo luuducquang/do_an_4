@@ -33,10 +33,10 @@ export const deleteCategoryRentalItem = async (
 };
 
 export const getbyIdCategoryRentalItem = async (
-    category_name: string
+    id: string
 ): Promise<CategoryRentalItems> => {
     const res = await apiClient?.get(
-        `${CategoryRentalItemUrl}/get/` + category_name
+        `${CategoryRentalItemUrl}/get/` + id
     );
     return res?.data;
 };

@@ -36,6 +36,7 @@ import {
     getbyIdTableType,
     updateTableType,
 } from "~/services/tabletype.service";
+import axios from "axios";
 
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
@@ -83,18 +84,30 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         const valid = await formEl.validate();
         if (valid) {
             if (route.params.id) {
-                await updateTableType({
-                    _id: String(route.params.id),
-                    table_type_name: ruleForm.table_type_name,
-                });
-                Notification("Cập nhật thành công", "success");
-                router.push("/tabletype");
+                try {
+                    await updateTableType({
+                        _id: String(route.params.id),
+                        table_type_name: ruleForm.table_type_name,
+                    });
+                    Notification("Cập nhật thành công", "success");
+                    router.push("/tabletype");
+                } catch (error) {
+                    if (axios.isAxiosError(error)) {
+                        Notification(error.response?.data.detail, "warning");
+                    }
+                }
             } else {
-                await createTableType({
-                    table_type_name: ruleForm.table_type_name,
-                });
-                Notification("Thêm thành công", "success");
-                router.push("/tabletype");
+                try {
+                    await createTableType({
+                        table_type_name: ruleForm.table_type_name,
+                    });
+                    Notification("Thêm thành công", "success");
+                    router.push("/tabletype");
+                } catch (error) {
+                    if (axios.isAxiosError(error)) {
+                        Notification(error.response?.data.detail, "warning");
+                    }
+                }
             }
         } else {
             Notification("Bạn cần điền đủ thông tin", "warning");

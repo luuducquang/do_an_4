@@ -24,6 +24,14 @@ export interface TableTypes {
     table_type_name: string;
 }
 
+export interface Tables {
+    _id?: string;
+    table_number: number;
+    table_type_id: string;
+    status: boolean;
+    tabletype?: TableTypes;
+}
+
 export interface News {
     _id?: string;
     user_id?: string;

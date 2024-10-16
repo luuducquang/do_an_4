@@ -10,3 +10,4 @@ export const ManufactorUrl = "/manufactors";
 export const EmployeeTypeUrl = "/employeetypes";
 export const EmployeeUrl = "/employees";
 export const TableTypeUrl = "/tabletypes";
+export const TableUrl = "/tables";

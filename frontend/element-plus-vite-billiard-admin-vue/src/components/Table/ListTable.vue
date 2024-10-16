@@ -6,27 +6,21 @@
             ></el-button>
         </div>
         <el-table :data="tableData" class="table_content">
-            <el-table-column label="Hình ảnh" align="center" prop="image">
+            <el-table-column label="STT" align="center">
                 <template #default="scope">
-                    <img
-                        :src="apiImage + scope.row.image"
-                        alt="Hình ảnh sản phẩm"
-                        class="img_item"
-                    /> </template
-            ></el-table-column>
-            <el-table-column label="Tiêu đề" align="center" prop="title">
-                <template #default="scope">
-                    <span :title="scope.row.title" class="name_item">{{
-                        scope.row.title
-                    }}</span>
+                    {{ (currentPage - 1) * currentPageSize + scope.$index + 1 }}
                 </template>
             </el-table-column>
             <el-table-column
-                label="Người đăng"
+                label="Số hiệu bàn"
                 align="center"
-                prop="fullname"
+                prop="table_number"
             />
-            <el-table-column label="Lượt xem" align="center" prop="view" />
+            <el-table-column
+                label="Loại bàn"
+                align="center"
+                prop="tabletype.table_type_name"
+            />
             <el-table-column label="Trạng thái" align="center" prop="status">
                 <template #default="scope">
                     <p
@@ -37,7 +31,7 @@
                                     : '#CC3333',
                         }"
                     >
-                        {{ scope.row.status ? "Hiện" : "Ẩn" }}
+                        {{ scope.row.status ? "Đang sử dụng" : "Đang trống" }}
                     </p>
                 </template>
             </el-table-column>
@@ -78,6 +72,7 @@
                 layout="prev, pager, next"
                 v-model:current-page="currentPage"
                 :total="totalItemPage"
+                :page-size="currentPageSize"
             />
         </div>
     </el-card>
@@ -87,16 +82,16 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { CirclePlus, StarFilled } from "@element-plus/icons-vue";
 import debounce from "~/utils/debounce";
-import { News } from "~/constant/api";
-import { deleteNew, searchNews } from "~/services/news.service";
-import { apiImage } from "~/constant/request";
+import { Tables } from "~/constant/api";
+import { deleteTable, searchTable } from "~/services/table.service";
 import router from "~/router";
 import { ElMessage } from "element-plus";
+import axios from "axios";
 
 const search = ref("");
 const loading = ref(false);
 
-const tableData = ref<News[]>([]);
+const tableData = ref<Tables[]>([]);
 
 const currentPage = ref(1);
 const currentPageSize = ref(10);
@@ -118,18 +113,19 @@ watch(currentPage, (newPage: number, oldPage: number) => {
     }
 });
 
-const handleEdit = (index: number, row: News) => {
-    router.push(`/news/edit/${row._id}`);
+const handleEdit = (index: number, row: Tables) => {
+    router.push(`/table/edit/${row._id}`);
 };
 
 const confirmEvent = async (Id: string) => {
     try {
-        await deleteNew(Id);
+        await deleteTable(Id);
         Notification("Xoá thành công", "success");
         fetchData(search.value);
     } catch (error) {
-        console.error("Error deleting =:", error);
-        Notification("Lỗi khi xoá =", "error");
+        if (axios.isAxiosError(error)) {
+            Notification(error.response?.data.detail, "warning");
+        }
     }
 };
 
@@ -141,9 +137,10 @@ const fetchData = async (searchTerm = "") => {
             pageSize: currentPageSize.value,
             search_term: searchTerm,
         };
-        const res = await searchNews(payLoad);
+        const res = await searchTable(payLoad);
         totalItemPage.value = res.totalItems;
         tableData.value = res.data;
+        console.log(res.data);
     } catch (error) {
         console.error("Error fetching:", error);
         tableData.value = [];
@@ -163,7 +160,7 @@ onMounted(() => {
 });
 
 const handlerAdd = () => {
-    router.push("/news/add");
+    router.push("/table/add");
 };
 </script>
 

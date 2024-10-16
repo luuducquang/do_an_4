@@ -20,16 +20,7 @@ def ser_get_employee():
         employee["_id"] = str(employee["_id"])
         if user_data:
             user_data["_id"] = str(user_data["_id"])
-            employee["user_info"] = {
-                "username": user_data["username"],
-                "fullname": user_data.get("fullname", ""),
-                "email": user_data["email"],
-                "phone": user_data.get("phone", ""),
-                "address": user_data.get("address", ""),
-                "avatar": user_data.get("avatar", ""),
-                "loyalty_points": user_data.get("loyalty_points", 0),
-                "role_name": user_data["role_name"]
-            }
+            employee["user_info"] = user_data
         else:
             employee["user_info"] = {}
         datas.append(employee)
@@ -48,16 +39,7 @@ def ser_getbyid_employee(employee_id:str):
     employee["_id"] = str(employee["_id"])
     if user_data:
             user_data["_id"] = str(user_data["_id"])
-            employee["user_info"] = {
-                "username": user_data["username"],
-                "fullname": user_data.get("fullname", ""),
-                "email": user_data["email"],
-                "phone": user_data.get("phone", ""),
-                "address": user_data.get("address", ""),
-                "avatar": user_data.get("avatar", ""),
-                "loyalty_points": user_data.get("loyalty_points", 0),
-                "role_name": user_data["role_name"]
-            }
+            employee["user_info"] = user_data
     else:
         employee["user_info"] = {}
     return employee
@@ -98,17 +80,9 @@ def ser_search_employee(_data:Searchs):
     for employee in employees:
         employee["_id"] = str(employee["_id"])
         user = user_collection.find_one({"_id": ObjectId(employee["user_id"])})
+        user["_id"] = str(user["_id"])
         if user:
-            employee["user_info"] = {
-                "username": user["username"],
-                "fullname": user.get("fullname", ""),
-                "email": user["email"],
-                "phone": user.get("phone", ""),
-                "address": user.get("address", ""),
-                "avatar": user.get("avatar", ""),
-                "loyalty_points": user.get("loyalty_points", 0),
-                "role_name": user["role_name"]
-            }
+            employee["user_info"] = user
         data.append(employee)
 
     return {

@@ -575,14 +575,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/employees/get/670a6c6f943937dfeb191ff7",
+							"raw": "{{host}}/employees/get/670b4af587cf18d5d1fb7e0e",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"employees",
 								"get",
-								"670a6c6f943937dfeb191ff7"
+								"670b4af587cf18d5d1fb7e0e"
 							]
 						}
 					},
@@ -1084,7 +1084,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"table_number\": 1,\r\n    \"image\": \"\",\r\n    \"table_type_id\": \"12312gfdgdgdfg31\",\r\n    \"status\": true\r\n}",
+							"raw": "{\r\n    \"table_number\": 1,\r\n    \"table_type_id\": \"66f7f0c63bba28672d537139\",\r\n    \"status\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1129,7 +1129,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\":\"66f7f22db976c53543917b4e\",\r\n    \"table_number\": 2,\r\n    \"image\": \"\",\r\n    \"table_type_id\": \"12312gfdgdgdfg31\",\r\n    \"status\": true\r\n}",
+							"raw": "{\r\n    \"_id\":\"66f7f22db976c53543917b4e\",\r\n    \"table_number\": 2,\r\n    \"table_type_id\": \"12312gfdgdgdfg31\",\r\n    \"status\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1155,14 +1155,60 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/tables/delete/66f7f22db976c53543917b4e",
+							"raw": "{{host}}/tables/delete/66f7f27db976c53543917b4f",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"tables",
 								"delete",
-								"66f7f22db976c53543917b4e"
+								"66f7f27db976c53543917b4f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getbyidTable",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tables/get/670fe82f84708737cd52f8af",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tables",
+								"get",
+								"670fe82f84708737cd52f8af"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchTable",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/tables/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tables",
+								"search"
 							]
 						}
 					},

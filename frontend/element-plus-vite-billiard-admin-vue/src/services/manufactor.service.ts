@@ -29,8 +29,8 @@ export const deleteManufactor = async (id: string): Promise<Manufactors> => {
 };
 
 export const getbyIdManufactor = async (
-    manufactor_id: string
+    id: string
 ): Promise<any> => {
-    const res = await apiClient?.get(`${ManufactorUrl}/get/` + manufactor_id);
+    const res = await apiClient?.get(`${ManufactorUrl}/get/` + id);
     return res?.data;
 };

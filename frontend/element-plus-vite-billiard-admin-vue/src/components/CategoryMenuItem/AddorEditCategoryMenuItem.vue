@@ -36,6 +36,7 @@ import {
     getbyIdCategoryMenuItem,
     updateCategoryMenuItem,
 } from "~/services/categorymenuitem.service";
+import axios from "axios";
 
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
@@ -83,18 +84,30 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         const valid = await formEl.validate();
         if (valid) {
             if (route.params.id) {
-                await updateCategoryMenuItem({
-                    _id: String(route.params.id),
-                    category_name: ruleForm.category_name,
-                });
-                Notification("Cập nhật thành công", "success");
-                router.push("/categorymenuitem");
+                try {
+                    await updateCategoryMenuItem({
+                        _id: String(route.params.id),
+                        category_name: ruleForm.category_name,
+                    });
+                    Notification("Cập nhật thành công", "success");
+                    router.push("/categorymenuitem");
+                } catch (error) {
+                    if (axios.isAxiosError(error)) {
+                        Notification(error.response?.data.detail, "warning");
+                    }
+                }
             } else {
-                await createCategoryMenuItem({
-                    category_name: ruleForm.category_name,
-                });
-                Notification("Thêm thành công", "success");
-                router.push("/categorymenuitem");
+                try {
+                    await createCategoryMenuItem({
+                        category_name: ruleForm.category_name,
+                    });
+                    Notification("Thêm thành công", "success");
+                    router.push("/categorymenuitem");
+                } catch (error) {
+                    if (axios.isAxiosError(error)) {
+                        Notification(error.response?.data.detail, "warning");
+                    }
+                }
             }
         } else {
             Notification("Bạn cần điền đủ thông tin", "warning");

@@ -31,10 +31,10 @@ export const deleteCategoryMenuItem = async (
 };
 
 export const getbyIdCategoryMenuItem = async (
-    category_name: string
+    id: string
 ): Promise<CategoryMenuItems> => {
     const res = await apiClient?.get(
-        `${CategoryMenuItemUrl}/get/` + category_name
+        `${CategoryMenuItemUrl}/get/` + id
     );
     return res?.data;
 };

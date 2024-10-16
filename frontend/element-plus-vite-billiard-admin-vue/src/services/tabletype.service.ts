@@ -2,6 +2,11 @@ import { TableTypes, ResponseData } from "~/constant/api";
 import { apiClient } from "../constant/request";
 import { TableTypeUrl } from "~/constant/endpoints";
 
+export const getAllTableType = async (): Promise<TableTypes[]> => {
+    const res = await apiClient?.get(`${TableTypeUrl}/get`);
+    return res?.data;
+};
+
 export const searchTableType = async (
     data: Record<string, string | number>
 ): Promise<ResponseData<TableTypes>> => {
@@ -28,9 +33,7 @@ export const deleteTableType = async (id: String): Promise<TableTypes> => {
     return res?.data;
 };
 
-export const getbyIdTableType = async (
-    category_name: string
-): Promise<TableTypes> => {
-    const res = await apiClient?.get(`${TableTypeUrl}/get/` + category_name);
+export const getbyIdTableType = async (id: string): Promise<TableTypes> => {
+    const res = await apiClient?.get(`${TableTypeUrl}/get/` + id);
     return res?.data;
 };
