@@ -23,47 +23,6 @@ const routes = [
                 },
             },
             {
-                path: "product",
-                name: "Product",
-                component: LayoutView,
-                meta: {
-                    breadcrumbName: "Thông tin sản phẩm",
-                    requiresAuth: true,
-                },
-                children: [
-                    {
-                        path: "",
-                        name: "ListProduct",
-                        component: () =>
-                            import("~/components/Product/ListProduct.vue"),
-                        meta: {
-                            breadcrumbName: "Danh sách",
-                            requiresAuth: true,
-                        },
-                    },
-                    {
-                        path: "add",
-                        name: "AddProduct",
-                        component: () =>
-                            import("~/components/Product/AddorEditProduct.vue"),
-                        meta: {
-                            breadcrumbName: "Thêm sản phẩm",
-                            requiresAuth: true,
-                        },
-                    },
-                    {
-                        path: "edit/:id",
-                        name: "EditProduct",
-                        component: () =>
-                            import("~/components/Product/AddorEditProduct.vue"),
-                        meta: {
-                            breadcrumbName: "Sửa sản phẩm",
-                            requiresAuth: true,
-                        },
-                    },
-                ],
-            },
-            {
                 path: "tabletype",
                 name: "TableType",
                 component: LayoutView,
@@ -144,6 +103,99 @@ const routes = [
                             import("~/components/Table/AddorEditTable.vue"),
                         meta: {
                             breadcrumbName: "Sửa bàn",
+                            requiresAuth: true,
+                        },
+                    },
+                ],
+            },
+            {
+                path: "pricingrule",
+                name: "PricingRule",
+                component: LayoutView,
+                meta: {
+                    breadcrumbName: "Quy tắc giá",
+                    requiresAuth: true,
+                },
+                children: [
+                    {
+                        path: "",
+                        name: "ListPricingRule",
+                        component: () =>
+                            import(
+                                "~/components/PricingRule/ListPricingRule.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Danh sách",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "add",
+                        name: "AddPricingRule",
+                        component: () =>
+                            import(
+                                "~/components/PricingRule/AddorEditPricingRule.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Thêm quy tắc giá",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "edit/:id",
+                        name: "EditPricingRule",
+                        component: () =>
+                            import(
+                                "~/components/PricingRule/AddorEditPricingRule.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Sửa quy tắc giá",
+                            requiresAuth: true,
+                        },
+                    },
+                ],
+            },
+
+            {
+                path: "menuitem",
+                name: "MenuItem",
+                component: LayoutView,
+                meta: {
+                    breadcrumbName: "Đồ ăn",
+                    requiresAuth: true,
+                },
+                children: [
+                    {
+                        path: "",
+                        name: "ListMenuItem",
+                        component: () =>
+                            import("~/components/MenuItem/ListMenuItem.vue"),
+                        meta: {
+                            breadcrumbName: "Danh sách",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "add",
+                        name: "AddMenuItem",
+                        component: () =>
+                            import(
+                                "~/components/MenuItem/AddorEditMenuItem.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Thêm đồ ăn",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "edit/:id",
+                        name: "EditMenuItem",
+                        component: () =>
+                            import(
+                                "~/components/MenuItem/AddorEditMenuItem.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Sửa đồ ăn",
                             requiresAuth: true,
                         },
                     },
@@ -305,7 +357,7 @@ const routes = [
                     },
                     {
                         path: "add",
-                        name: "AddCategory",
+                        name: "AddCategoryMenuItem",
                         component: () =>
                             import(
                                 "~/components/CategoryMenuItem/AddorEditCategoryMenuItem.vue"
@@ -317,7 +369,7 @@ const routes = [
                     },
                     {
                         path: "edit/:id",
-                        name: "EditCategory",
+                        name: "EditCategoryMenuItem",
                         component: () =>
                             import(
                                 "~/components/CategoryMenuItem/AddorEditCategoryMenuItem.vue"
@@ -352,7 +404,7 @@ const routes = [
                     },
                     {
                         path: "add",
-                        name: "AddCategory",
+                        name: "AddCategoryRentalItem",
                         component: () =>
                             import(
                                 "~/components/CategoryRentalItem/AddorEditCategoryRentalItem.vue"
@@ -364,7 +416,7 @@ const routes = [
                     },
                     {
                         path: "edit/:id",
-                        name: "EditCategory",
+                        name: "EditCategoryRentalItem",
                         component: () =>
                             import(
                                 "~/components/CategoryRentalItem/AddorEditCategoryRentalItem.vue"

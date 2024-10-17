@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 from pymongo.collection import Collection
 from config.database import database
-from schemas.schemas import MenuItems
-from service.menuItems import ser_get_menuitem,ser_delete_menuitem, ser_insert_menuitem, ser_update_menuitem
+from schemas.schemas import MenuItems, Searchs
+from service.menuItems import ser_getbyid_menuitem,ser_search_menuitem,ser_get_menuitem,ser_delete_menuitem, ser_insert_menuitem, ser_update_menuitem
 
 
 router = APIRouter()
@@ -12,6 +12,14 @@ menuitem_collection: Collection = database['MenuItems']
 @router.get("/menuitems/get")
 async def get_menuitem():
     return ser_get_menuitem()
+
+@router.get("/menuitems/get/{menuitem_id}")
+async def get_menuitem_by_id(menuitem_id: str):
+    return ser_getbyid_menuitem(menuitem_id)
+
+@router.post("/menuitems/search")
+async def search_menuitem(_data:Searchs):
+    return ser_search_menuitem(_data)
 
 @router.post("/menuitems/add")
 async def create_menuitem(_data: MenuItems):

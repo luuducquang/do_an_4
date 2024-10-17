@@ -2,78 +2,47 @@
     <el-card class="card_content" v-loading="loading">
         <div class="button_add">
             <el-button @click="handlerAdd" type="primary"
-                ><el-icon><CirclePlus /></el-icon>
-            </el-button>
+                ><el-icon><CirclePlus /></el-icon
+            ></el-button>
         </div>
         <el-table :data="tableData" class="table_content">
-            <el-table-column label="Sản phẩm" align="center" prop="tenSanPham">
-                <template #default="scope">
-                    <span :title="scope.row.tenSanPham" class="name_product">{{
-                        scope.row.tenSanPham
-                    }}</span>
-                </template></el-table-column
-            >
-            <el-table-column label="Hình ảnh" align="center" prop="anhDaiDien">
+            <el-table-column label="Hình ảnh" align="center" prop="image">
                 <template #default="scope">
                     <img
-                        :src="apiImage + scope.row.anhDaiDien"
+                        :src="apiImage + scope.row.image"
                         alt="Hình ảnh sản phẩm"
                         class="img_item"
-                    /> </template
-            ></el-table-column>
-            <el-table-column label="Giá bán" align="center" prop="giaGiam">
-                <template #default="scope">
-                    <span>{{
-                        parseInt(scope.row.giaGiam).toLocaleString("en-US")
-                    }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="Số lượng" align="center" prop="soLuong" />
-            <el-table-column label="Lượt bán" align="center" prop="luotBan" />
-            <el-table-column label="Đánh giá" align="center" prop="danhGia">
-                <template #default="scope">
-                    <span class="rate_product" :title="scope.row.danhGia"
-                        ><span>{{ scope.row.danhGia }}</span
-                        ><el-icon class="rate_product_star"
-                            ><StarFilled /></el-icon
-                    ></span>
-                </template>
-            </el-table-column>
-            <el-table-column
-                label="Trọng lượng"
-                align="center"
-                prop="trongLuong"
-            />
+                    /> </template></el-table-column
+            ><el-table-column label="Tên sản phẩm" align="center" prop="name" />
             <el-table-column
                 label="Danh mục"
                 align="center"
-                prop="tenDanhMuc"
+                prop="categorymenuitem.category_name"
             />
             <el-table-column
-                label="Ưu đãi"
+                label="Số lượng"
                 align="center"
-                prop="tendanhmucuudai"
-            />
-            <el-table-column label="Trạng thái" align="center" prop="trangThai">
-                <template #default="scope">
-                    <p
-                        :style="{
-                            color:
-                                scope.row.trangThai === true
-                                    ? '#33CC33'
-                                    : '#CC3333',
-                        }"
-                    >
-                        {{ scope.row.trangThai === true ? "Hoạt động" : "Tắt" }}
-                    </p>
-                </template></el-table-column
+                prop="stock_quantity"
             >
+                <template #default="scope">
+                    <span class="name_item">{{
+                        scope.row.stock_quantity
+                    }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="Giá" align="center" prop="price">
+                <template #default="scope">
+                    <span class="name_item">{{
+                        ConvertPrice(scope.row.price)
+                    }}</span>
+                </template>
+            </el-table-column>
             <el-table-column align="right">
                 <template #header>
                     <el-input
                         v-model="search"
                         size="small"
-                        placeholder="Nhập tên sản phẩm"
+                        placeholder="Nhập thông tin cần tìm"
                     />
                 </template>
                 <template #default="scope">
@@ -83,13 +52,12 @@
                     >
                         Edit
                     </el-button>
-
                     <el-popconfirm
                         confirm-button-text="Yes"
                         cancel-button-text="No"
                         icon-color="#626AEF"
                         title="Bạn có muốn xoá không?"
-                        @confirm="() => confirmEvent(scope.row.maSanPham)"
+                        @confirm="() => confirmEvent(scope.row._id)"
                     >
                         <template #reference>
                             <el-button size="small" type="danger">
@@ -113,14 +81,23 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from "vue";
-import { useUserStore } from "~/store";
 import { CirclePlus, StarFilled } from "@element-plus/icons-vue";
-import { apiImage } from "~/constant/request";
-import { deleteProduct, searchProduct } from "~/services/product.service";
 import debounce from "~/utils/debounce";
-import { Product } from "~/constant/api";
+import { MenuItems } from "~/constant/api";
+import { deleteMenuItem, searchMenuItem } from "~/services/menuitem.service";
+import { apiImage } from "~/constant/request";
 import router from "~/router";
 import { ElMessage } from "element-plus";
+import ConvertPrice from "~/utils/convertprice";
+
+const search = ref("");
+const loading = ref(false);
+
+const tableData = ref<MenuItems[]>([]);
+
+const currentPage = ref(1);
+const currentPageSize = ref(10);
+const totalItemPage = ref(0);
 
 const Notification = (
     message: string,
@@ -132,27 +109,19 @@ const Notification = (
     });
 };
 
-const search = ref("");
-const loading = ref(false);
-
-const tableData = ref<Product[]>([]);
-
-const currentPage = ref(1);
-const totalItemPage = ref(0);
-
 watch(currentPage, (newPage: number, oldPage: number) => {
     if (newPage !== oldPage) {
         fetchData(search.value);
     }
 });
 
-const handleEdit = (index: number, row: Product) => {
-    router.push(`/product/edit/${row.maSanPham}`);
+const handleEdit = (index: number, row: MenuItems) => {
+    router.push(`/menuitem/edit/${row._id}`);
 };
 
-const confirmEvent = async (Id: number) => {
+const confirmEvent = async (Id: string) => {
     try {
-        await deleteProduct([Id]);
+        await deleteMenuItem(Id);
         Notification("Xoá thành công", "success");
         fetchData(search.value);
     } catch (error) {
@@ -166,10 +135,10 @@ const fetchData = async (searchTerm = "") => {
     try {
         const payLoad = {
             page: currentPage.value,
-            pageSize: 10,
-            TenSanPham: searchTerm,
+            pageSize: currentPageSize.value,
+            search_term: searchTerm,
         };
-        const res = await searchProduct(payLoad);
+        const res = await searchMenuItem(payLoad);
         totalItemPage.value = res.totalItems;
         tableData.value = res.data;
     } catch (error) {
@@ -191,7 +160,7 @@ onMounted(() => {
 });
 
 const handlerAdd = () => {
-    router.push("/product/add");
+    router.push("/menuitem/add");
 };
 </script>
 
@@ -215,7 +184,7 @@ const handlerAdd = () => {
     height: 70px;
     object-fit: cover;
 }
-.name_product {
+.name_item {
     cursor: pointer;
     overflow: hidden;
     text-overflow: ellipsis;

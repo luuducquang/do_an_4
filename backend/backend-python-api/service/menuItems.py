@@ -1,10 +1,11 @@
 from bson import ObjectId
 from fastapi import HTTPException
 from pymongo.collection import Collection
-from schemas.schemas import MenuItems
+from schemas.schemas import MenuItems, Searchs
 from config.database import database
 
 menuitem_collection: Collection = database['MenuItems']
+categorymenuitem_collection: Collection = database['CategoryMenuItems']
 
 def ser_get_menuitem():
     datas = []
@@ -12,6 +13,60 @@ def ser_get_menuitem():
         data["_id"] = str(data["_id"])
         datas.append(data)
     return datas
+
+def ser_getbyid_menuitem(category_id:str):
+    if not ObjectId.is_valid(category_id):
+            raise HTTPException(status_code=400, detail="Invalid ID format")
+
+    menuitem_data = menuitem_collection.find_one({"_id": ObjectId(category_id)})
+
+    if menuitem_data is None:
+        raise HTTPException(status_code=404, detail="menuitem not found")
+
+    menuitem_data["_id"] = str(menuitem_data["_id"])
+    categorymenuitem_data = categorymenuitem_collection.find_one({"_id": ObjectId(menuitem_data["category_id"])})
+    if categorymenuitem_data:
+        categorymenuitem_data["_id"] = str(categorymenuitem_data["_id"])  
+        menuitem_data["categorymenuitem"] = categorymenuitem_data  
+    else:
+        menuitem_data["categorymenuitem"] = None  
+    return menuitem_data
+
+def ser_search_menuitem(_data:Searchs):
+    if _data.page <= 0 or _data.pageSize <= 0:
+        raise HTTPException(status_code=400, detail="Page and pageSize must be greater than 0")
+    
+    skip = (_data.page - 1) * _data.pageSize
+
+    query = {}
+    if _data.search_term:
+        query["$or"] = [
+            {"name": {"$regex": _data.search_term, "$options": "i"}},
+            {"price": {"$regex": _data.search_term, "$options": "i"}},
+            {"stock_quantity": {"$regex": _data.search_term, "$options": "i"}},
+        ]
+
+    total_items = menuitem_collection.count_documents(query)
+
+    menuitems = menuitem_collection.find(query).skip(skip).limit(_data.pageSize)
+
+    data = []
+    for menuitem in menuitems:
+        menuitem["_id"] = str(menuitem["_id"])
+        categorymenuitem_data = categorymenuitem_collection.find_one({"_id": ObjectId(menuitem["category_id"])})
+        if categorymenuitem_data:
+            categorymenuitem_data["_id"] = str(categorymenuitem_data["_id"])  
+            menuitem["categorymenuitem"] = categorymenuitem_data  
+        else:
+            menuitem["categorymenuitem"] = None  
+        data.append(menuitem)
+
+    return {
+        "page":_data.page,
+        "pageSize":_data.pageSize,
+        "totalItems": total_items,
+        "data": data,
+    }
 
 def ser_insert_menuitem(_data: MenuItems) -> str:
     result = menuitem_collection.insert_one(_data.dict(exclude={"id"}))

@@ -27,14 +27,20 @@
             <router-link to="/table">
                 <el-menu-item index="4">Bàn</el-menu-item>
             </router-link>
+            <router-link to="/pricingrule">
+                <el-menu-item index="4">Quy tắc giá</el-menu-item>
+            </router-link>
         </el-sub-menu>
 
-        <router-link to="/product">
-            <el-menu-item index="2">
+        <el-sub-menu index="">
+            <template #title>
                 <el-icon><Mug /></el-icon>
-                <template #title>Thông tin sản phẩm</template>
-            </el-menu-item>
-        </router-link>
+                <span>Sản phẩm</span>
+            </template>
+            <router-link to="/menuitem">
+                <el-menu-item index="3">Đồ ăn</el-menu-item>
+            </router-link>
+        </el-sub-menu>
 
         <el-sub-menu index="3-4">
             <template #title>

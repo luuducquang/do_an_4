@@ -2179,7 +2179,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"sua chua\",\r\n    \"stock_quantity\": 1,\r\n    \"image\": \"\",\r\n    \"price\": 1000,\r\n    \"category_id\": \"qweqweq5we5qw15eq\"\r\n}",
+							"raw": "{\r\n    \"name\": \"sua chua\",\r\n    \"stock_quantity\": 1,\r\n    \"image\": \"\",\r\n    \"price\": 1000,\r\n    \"category_id\": \"6703a4edb3ec6cd088b2483f\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2258,6 +2258,52 @@
 								"menuitems",
 								"delete",
 								"66f8d241363f4dac36fc3081"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getbyidMenuItem",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/menuitems/get/671083778b9643f1cb5fd63e",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"menuitems",
+								"get",
+								"671083778b9643f1cb5fd63e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchMenuItem",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/menuitems/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"menuitems",
+								"search"
 							]
 						}
 					},
@@ -2389,7 +2435,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"type_table_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"rate_per_hour\": 90000,\r\n    \"rate_per_minute\": 100000\r\n}",
+							"raw": "{\r\n    \"type_table_id\": \"66f7f0c63bba28672d537139\",\r\n    \"rate_per_hour\": 90000,\r\n    \"rate_per_minute\": 100000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2450,6 +2496,25 @@
 								"pricingrules",
 								"delete",
 								"66f8d51f8752ac18b6ac02ee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getbyidPricingRule",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/pricingrules/get/6710677846f7bcdf4d3329d3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pricingrules",
+								"get",
+								"6710677846f7bcdf4d3329d3"
 							]
 						}
 					},

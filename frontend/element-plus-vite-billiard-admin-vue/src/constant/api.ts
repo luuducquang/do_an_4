@@ -101,6 +101,24 @@ export interface Employees {
     user_info?: Users;
 }
 
+export interface PricingRules {
+    _id?: string;
+    type_table_id: string;
+    rate_per_hour: number;
+    rate_per_minute: number;
+    tabletype?: TableTypes;
+}
+
+export interface MenuItems {
+    _id?: string;
+    name: string;
+    image: string;
+    stock_quantity: number;
+    price: number;
+    category_id: string;
+    categorymenuitem?: CategoryMenuItems;
+}
+
 export interface OptionSelect {
     value: string | number;
     label: string;

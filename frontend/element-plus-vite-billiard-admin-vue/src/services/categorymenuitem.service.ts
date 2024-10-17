@@ -2,6 +2,11 @@ import { CategoryMenuItems, ResponseData } from "~/constant/api";
 import { apiClient } from "../constant/request";
 import { CategoryMenuItemUrl } from "~/constant/endpoints";
 
+export const getAllCategoryMenuItem = async (): Promise<CategoryMenuItems[]> => {
+    const res = await apiClient?.get(`${CategoryMenuItemUrl}/get`);
+    return res?.data;
+};
+
 export const searchCategoryMenuItem = async (
     data: Record<string, string | number>
 ): Promise<ResponseData<CategoryMenuItems>> => {
@@ -33,8 +38,6 @@ export const deleteCategoryMenuItem = async (
 export const getbyIdCategoryMenuItem = async (
     id: string
 ): Promise<CategoryMenuItems> => {
-    const res = await apiClient?.get(
-        `${CategoryMenuItemUrl}/get/` + id
-    );
+    const res = await apiClient?.get(`${CategoryMenuItemUrl}/get/` + id);
     return res?.data;
 };

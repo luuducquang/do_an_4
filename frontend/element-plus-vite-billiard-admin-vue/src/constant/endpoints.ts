@@ -11,3 +11,5 @@ export const EmployeeTypeUrl = "/employeetypes";
 export const EmployeeUrl = "/employees";
 export const TableTypeUrl = "/tabletypes";
 export const TableUrl = "/tables";
+export const PricingRuleUrl = "/pricingrules";
+export const MenuItemUrl = "/menuitems";
