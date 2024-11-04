@@ -14,11 +14,11 @@ def ser_get_menuitem():
         datas.append(data)
     return datas
 
-def ser_getbyid_menuitem(category_id:str):
-    if not ObjectId.is_valid(category_id):
+def ser_getbyid_menuitem(menuitem_id:str):
+    if not ObjectId.is_valid(menuitem_id):
             raise HTTPException(status_code=400, detail="Invalid ID format")
 
-    menuitem_data = menuitem_collection.find_one({"_id": ObjectId(category_id)})
+    menuitem_data = menuitem_collection.find_one({"_id": ObjectId(menuitem_id)})
 
     if menuitem_data is None:
         raise HTTPException(status_code=404, detail="menuitem not found")

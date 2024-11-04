@@ -40,6 +40,9 @@
             <router-link to="/menuitem">
                 <el-menu-item index="3">Đồ ăn</el-menu-item>
             </router-link>
+            <router-link to="/rentalitem">
+                <el-menu-item index="3">Đồ thuê</el-menu-item>
+            </router-link>
         </el-sub-menu>
 
         <el-sub-menu index="3-4">

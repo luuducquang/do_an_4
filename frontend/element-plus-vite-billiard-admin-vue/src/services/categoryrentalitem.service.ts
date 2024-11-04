@@ -2,6 +2,13 @@ import { CategoryRentalItems, ResponseData } from "~/constant/api";
 import { apiClient } from "../constant/request";
 import { CategoryRentalItemUrl } from "~/constant/endpoints";
 
+export const getAllCategoryRentalItem = async (): Promise<
+    CategoryRentalItems[]
+> => {
+    const res = await apiClient?.get(`${CategoryRentalItemUrl}/get`);
+    return res?.data;
+};
+
 export const searchCategoryRentalItem = async (
     data: Record<string, string | number>
 ): Promise<ResponseData<CategoryRentalItems>> => {
@@ -35,8 +42,6 @@ export const deleteCategoryRentalItem = async (
 export const getbyIdCategoryRentalItem = async (
     id: string
 ): Promise<CategoryRentalItems> => {
-    const res = await apiClient?.get(
-        `${CategoryRentalItemUrl}/get/` + id
-    );
+    const res = await apiClient?.get(`${CategoryRentalItemUrl}/get/` + id);
     return res?.data;
 };

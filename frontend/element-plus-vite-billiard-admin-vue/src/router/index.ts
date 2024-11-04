@@ -155,7 +155,6 @@ const routes = [
                     },
                 ],
             },
-
             {
                 path: "menuitem",
                 name: "MenuItem",
@@ -196,6 +195,53 @@ const routes = [
                             ),
                         meta: {
                             breadcrumbName: "Sửa đồ ăn",
+                            requiresAuth: true,
+                        },
+                    },
+                ],
+            },
+            {
+                path: "rentalitem",
+                name: "RentalItem",
+                component: LayoutView,
+                meta: {
+                    breadcrumbName: "Đồ thuê",
+                    requiresAuth: true,
+                },
+                children: [
+                    {
+                        path: "",
+                        name: "ListRentalItem",
+                        component: () =>
+                            import(
+                                "~/components/RentalItem/ListRentalItem.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Danh sách",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "add",
+                        name: "AddRentalItem",
+                        component: () =>
+                            import(
+                                "~/components/RentalItem/AddorEditRentalItem.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Thêm sản phẩm thuê",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "edit/:id",
+                        name: "EditRentalItem",
+                        component: () =>
+                            import(
+                                "~/components/RentalItem/AddorEditRentalItem.vue"
+                            ),
+                        meta: {
+                            breadcrumbName: "Sửa sản phẩm thuê",
                             requiresAuth: true,
                         },
                     },

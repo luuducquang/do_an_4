@@ -121,7 +121,7 @@ class RentalItems (BaseModel):
     rental_price_day: int
     rental_price_hours: int
     quantity_available: int
-    view: int
+    view: int = Field(default=0)
     origin: str
     description: str
     description_detail: str

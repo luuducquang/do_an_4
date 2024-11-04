@@ -119,6 +119,25 @@ export interface MenuItems {
     categorymenuitem?: CategoryMenuItems;
 }
 
+export interface RentalItems {
+    _id?: string;
+    manufactor_id: string;
+    category_id: string;
+    item_name: string;
+    image: string;
+    price: number;
+    price_reduction: number;
+    rental_price_day: number;
+    rental_price_hours: number;
+    quantity_available: number;
+    view?: number;
+    origin: string;
+    description: string;
+    description_detail: string;
+    categoryrentalitem?: CategoryRentalItems;
+    manufactor?: Manufactors;
+}
+
 export interface OptionSelect {
     value: string | number;
     label: string;

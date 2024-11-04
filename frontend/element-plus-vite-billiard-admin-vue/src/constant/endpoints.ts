@@ -13,3 +13,4 @@ export const TableTypeUrl = "/tabletypes";
 export const TableUrl = "/tables";
 export const PricingRuleUrl = "/pricingrules";
 export const MenuItemUrl = "/menuitems";
+export const RentalItemUrl = "/rentalitems";
