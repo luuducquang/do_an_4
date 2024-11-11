@@ -30,6 +30,7 @@ export interface Tables {
     table_type_id: string;
     status: boolean;
     tabletype?: TableTypes;
+    pricingrule?: PricingRules;
 }
 
 export interface News {

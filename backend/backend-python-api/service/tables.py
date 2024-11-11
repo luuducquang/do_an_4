@@ -6,6 +6,7 @@ from config.database import database
 
 table_collection: Collection = database['Tables']
 tabletype_collection: Collection = database['TableTypes']
+pricingrule_collection: Collection = database['PricingRules']
 
 def ser_get_table():
     datas = []
@@ -36,6 +37,14 @@ def ser_getbyid_table(table_id:str):
     if tabletype_data:
         tabletype_data["_id"] = str(tabletype_data["_id"])  
         table["tabletype"] = tabletype_data  
+
+        pricingrule_data = pricingrule_collection.find_one({"type_table_id": tabletype_data["_id"]})
+        if(pricingrule_data):
+            pricingrule_data["_id"] = str(pricingrule_data["_id"])  
+            table["pricingrule"] = pricingrule_data  
+        else:
+            table["pricingrule"] = None 
+            print(f"No pricing rule found for table type ID: {tabletype_data['_id']}")
     else:
         table["tabletype"] = None  
     return table

@@ -27,8 +27,8 @@
                         :style="{
                             color:
                                 scope.row.status === true
-                                    ? '#33CC33'
-                                    : '#CC3333',
+                                    ? '#CC3333'
+                                    : '#33CC33',
                         }"
                     >
                         {{ scope.row.status ? "Đang sử dụng" : "Đang trống" }}

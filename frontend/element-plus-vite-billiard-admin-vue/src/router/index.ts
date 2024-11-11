@@ -13,14 +13,57 @@ const routes = [
         path: "/",
         component: DefaultLayout,
         children: [
+            // {
+            //     path: "",
+            //     name: "Home",
+            //     component: () => import("~/components/Home/ListHome.vue"),
+            //     meta: {
+            //         breadcrumbName: "Danh sách bàn",
+            //         requiresAuth: true,
+            //     },
+            //     children: [
+            //         {
+            //             path: "/:id",
+            //             name: "DetailHomeTable",
+            //             component: () =>
+            //                 import("~/components/Home/DetailHomeTable.vue"),
+            //             meta: {
+            //                 breadcrumbName: "Thônng tin bàn :id",
+            //                 requiresAuth: true,
+            //             },
+            //         },
+            //     ],
+            // },
             {
                 path: "",
                 name: "Home",
-                component: () => import("~/views/Home.vue"),
+                component: LayoutView,
                 meta: {
-                    breadcrumbName: "Tổng quan",
+                    breadcrumbName: "Trang chủ",
                     requiresAuth: true,
                 },
+                children: [
+                    {
+                        path: "",
+                        name: "Home",
+                        component: () =>
+                            import("~/components/Home/ListHome.vue"),
+                        meta: {
+                            breadcrumbName: "Danh sách bàn",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "/:id",
+                        name: "DetailHomeTable",
+                        component: () =>
+                            import("~/components/Home/DetailHomeTable.vue"),
+                        meta: {
+                            breadcrumbName: "Thônng tin bàn",
+                            requiresAuth: true,
+                        },
+                    },
+                ],
             },
             {
                 path: "tabletype",
