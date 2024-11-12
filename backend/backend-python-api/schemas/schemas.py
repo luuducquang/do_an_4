@@ -83,6 +83,24 @@ class Tables(BaseModel):
     table_number: int
     table_type_id: str
     status: Optional[bool]
+    start_date: Optional[datetime] = None
+    end_date: Optional[datetime] = None
+
+class TableMenuItems(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
+    table_id:str
+    item_id: str
+    quantity: int
+    unit_price: int
+    total_price: int
+
+class TableRentalItems(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
+    table_id:str
+    item_id: str
+    quantity: int
+    unit_price: int
+    total_price: int
 
 class Suppliers(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  

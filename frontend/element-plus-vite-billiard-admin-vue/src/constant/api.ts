@@ -29,8 +29,30 @@ export interface Tables {
     table_number: number;
     table_type_id: string;
     status: boolean;
+    start_date?: String;
+    end_date?: String;
     tabletype?: TableTypes;
     pricingrule?: PricingRules;
+}
+
+export interface TableMenuItems {
+    _id?: string;
+    table_id: string;
+    item_id: string;
+    quantity: number;
+    unit_price: number;
+    total_price: number;
+    menuitem?: MenuItems;
+}
+
+export interface TableRentalItems {
+    _id?: string;
+    table_id: string;
+    item_id: string;
+    quantity: number;
+    unit_price: number;
+    total_price: number;
+    rentalitem?: RentalItems;
 }
 
 export interface News {
@@ -142,4 +164,5 @@ export interface RentalItems {
 export interface OptionSelect {
     value: string | number;
     label: string;
+    price?: number;
 }

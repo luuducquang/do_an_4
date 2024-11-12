@@ -59,7 +59,7 @@ const routes = [
                         component: () =>
                             import("~/components/Home/DetailHomeTable.vue"),
                         meta: {
-                            breadcrumbName: "Thônng tin bàn",
+                            breadcrumbName: "Thông tin bàn",
                             requiresAuth: true,
                         },
                     },

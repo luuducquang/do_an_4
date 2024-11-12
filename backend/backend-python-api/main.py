@@ -26,6 +26,8 @@ from routes.importBills import router as importbills_router
 from routes.importItems import router as importitems_router
 from routes.news import router as news_router
 from routes.login import router as login_router
+from routes.tablemenuitems import router as table_menu_items_router
+from routes.tablerentalitems import router as table_rental_items_router
 
 app = FastAPI()
 
@@ -70,5 +72,7 @@ app.include_router(importbills_router)
 app.include_router(importitems_router)
 app.include_router(news_router)
 app.include_router(login_router)
+app.include_router(table_menu_items_router)
+app.include_router(table_rental_items_router)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
