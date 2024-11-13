@@ -3,12 +3,15 @@
         <div class="type">
             <NuxtLink to="/">TRANG CHỦ</NuxtLink>
             <i class="fa-solid fa-arrow-right"></i>
-            <NuxtLink :to="`/category/${productDetail?.tenDanhMuc}`">{{
-                productDetail?.tenDanhMuc
-            }}</NuxtLink>
+            <NuxtLink
+                :to="`/category/${productDetail?.categoryrentalitem?.category_name}`"
+                >{{
+                    productDetail?.categoryrentalitem?.category_name
+                }}</NuxtLink
+            >
             <i class="fa-solid fa-arrow-right"></i>
-            <NuxtLink :to="`/detail/${productDetail?.maSanPham}`">{{
-                productDetail?.tenSanPham
+            <NuxtLink :to="`/detail/${productDetail?._id}`">{{
+                productDetail?.item_name
             }}</NuxtLink>
         </div>
     </div>
@@ -17,7 +20,7 @@
             <div class="col-lg-5 col-md-6 col-sm-6">
                 <span class="product-item-img"
                     ><img
-                        :src="apiImage + productDetail?.anhDaiDien"
+                        :src="apiImage + productDetail?.image"
                         alt="anh san pham"
                 /></span>
                 <div class="miror"></div>
@@ -42,7 +45,7 @@
                     <tr>
                         <td>
                             <div class="product-item-name">
-                                {{ productDetail?.tenSanPham }}
+                                {{ productDetail?.item_name }}
                             </div>
                         </td>
                     </tr>
@@ -51,16 +54,16 @@
                         <td>
                             <div class="product-item_price">
                                 <span class="product-item_price_old">{{
-                                    productDetail?.gia > 0
-                                        ? productDetail?.gia.toLocaleString(
+                                    productDetail?.price > 0
+                                        ? productDetail?.price.toLocaleString(
                                               "de-DE"
                                           )
                                         : ""
                                 }}</span
                                 ><sup>đ</sup>
                                 <span class="product-item_price_current">{{
-                                    productDetail?.giaGiam > 0
-                                        ? productDetail?.giaGiam.toLocaleString(
+                                    productDetail?.price_reduction > 0
+                                        ? productDetail?.price_reduction.toLocaleString(
                                               "de-DE"
                                           )
                                         : ""
@@ -78,13 +81,19 @@
                                 <span
                                     :style="{
                                         color:
-                                            productDetail.soLuong < 5
+                                            Number(
+                                                productDetail?.quantity_available
+                                            ) < 5
                                                 ? '#FF3300'
                                                 : '#33CC00',
                                     }"
                                     >{{
-                                        productDetail?.soLuong > 0
-                                            ? productDetail?.soLuong < 5
+                                        Number(
+                                            productDetail?.quantity_available
+                                        ) > 0
+                                            ? Number(
+                                                  productDetail?.quantity_available
+                                              ) < 5
                                                 ? "Hết hàng"
                                                 : "Còn hàng"
                                             : ""
@@ -98,16 +107,16 @@
                         <td>
                             Lượt xem :
                             {{
-                                productDetail?.luotXem > 0
-                                    ? productDetail?.luotXem.toLocaleString(
-                                          "de-DE"
-                                      )
+                                Number(productDetail?.view) > 0
+                                    ? Number(
+                                          productDetail?.view
+                                      ).toLocaleString("de-DE")
                                     : ""
                             }}
                         </td>
                     </tr>
 
-                    <tr>
+                    <!-- <tr>
                         <td>
                             Đã bán :
                             {{
@@ -118,31 +127,31 @@
                                     : ""
                             }}
                         </td>
-                    </tr>
+                    </tr> -->
 
                     <tr>
                         <td>
                             <span class="origin">Xuất xứ : </span>
                             <span class="country-origin">{{
-                                productDetail?.xuatXu
+                                productDetail?.origin
                             }}</span>
                         </td>
                     </tr>
 
-                    <tr>
+                    <!-- <tr>
                         <td>
                             <div class="product-item-capacity">
                                 <span class="capacity-name">Dung tích : </span>
                                 <span class="size">{{
                                     productDetail?.trongLuong
                                 }}</span>
-                                <!-- <div class="capacity-volume">
+                                <div class="capacity-volume">
                                     <input type="radio" id="1" name="capacity" class="size-mini">235ml</input>
                                     <input type="radio" id="1" name="capacity" class="size-big">473ml</input>
-                                </div> -->
+                                </div>
                             </div>
                         </td>
-                    </tr>
+                    </tr> -->
 
                     <tr>
                         <td>
@@ -241,7 +250,7 @@
                 </table>
             </div>
         </div>
-        <div class="bind_html" v-html="productDetail.chiTiet"></div>
+        <div class="bind_html" v-html="productDetail?.description_detail"></div>
         <div class="recomend">
             <h1>Sản phẩm cùng loại</h1>
             <div class="list_item_recomend">
@@ -249,7 +258,7 @@
                     <div
                         class="col-lg-2 col-md-4 col-sm-6 col-6"
                         v-for="product in productRecomend"
-                        :key="product.maSanPham"
+                        :key="product._id"
                     >
                         <item-product-recomend
                             :product="product"
@@ -291,7 +300,7 @@ const titleAddItem = ref("");
 
 const { data: detailData, error: erDetail } = await useAsyncData(
     "productDetail",
-    () => getProductById(Number(id))
+    () => getProductById(String(id))
 );
 
 if (detailData.value) {
@@ -306,7 +315,7 @@ const { data: recomendData, error: erRecomend } = await useAsyncData(
         getProductRecomend({
             page: 1,
             pageSize: 6,
-            TenDanhMuc: productDetail.value?.tenDanhMuc,
+            category_name: productDetail?.categoryrentalitem?.category_name,
         })
 );
 
@@ -331,32 +340,33 @@ const addCart = async () => {
     if (customerData) {
         try {
             const customer = JSON.parse(customerData);
-            const cart = await getGioHangByIdTaiKhoan(customer.mataikhoan);
+            const cart = await getGioHangByIdTaiKhoan(customer._id);
             // console.log(cart);
             const isEmptyProduct = cart.find(
-                (value) => Number(value.maSanPham) === Number(id)
+                (value) => String(value.item_id) === String(id)
             );
 
             if (isEmptyProduct) {
                 await updateCart({
-                    MaGioHang: Number(isEmptyProduct.maGioHang),
-                    MaSanPham: Number(isEmptyProduct.maSanPham),
-                    SoLuongMua:
-                        amountProduct.value + Number(isEmptyProduct.soLuongMua),
-                    TrangThai: isEmptyProduct.trangThai,
+                    _id: String(isEmptyProduct._id),
+                    item_id: String(isEmptyProduct.item_id),
+                    user_id:"",
+                    quantity:
+                        amountProduct.value + Number(isEmptyProduct.quantity),
+                    status: isEmptyProduct.status,
                 });
                 titleAddItem.value =
                     "Sản phẩm tồn tại, đã tăng số lượng trong giỏ hàng!";
             } else {
                 await createCart({
-                    MaTaiKhoan: customer.mataikhoan,
-                    MaSanPham: Number(id),
-                    SoLuongMua: amountProduct.value,
-                    TrangThai: false,
+                    item_id: String(id),
+                    user_id:customer._id,
+                    quantity: amountProduct.value,
+                    status: false,
                 });
                 titleAddItem.value = "Sản phẩm đã được thêm vào giỏ hàng!";
                 const cartOld = await getGioHangByIdTaiKhoan(
-                    customer.mataikhoan
+                    customer._id
                 );
                 store.setCart(cartOld);
             }

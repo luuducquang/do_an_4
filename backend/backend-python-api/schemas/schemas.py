@@ -7,6 +7,7 @@ class Searchs(BaseModel):
     page: int = Body(...),
     pageSize: int = Body(...),
     search_term: Optional[str] = Body(None)
+    category_name:Optional[str] = Body(None)
 
 class LoginRequest(BaseModel):
     username: str
@@ -199,8 +200,12 @@ class ImportItems(BaseModel):
     unit_price: int
     total_price: int
 
-
-
-
+class Carts(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
+    user_id:str
+    item_id:str
+    quantity:int
+    status:bool
+    
 
 

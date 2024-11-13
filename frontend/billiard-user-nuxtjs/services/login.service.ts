@@ -5,6 +5,6 @@ import { apiClient } from "~/constant/request";
 export const login = async (
     data: Record<string, string | number>
 ): Promise<User> => {
-    const res = await apiClient?.post(`${UserUrl}/login`, data);
+    const res = await apiClient?.post(`/login`, data);
     return res?.data;
 };

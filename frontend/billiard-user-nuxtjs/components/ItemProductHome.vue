@@ -1,49 +1,54 @@
 <template>
     <div class="home-product-item">
-        <NuxtLink class="linkproduct" :to="`/detail/${product?.maSanPham}`">
+        <NuxtLink class="linkproduct" :to="`/detail/${product?._id}`">
             <div class="home-product-item_img">
                 <img
                     style="min-height: 200px; min-width: 100px"
-                    :src="apiImage + product?.anhDaiDien"
+                    :src="apiImage + product?.image"
                     alt=""
                 />
             </div>
-            <h4 class="home-product-item_name">{{ product?.tenSanPham }}</h4>
-            <span class="decrip-item">{{ product?.moTa }} </span>
+            <h4 class="home-product-item_name">{{ product?.item_name }}</h4>
+            <span class="decrip-item">{{ product?.description }} </span>
         </NuxtLink>
         <span v-if="isSale" class="banner-sale">SALE</span>
         <span class="sale-up"
-            >{{ (100 - (product?.giaGiam / product?.gia) * 100).toFixed() }}
+            >{{
+                (
+                    100 -
+                    (product?.price_reduction / product?.price) * 100
+                ).toFixed()
+            }}
             <sup>%</sup>
             <div>Giảm</div></span
         >
         <div class="home-product-item_price">
             <span class="home-product-item_price_current"
                 >{{
-                    product?.giaGiam > 0
-                        ? product?.giaGiam.toLocaleString("DE-de")
+                    product?.price_reduction > 0
+                        ? product?.price_reduction.toLocaleString("DE-de")
                         : ""
                 }}<sup>đ</sup></span
             >
             <span class="home-product-item_price_old"
                 >{{
-                    product?.gia > 0
-                        ? product?.gia.toLocaleString("DE-de")
+                    product?.price > 0
+                        ? product?.price.toLocaleString("DE-de")
                         : ""
                 }}<sup>đ</sup></span
             >
         </div>
-        <div class="icon_item_product">
+        <!-- <div class="icon_item_product">
             <div class="home-icon-recommend">
-                <span v-if="product?.danhGia > 0">{{
-                    product?.danhGia > 0 ? product?.danhGia.toFixed(1) : ""
+                <span v-if="product?.view > 0">{{
+                    product?.view > 0 ? product?.view.toFixed(1) : ""
                 }}</span>
                 <i
-                    v-if="product?.danhGia > 0"
+                    v-if="product?.view > 0"
                     title="Đánh giá"
                     class="fa-solid fa-star"
                 ></i>
-                <span v-if="product?.danhGia > 0">|</span>
+                <span v-if="product?.view > 0">|</span>
                 <span title="Đã bán" class="fa-solid fa-shop"></span>
                 <span title="Đã bán" class="amount-product">{{
                     product?.luotBan > 0
@@ -52,18 +57,18 @@
                 }}</span>
             </div>
             <span class="fa-solid fa-truck-fast free-ship"></span>
-        </div>
+        </div> -->
         <div class="icon_item_product">
-            <div class="view">
+            <div v-show="Number(product?.view) > 0" class="view">
                 <i class="fa-solid fa-eye"></i>
                 {{
-                    product?.luotXem > 0
-                        ? product?.luotXem.toLocaleString("DE-de")
+                    Number(product?.view) > 0
+                        ? Number(product?.view).toLocaleString("DE-de")
                         : ""
                 }}
             </div>
             <div class="country">
-                {{ product?.xuatXu }}
+                {{ product?.origin }}
             </div>
         </div>
     </div>

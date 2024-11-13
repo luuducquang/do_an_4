@@ -1084,7 +1084,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"table_number\": 1,\r\n    \"table_type_id\": \"66f7f0c63bba28672d537139\",\r\n    \"status\": true\r\n}",
+							"raw": "{\r\n    \"table_number\": 17,\r\n    \"table_type_id\": \"66f7f0c63bba28672d537139\",\r\n    \"status\": true,\r\n    \"start_date\":\"2024-11-12 10:55:52\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1129,7 +1129,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\":\"66f7f22db976c53543917b4e\",\r\n    \"table_number\": 2,\r\n    \"table_type_id\": \"12312gfdgdgdfg31\",\r\n    \"status\": true\r\n}",
+							"raw": "{\r\n    \"_id\":\"6732cedd52e9e56c542a248d\",\r\n    \"table_number\": 1,\r\n    \"table_type_id\": \"66f7f0c63bba28672d537139\",\r\n    \"status\": false,\r\n    \"start_date\":\"2024-11-12 10:55:52\",\r\n    \"end_date\":\"2024-11-12 10:55:56\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1155,14 +1155,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/tables/delete/66f7f27db976c53543917b4f",
+							"raw": "{{host}}/tables/delete/6732d28052e9e56c542a2499",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"tables",
 								"delete",
-								"66f7f27db976c53543917b4f"
+								"6732d28052e9e56c542a2499"
 							]
 						}
 					},
@@ -1174,14 +1174,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/tables/get/670fe82f84708737cd52f8af",
+							"raw": "{{host}}/tables/get/6732cedd52e9e56c542a248d",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"tables",
 								"get",
-								"670fe82f84708737cd52f8af"
+								"6732cedd52e9e56c542a248d"
 							]
 						}
 					},
@@ -2753,6 +2753,274 @@
 								"importitems",
 								"delete",
 								"6703ac35d6934953bc31f32c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TableMenuItems",
+			"item": [
+				{
+					"name": "addTableMenuItems",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"table_id\": \"6710887b9456a9b32225c7af\",\r\n    \"item_id\": \"6710887b9456a9b32225c7af\",\r\n    \"quantity\": 1,\r\n    \"unit_price\": 10000,\r\n    \"total_price\": 10000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/tablemenuitems/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tablemenuitems",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTableMenuItems",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tablemenuitems/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tablemenuitems",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editTableMenuItems",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"6732f0501bed456b740649da\",\r\n    \"table_id\": \"6703a4edb3ec6cd088b2483f\",\r\n    \"item_id\": \"6710887b9456a9b32225c7af\",\r\n    \"quantity\": 10,\r\n    \"unit_price\": 10000,\r\n    \"total_price\": 100000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/tablemenuitems/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tablemenuitems",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTableMenuItems",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tablemenuitems/deletes/6710887b9456a9b32225c7af",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tablemenuitems",
+								"deletes",
+								"6710887b9456a9b32225c7af"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteMenuItem",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tablemenuitems/deleteitem/6733178ef42c21ff9487b921",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tablemenuitems",
+								"deleteitem",
+								"6733178ef42c21ff9487b921"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getbyidTableMenuItem",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tablemenuitems/get/6710887b9456a9b32225c7af",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tablemenuitems",
+								"get",
+								"6710887b9456a9b32225c7af"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TableRentalItems",
+			"item": [
+				{
+					"name": "addTableRentalItems",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"table_id\": \"6710887b9456a9b32225c7af\",\r\n    \"item_id\": \"6728dbf2ca79a63e267e6760\",\r\n    \"quantity\": 1,\r\n    \"unit_price\": 10000,\r\n    \"total_price\": 10000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/tablerentalitems/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tablerentalitems",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTableRentalItems",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tablerentalitems/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tablerentalitems",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editTableRentalItems",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"6732f44cf42c21ff9487b91f\",\r\n    \"table_id\": \"6710887b9456a9b32225c7af\",\r\n    \"item_id\": \"6728dbf2ca79a63e267e6760\",\r\n    \"quantity\": 100,\r\n    \"unit_price\": 10000,\r\n    \"total_price\": 100000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/tablerentalitems/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tablerentalitems",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTableRentalItems",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tablerentalitems/deletes/6710887b9456a9b32225c7af",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tablerentalitems",
+								"deletes",
+								"6710887b9456a9b32225c7af"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteRentalItem",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tablerentalitems/deleteitem/6710887b9456a9b32225c7af",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tablerentalitems",
+								"deleteitem",
+								"6710887b9456a9b32225c7af"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getbyidTableRentalItem",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tablerentalitems/get/6710887b9456a9b32225c7af",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tablerentalitems",
+								"get",
+								"6710887b9456a9b32225c7af"
 							]
 						}
 					},

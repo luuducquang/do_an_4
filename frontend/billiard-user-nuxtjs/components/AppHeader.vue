@@ -44,12 +44,12 @@
                             Danh mục
                         </NuxtLink>
                         <ul class="dropdown-menu">
-                            <div v-for="item in category" :key="item.maDanhMuc">
+                            <div v-for="item in category" :key="item._id">
                                 <li>
                                     <a
                                         class="dropdown-item"
-                                        :href="`/category/${item.tenDanhMuc}`"
-                                        >{{ item.tenDanhMuc }}</a
+                                        :href="`/category/${item.category_name}`"
+                                        >{{ item.category_name }}</a
                                     >
                                 </li>
                             </div>
@@ -115,10 +115,10 @@
                         >
                             <img
                                 class="img_user"
-                                :src="apiImage + customer?.anhdaidien"
+                                :src="apiImage + customer?.avatar"
                                 alt="Image"
                             />
-                            <p>{{ customer.hoten }}</p>
+                            <p>{{ customer.fullname }}</p>
                         </div>
 
                         <ul class="dropdown-menu w-100">
@@ -183,7 +183,7 @@ onMounted(async () => {
             const parseCustomer = JSON.parse(customerData);
             customer.value = parseCustomer;
             const listCarts = await getGioHangByIdTaiKhoan(
-                parseCustomer.mataikhoan
+                parseCustomer._id
             );
             store.setCart(listCarts);
         } catch (error) {

@@ -9,7 +9,7 @@
             <div
                 class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6 mb-4 d-flex"
                 v-for="product in products"
-                :key="product.maSanPham"
+                :key="product._id"
             >
                 <item-product-home :product="product" :isSale="false" />
             </div>
@@ -35,9 +35,12 @@
                     :key="page"
                     :class="{ active: page === currentPage }"
                 >
-                    <NuxtLink class="page-link" to="#" @click="changePage(page)">{{
-                        page
-                    }}</NuxtLink>
+                    <NuxtLink
+                        class="page-link"
+                        to="#"
+                        @click="changePage(page)"
+                        >{{ page }}</NuxtLink
+                    >
                 </li>
                 <li
                     class="page-item"
@@ -75,7 +78,7 @@ const fetchProducts = async (page: number) => {
         getProductCategory({
             page,
             pageSize: 12,
-            TenDanhMuc: name,
+            category_name: String(name),
         })
     );
 

@@ -1,38 +1,38 @@
 <template>
     <div class="product-recommend">
-        <NuxtLink :to="`/detail/${product?.maSanPham}`">
+        <NuxtLink :to="`/detail/${product?._id}`">
             <div class="product-recommend-img">
-                <img :src="apiImage + product?.anhDaiDien" alt="" />
+                <img :src="apiImage + product?.image" alt="" />
             </div>
             <span class="product-recommend-price"
                 >{{
-                    product?.giaGiam > 0
-                        ? product?.giaGiam.toLocaleString("de-DE")
+                    product?.price_reduction > 0
+                        ? product?.price_reduction.toLocaleString("de-DE")
                         : ""
                 }}<sup>đ</sup></span
             >
             <span class="product-recommend-price-old"
                 >{{
-                    product?.gia > 0
-                        ? product?.gia.toLocaleString("de-DE")
+                    product?.price > 0
+                        ? product?.price.toLocaleString("de-DE")
                         : ""
                 }}<sup>đ</sup></span
             >
             <div class="sale-off">
                 {{
-                    product?.giaGiam > 0 && product.gia > 0
+                    product?.price_reduction > 0 && product.price > 0
                         ? (
                               100 -
-                              (product?.giaGiam / product?.gia) * 100
+                              (product?.price_reduction / product?.price) * 100
                           ).toFixed()
                         : ""
                 }}<sup>%</sup>
             </div>
-            <div :title="product?.tenSanPham" class="product-recommend-name">
-                {{ product?.tenSanPham }}
+            <div :title="product?.item_name" class="product-recommend-name">
+                {{ product?.item_name }}
             </div>
         </NuxtLink>
-        <div class="icon-recommend">
+        <!-- <div class="icon-recommend">
             <span title="Đánh giá" v-if="product?.danhGia > 0">{{
                 product?.danhGia > 0 ? product?.danhGia.toFixed() : ""
             }}</span>
@@ -53,7 +53,7 @@
                 class="amount-product"
                 >{{ product?.luotBan }}</span
             >
-        </div>
+        </div> -->
     </div>
 </template>
 

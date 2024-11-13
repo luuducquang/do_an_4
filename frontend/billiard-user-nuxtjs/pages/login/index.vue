@@ -87,11 +87,7 @@ const onFinish = async () => {
         });
         res.isRemember = remember.value;
 
-        if (res.message) {
-        } else {
-            await loginSuccess(res);
-        }
-        console.log(username.value, password.value);
+        await loginSuccess(res.user);
     } catch (error) {
         console.error("Error logging in:", error);
     } finally {

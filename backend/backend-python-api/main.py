@@ -28,6 +28,7 @@ from routes.news import router as news_router
 from routes.login import router as login_router
 from routes.tablemenuitems import router as table_menu_items_router
 from routes.tablerentalitems import router as table_rental_items_router
+from routes.carts import router as carts_router
 
 app = FastAPI()
 
@@ -36,6 +37,7 @@ origins = [
     "https://localhost.tiangolo.com",
     "http://localhost",
     "http://localhost:5173",
+    "http://localhost:3000",
 ]
 
 app.add_middleware(
@@ -74,5 +76,6 @@ app.include_router(news_router)
 app.include_router(login_router)
 app.include_router(table_menu_items_router)
 app.include_router(table_rental_items_router)
+app.include_router(carts_router)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")

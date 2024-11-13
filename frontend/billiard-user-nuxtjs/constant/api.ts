@@ -6,31 +6,48 @@ export interface ResponseData<T> {
 }
 
 export interface Product {
-    maSanPham: number;
-    tenSanPham: string;
-    anhDaiDien: string;
-    giaGiam: number;
-    gia: number;
-    soLuong: number;
-    luotBan: number;
-    luotXem: number;
-    danhGia: number;
-    trongLuong: string;
-    moTa: string;
-    tendanhmucuudai?: string;
-    tenDanhMuc?: string;
-    xuatXu: string;
+    _id?: string;
+    manufactor_id: string;
+    category_id: string;
+    item_name: string;
+    image: string;
+    price: number;
+    price_reduction: number;
+    rental_price_day: number;
+    rental_price_hours: number;
+    quantity_available: number;
+    view?: number;
+    origin: string;
+    description: string;
+    description_detail: string;
+    categoryrentalitem?: CategoryRentalItems;
+    manufactor?: Manufactors;
+}
+
+export interface CategoryRentalItems {
+    _id?: string;
+    category_name: string;
+}
+
+export interface Manufactors {
+    _id?: string;
+    name: string;
+    phone: string;
+    address: string;
 }
 
 export interface User {
-    anhdaidien: string;
+    _id?: string;
+    username: string;
+    password: string;
+    fullname: string;
     email: string;
-    hoten: string;
-    maLoaitaikhoan: number;
-    mataikhoan: number;
-    sodienthoai: string;
-    taikhoan: string;
-    token: string;
+    phone: string;
+    address: string;
+    avatar: string;
+    loyalty_points: number;
+    role_name: string;
+    token?: string;
 }
 
 export interface ImgDetail {
@@ -71,21 +88,19 @@ export interface TableBillSell {
 }
 
 export interface News {
-    maTinTuc?: number;
-    tieuDe: string;
-    noiDung: string;
-    hinhAnh: string;
-    maTaiKhoan?: number;
-    luotXem?: number;
-    hoTen?: string;
-    trangThai: string;
+    _id?: string;
+    user_id?: string;
+    title: string;
+    content: string;
+    image: string;
+    view?: number;
+    status: boolean;
+    fullname?: string;
 }
 
 export interface Category {
-    maDanhMuc?: number;
-    tenDanhMuc: string;
-    dacBiet: boolean;
-    noiDung: string;
+    _id?: string;
+    category_name: string;
 }
 
 export interface CategoryOffer {
@@ -103,30 +118,24 @@ export interface Slide {
 }
 
 export interface Account {
-    anhDaiDien?: string;
-    diaChi?: string;
-    email?: string;
-    hoTen?: string;
-    maChitietTaiKhoan?: Number;
-    maLoaitaikhoan?: Number;
-    maTaiKhoan?: Number;
-    matKhau?: string;
-    soDienThoai?: string;
-    status?: number;
-    tenLoai?: string;
-    tenTaiKhoan?: string;
+    _id?: string;
+    username: string;
+    password: string;
+    fullname: string;
+    email: string;
+    phone: string;
+    address: string;
+    avatar: string;
+    loyalty_points: number;
+    role_name: string;
+    token?: string;
 }
 
 export interface Cart {
-    maGioHang?: number;
-    maTaiKhoan: number;
-    maSanPham: number;
-    anhDaiDien: string;
-    tenSanPham: string;
-    gia: number;
-    giaGiam: number;
-    trongLuong: string;
-    xuatXu: string;
-    soLuongMua: number;
-    trangThai: boolean;
+    _id?: string;
+    user_id: string;
+    item_id: string;
+    quantity: number;
+    status: boolean;
+    rentalitem?: Product;
 }

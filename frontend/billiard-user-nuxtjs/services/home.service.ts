@@ -7,7 +7,7 @@ import {
 import { apiClient } from "~/constant/request";
 
 export const getCategory = async (): Promise<Category[]> => {
-    const res = await apiClient?.get(`${CategoryUrl}/get-all-danhmuc`);
+    const res = await apiClient?.get(`${CategoryUrl}/get`);
     return res?.data;
 };
 

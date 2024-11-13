@@ -21,7 +21,21 @@ def login(request_data: LoginRequest):
     
     if user:
         token = generate_token(request_data.username)
-        return {"message": "Login successful", "user": {"username": user["username"]},"token": token}
+    
+        return {"message": "Login successful",
+            "user": {
+                "_id": str(user.get("_id")),   
+                "username": user["username"],
+                "password": user.get("password", ""),
+                "fullname": user.get("fullname", ""),
+                "email": user.get("email", ""),
+                "phone": user.get("phone", ""),
+                "address": user.get("address", ""),
+                "avatar": user.get("avatar", ""),
+                "loyalty_points": user.get("loyalty_points", ""),
+                "role_name": user.get("role_name", ""),
+                "token": token
+            }}
     else:
         raise HTTPException(status_code=401, detail="Invalid username or password")
     

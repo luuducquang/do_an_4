@@ -1,19 +1,19 @@
 <template>
     <div class="news_content">
-        <NuxtLink :to="`/news/${newItem?.maTinTuc}`">
-            <img :src="apiImage + newItem?.hinhAnh" alt="" />
-            <div :title="newItem?.tieuDe" class="title_news">
-                {{ newItem?.tieuDe }}
+        <NuxtLink :to="`/news/${newItem?._id}`">
+            <img :src="apiImage + newItem?.image" alt="" />
+            <div :title="newItem?.title" class="title_news">
+                {{ newItem?.title }}
             </div>
             <div class="view_news">
                 <i class="fa-solid fa-eye"></i>
                 <span>{{
-                    Number(newItem?.luotXem) > 0
-                        ? Number(newItem?.luotXem).toLocaleString("de-DE")
+                    Number(newItem?.view) > 0
+                        ? Number(newItem?.view).toLocaleString("de-DE")
                         : "0"
                 }}</span>
             </div>
-            <div class="author">Người đăng: {{ newItem?.hoTen }}</div>
+            <div class="author">Người đăng: {{ newItem?.fullname }}</div>
         </NuxtLink>
     </div>
 </template>

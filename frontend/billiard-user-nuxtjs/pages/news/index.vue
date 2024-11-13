@@ -9,7 +9,7 @@
             <div
                 class="col-xl-4 col-lg-4 col-md-6 col-6 mb-4"
                 v-for="product in news"
-                :key="product.maTinTuc"
+                :key="product._id"
             >
                 <item-new :newItem="product" />
             </div>

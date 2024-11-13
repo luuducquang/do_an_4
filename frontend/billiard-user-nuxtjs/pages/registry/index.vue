@@ -129,10 +129,8 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import {
-    checkUserNameIsEmpty,
-    registryUser,
-} from "~/services/registry.service";
+import { registryUser } from "~/services/registry.service";
+import axios from "axios";
 
 definePageMeta({
     layout: "onlychildren",
@@ -153,38 +151,31 @@ const title = ref("");
 const onFinish = async () => {
     loading.value = true;
     try {
-        const resCheckUser = await checkUserNameIsEmpty();
-        const userEmpty = resCheckUser.map((value) => value.tenTaiKhoan);
-        if (userEmpty.includes(username.value)) {
-            alertVisible.value = true;
-            title.value = "Tài khoản đã tồn tại !";
-            setTimeout(() => {
-                alertVisible.value = false;
-            }, 3000);
-        } else {
-            await registryUser({
-                TenTaiKhoan: username.value,
-                MatKhau: confirmPassword.value,
-                Email: email.value,
-                list_json_chitiet_taikhoan: [
-                    {
-                        MaLoaitaikhoan: 2,
-                        AnhDaiDien: "/img/user.jpg",
-                        HoTen: fullName.value,
-                        DiaChi: "",
-                        SoDienThoai: phone.value,
-                    },
-                ],
-            });
-            alertVisible.value = true;
-            title.value = "Đăng ký tài khoản thành công !";
-            setTimeout(() => {
-                router.push("/login");
-                alertVisible.value = false;
-            }, 1000);
-        }
+        await registryUser({
+            username: String(username.value),
+            password: String(password.value),
+            fullname: String(fullName.value),
+            email: String(email.value),
+            phone: String(phone.value),
+            address: "",
+            avatar: "/static/uploads/user.jpg",
+            loyalty_points: 0,
+            role_name: "USER",
+        });
+        alertVisible.value = true;
+        title.value = "Đăng ký tài khoản thành công !";
+        setTimeout(() => {
+            router.push("/login");
+            alertVisible.value = false;
+        }, 1000);
     } catch (error) {
-        console.error("Error while checking username:", error);
+        if (axios.isAxiosError(error)) {
+            alertVisible.value = true;
+            title.value = error.response?.data.detail;
+            setTimeout(() => {
+                alertVisible.value = false;
+            }, 2000);
+        }
     } finally {
         loading.value = false;
     }

@@ -28,7 +28,7 @@
                     <div
                         class="col-lg-2 col-md-4 col-sm-6 col-6"
                         v-for="product in productRecomend"
-                        :key="product.maSanPham"
+                        :key="product._id"
                     >
                         <item-product-recomend
                             :product="product"
@@ -60,19 +60,19 @@ const fetchDataCart = async () => {
     if (customerData) {
         try {
             const customer = JSON.parse(customerData);
-            dataCart.value = await getGioHangByIdTaiKhoan(customer.mataikhoan);
+            dataCart.value = await getGioHangByIdTaiKhoan(customer._id);
             const dataBuy = dataCart.value.filter(
-                (value) => value.trangThai === true
+                (value) => value?.status === true
             );
             const total = dataBuy.reduce((total, item) => {
-                return total + item.giaGiam * item.soLuongMua;
+                return total + Number(item?.rentalitem?.price_reduction) * Number(item?.quantity);
             }, 0);
 
             totalPrice.value = total;
         } catch (error) {
             console.error("Failed to parse customer data from cookies:", error);
-            Cookies.remove("customer");
-            router.push("/login");
+            // Cookies.remove("customer");
+            // router.push("/login");
         }
     } else {
         router.push("/login");

@@ -4,11 +4,11 @@ import Cookies from "js-cookie";
 const customerData = Cookies.get("customer");
 
 export const apiClient = axios.create({
-    baseURL: "http://localhost:23668",
+    baseURL: "http://127.0.0.1:8000",
     timeout: 1000 * 60 * 30 * 3, // 90 minutes
 });
 
-export const apiImage = "http://localhost:23668";
+export const apiImage = "http://127.0.0.1:8000";
 
 apiClient.interceptors.request.use(
     (config) => {

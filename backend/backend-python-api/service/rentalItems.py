@@ -27,8 +27,14 @@ def ser_getbyid_rentalitem(rentalitem_id:str):
 
     if rentalitem_data is None:
         raise HTTPException(status_code=404, detail="rentalitem not found")
+    
+    rentalitem_collection.update_one(
+        {"_id": ObjectId(rentalitem_id)},  
+        {"$inc": {"view": 1}}  
+    )
 
     rentalitem_data["_id"] = str(rentalitem_data["_id"])
+
     categoryrentalitem_data = categoryrentalitem_collection.find_one({"_id": ObjectId(rentalitem_data["category_id"])})
     if categoryrentalitem_data:
         categoryrentalitem_data["_id"] = str(categoryrentalitem_data["_id"])  
@@ -45,12 +51,62 @@ def ser_getbyid_rentalitem(rentalitem_id:str):
     
     return rentalitem_data
 
-def ser_search_rentalitem(_data:Searchs):
+# def ser_search_rentalitem(_data:Searchs):
+#     if _data.page <= 0 or _data.pageSize <= 0:
+#         raise HTTPException(status_code=400, detail="Page and pageSize must be greater than 0")
+    
+#     skip = (_data.page - 1) * _data.pageSize
+
+#     query = {}
+#     if _data.search_term:
+#         query["$or"] = [
+#             {"item_name": {"$regex": _data.search_term, "$options": "i"}},
+#             {"price": {"$regex": _data.search_term, "$options": "i"}},
+#             {"price_reduction": {"$regex": _data.search_term, "$options": "i"}},
+#             {"rental_price_day": {"$regex": _data.search_term, "$options": "i"}},
+#             {"rental_price_hours": {"$regex": _data.search_term, "$options": "i"}},
+#             {"quantity_available": {"$regex": _data.search_term, "$options": "i"}},
+#             {"view": {"$regex": _data.search_term, "$options": "i"}},
+#             {"origin": {"$regex": _data.search_term, "$options": "i"}},
+#             {"description": {"$regex": _data.search_term, "$options": "i"}},
+#             {"description_detail": {"$regex": _data.search_term, "$options": "i"}},
+#         ]
+
+#     total_items = rentalitem_collection.count_documents(query)
+
+#     rentalitems = rentalitem_collection.find(query).skip(skip).limit(_data.pageSize)
+
+#     data = []
+#     for rentalitem in rentalitems:
+#         rentalitem["_id"] = str(rentalitem["_id"])
+#         categoryrentalitem_data = categoryrentalitem_collection.find_one({"_id": ObjectId(rentalitem["category_id"])})
+#         if categoryrentalitem_data:
+#             categoryrentalitem_data["_id"] = str(categoryrentalitem_data["_id"])  
+#             rentalitem["categoryrentalitem"] = categoryrentalitem_data  
+#         else:
+#             rentalitem["categoryrentalitem"] = None  
+
+#         manufactor_data = manufactor_collection.find_one({"_id": ObjectId(rentalitem["manufactor_id"])})
+#         if manufactor_data:
+#             manufactor_data["_id"] = str(manufactor_data["_id"])  
+#             rentalitem["manufactor"] = manufactor_data  
+#         else:
+#             rentalitem["manufactor"] = None  
+
+#         data.append(rentalitem)
+
+#     return {
+#         "page":_data.page,
+#         "pageSize":_data.pageSize,
+#         "totalItems": total_items,
+#         "data": data,
+#     }
+
+def ser_search_rentalitem(_data: Searchs):
     if _data.page <= 0 or _data.pageSize <= 0:
         raise HTTPException(status_code=400, detail="Page and pageSize must be greater than 0")
     
     skip = (_data.page - 1) * _data.pageSize
-
     query = {}
     if _data.search_term:
         query["$or"] = [
@@ -66,32 +122,46 @@ def ser_search_rentalitem(_data:Searchs):
             {"description_detail": {"$regex": _data.search_term, "$options": "i"}},
         ]
 
-    total_items = rentalitem_collection.count_documents(query)
+    if _data.category_name:
+        category = categoryrentalitem_collection.find_one({"category_name": {"$regex": _data.category_name, "$options": "i"}})
+        print(_data.category_name)
+        print(category)
+        if category:
+            query["category_id"] = str(category["_id"])
+        else:
+            return {
+                "page": _data.page,
+                "pageSize": _data.pageSize,
+                "totalItems": 0,
+                "data": []
+            }
 
+    total_items = rentalitem_collection.count_documents(query)
     rentalitems = rentalitem_collection.find(query).skip(skip).limit(_data.pageSize)
 
     data = []
     for rentalitem in rentalitems:
         rentalitem["_id"] = str(rentalitem["_id"])
+
         categoryrentalitem_data = categoryrentalitem_collection.find_one({"_id": ObjectId(rentalitem["category_id"])})
         if categoryrentalitem_data:
-            categoryrentalitem_data["_id"] = str(categoryrentalitem_data["_id"])  
-            rentalitem["categoryrentalitem"] = categoryrentalitem_data  
+            categoryrentalitem_data["_id"] = str(categoryrentalitem_data["_id"])
+            rentalitem["categoryrentalitem"] = categoryrentalitem_data
         else:
-            rentalitem["categoryrentalitem"] = None  
+            rentalitem["categoryrentalitem"] = None
 
         manufactor_data = manufactor_collection.find_one({"_id": ObjectId(rentalitem["manufactor_id"])})
         if manufactor_data:
-            manufactor_data["_id"] = str(manufactor_data["_id"])  
-            rentalitem["manufactor"] = manufactor_data  
+            manufactor_data["_id"] = str(manufactor_data["_id"])
+            rentalitem["manufactor"] = manufactor_data
         else:
-            rentalitem["manufactor"] = None  
+            rentalitem["manufactor"] = None
 
         data.append(rentalitem)
 
     return {
-        "page":_data.page,
-        "pageSize":_data.pageSize,
+        "page": _data.page,
+        "pageSize": _data.pageSize,
         "totalItems": total_items,
         "data": data,
     }

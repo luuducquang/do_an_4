@@ -10,7 +10,7 @@
                 <div v-if="order === false" class="col-1 align-content-center">
                     <input
                         type="checkbox"
-                        :checked="value.trangThai"
+                        :checked="value.status"
                         class="form-check-input checkbox_btn"
                         @click="handlerChecked(value)"
                     />
@@ -24,15 +24,15 @@
                 >
                     <div class="info_item_cart">
                         <img
-                            :src="apiImage + value.anhDaiDien"
+                            :src="apiImage + value.rentalitem?.image"
                             class="img-thumbnail"
                         />
                         <span class="item">
                             <NuxtLink
-                                :to="`/detail/${value.maSanPham}`"
+                                :to="`/detail/${value.rentalitem?._id}`"
                                 class="text-decoration-none text-dark nameItem"
                             >
-                                {{ value.tenSanPham }}
+                                {{ value.rentalitem?.item_name }}
                             </NuxtLink>
                         </span>
                     </div>
@@ -46,8 +46,10 @@
                                 class="text-muted text-decoration-line-through"
                             >
                                 {{
-                                    value.gia > 0
-                                        ? value.gia.toLocaleString("DE-de")
+                                    Number(value?.rentalitem.price) > 0
+                                        ? Number(
+                                              value?.rentalitem.price
+                                          ).toLocaleString("DE-de")
                                         : 0
                                 }}
                             </span>
@@ -55,8 +57,10 @@
                         </p>
                         <p>
                             <span class="text-dark">{{
-                                value.giaGiam > 0
-                                    ? value.giaGiam.toLocaleString("DE-de")
+                                Number(value?.rentalitem?.price_reduction) > 0
+                                    ? Number(
+                                          value?.rentalitem?.price_reduction
+                                      ).toLocaleString("DE-de")
                                     : 0
                             }}</span>
                             <sup>đ</sup>
@@ -69,7 +73,7 @@
                         <input
                             type="text"
                             class="form-control text-center input_amount"
-                            :value="value.soLuongMua"
+                            :value="value.quantity"
                             min="1"
                             max="99"
                             @input="validateInput($event, value)"
@@ -154,21 +158,23 @@ const store = useCartStore();
 
 const handlerChecked = async (item: Cart) => {
     await updateCart({
-        MaGioHang: Number(item.maGioHang),
-        MaSanPham: item.maSanPham,
-        SoLuongMua: item.soLuongMua,
-        TrangThai: !item.trangThai,
+        _id: String(item._id),
+        item_id: item.item_id,
+        user_id: "",
+        quantity: item.quantity,
+        status: !item.status,
     });
     props.fetch();
 };
 
 const minus = async (item: Cart) => {
-    if (item.soLuongMua > 1) {
+    if (item.quantity > 1) {
         await updateCart({
-            MaGioHang: Number(item.maGioHang),
-            MaSanPham: item.maSanPham,
-            SoLuongMua: item.soLuongMua - 1,
-            TrangThai: item.trangThai,
+            _id: String(item._id),
+            item_id: item.item_id,
+            user_id: "",
+            quantity: item.quantity - 1,
+            status: item.status,
         });
         props.fetch();
     }
@@ -186,13 +192,14 @@ const validateInput = (event: Event, item: Cart) => {
 
     setTimeout(async () => {
         await updateCart({
-            MaGioHang: Number(item.maGioHang),
-            MaSanPham: item.maSanPham,
-            SoLuongMua: value,
-            TrangThai: item.trangThai,
+            _id: String(item._id),
+            item_id: item.item_id,
+            user_id: "",
+            quantity: value,
+            status: item.status,
         });
         props.fetch();
-    }, 1500);
+    }, 1000);
 };
 
 // const updateInput = async (item: Cart, event: Event) => {
@@ -212,21 +219,22 @@ const validateInput = (event: Event, item: Cart) => {
 
 const plus = async (item: Cart) => {
     await updateCart({
-        MaGioHang: Number(item.maGioHang),
-        MaSanPham: item.maSanPham,
-        SoLuongMua: item.soLuongMua + 1,
-        TrangThai: item.trangThai,
+        _id: String(item._id),
+        item_id: item.item_id,
+        user_id: "",
+        quantity: item.quantity + 1,
+        status: item.status,
     });
     props.fetch();
 };
 
 const deleteCart = async (item: Cart) => {
-    await deleteCarts([Number(item.maGioHang)]);
+    await deleteCarts(String(item._id));
     props.fetch();
     const customerData = Cookies.get("customer");
     if (customerData) {
         const customer = JSON.parse(customerData);
-        const cartOld = await getGioHangByIdTaiKhoan(customer.mataikhoan);
+        const cartOld = await getGioHangByIdTaiKhoan(customer._id);
         store.setCart(cartOld);
     }
 };

@@ -5,14 +5,14 @@
             <i class="fa-solid fa-arrow-right"></i>
             <NuxtLink to="/news">Tin tức</NuxtLink>
             <i class="fa-solid fa-arrow-right"></i>
-            <NuxtLink :to="`/news/${id}`">{{ dataNewDetail?.tieuDe }}</NuxtLink>
+            <NuxtLink :to="`/news/${id}`">{{ dataNewDetail?.title }}</NuxtLink>
         </div>
         <div class="newsDetail">
-            <h1 class="titleDetail">{{ dataNewDetail?.tieuDe }}</h1>
-            <div class="content_detail" v-html="dataNewDetail?.noiDung"></div>
-            <div class="view_detail">{{ dataNewDetail?.luotXem }} lượt xem</div>
+            <h1 class="titleDetail">{{ dataNewDetail?.title }}</h1>
+            <div class="content_detail" v-html="dataNewDetail?.content"></div>
+            <div class="view_detail">{{ dataNewDetail?.view }} lượt xem</div>
             <div class="view_detail">
-                Người đăng: {{ dataNewDetail?.hoTen }}
+                Người đăng: {{ dataNewDetail?.fullname }}
             </div>
         </div>
     </div>
@@ -28,20 +28,19 @@ const id = route.params.id;
 
 const dataNewDetail = ref<News>();
 
-const fetchProducts = async (id: number) => {
+const fetchProducts = async (id: string) => {
     const { data, error } = await useAsyncData("dataNewDetail", () =>
         getNewById(id)
     );
 
     if (data.value) {
         dataNewDetail.value = data.value;
-        console.log(dataNewDetail.value);
     } else if (error.value) {
         console.error("Error while fetching data:", error.value);
     }
 };
 
-fetchProducts(Number(id));
+fetchProducts(String(id));
 </script>
 <style lang="css" scoped>
 .type {
