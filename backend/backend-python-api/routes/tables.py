@@ -2,10 +2,12 @@ from fastapi import APIRouter
 from pymongo.collection import Collection
 from config.database import database
 from schemas.schemas import Searchs, Tables
-from service.tables import ser_getbyid_table,ser_search_table,ser_get_table,ser_delete_table, ser_insert_table, ser_update_table
+from service.tables import ser_getbyid_table,ser_search_table,ser_get_table,ser_delete_table, ser_insert_table, ser_update_table,ser_update_tablestatus
 
+from socketio_server import sio
 
 router = APIRouter()
+
 
 table_collection: Collection = database['Tables']
 
@@ -29,6 +31,14 @@ async def create_table(_data: Tables):
 @router.put("/tables/update")
 def edit_table(_data: Tables):
     result = ser_update_table(_data, table_collection)
+    return result
+
+@router.put("/tables/updatestatus/{table_id}")
+async def edit_tablestatus(table_id: str):
+    result = await ser_update_tablestatus(table_id)
+    updated_table = await ser_getbyid_table(table_id)
+    await sio.emit("table_status_updated", updated_table)
+
     return result
 
 @router.delete("/tables/delete/{table_id}")

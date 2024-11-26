@@ -4,9 +4,11 @@ from pymongo.collection import Collection
 from schemas.schemas import Searchs, Tables
 from config.database import database
 
+
 table_collection: Collection = database['Tables']
 tabletype_collection: Collection = database['TableTypes']
 pricingrule_collection: Collection = database['PricingRules']
+
 
 def ser_get_table():
     datas = []
@@ -22,7 +24,7 @@ def ser_get_table():
         datas.append(data)
     return datas
 
-def ser_getbyid_table(table_id:str):
+async def ser_getbyid_table(table_id:str):
     if not ObjectId.is_valid(table_id):
             raise HTTPException(status_code=400, detail="Invalid ID format")
 
@@ -112,17 +114,44 @@ def ser_update_table(_data: Tables, table_collection: Collection):
 
     existing_table = table_collection.find_one({"_id": object_id})
     if not existing_table:
-        raise HTTPException(status_code=404, detail="table not found")
+        raise HTTPException(status_code=404, detail="Table not found")
     
     updated_table = table_collection.update_one(
-    {"_id": ObjectId(_data.id)},  
-    {"$set": _data.dict(exclude={"id"})} 
-)
+        {"_id": object_id},  
+        {"$set": _data.dict(exclude={"id"})} 
+    )
     
     if updated_table.modified_count == 0:
         raise HTTPException(status_code=400, detail="Update failed")
+    
+    return {"message": "Updated successfully"}
 
-    return {"message": "updated successfully"}
+
+async def ser_update_tablestatus(table_id: str):
+    try:
+        object_id = ObjectId(table_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid ID format")
+
+    existing_table = table_collection.find_one({"_id": object_id})
+    if not existing_table:
+        raise HTTPException(status_code=404, detail="Table not found")
+
+    current_status = existing_table.get("status", False)
+    new_status = not current_status
+
+    updated_table = table_collection.update_one(
+        {"_id": object_id},
+        {"$set": {"status": new_status}}
+    )
+
+    if updated_table.modified_count == 0:
+        raise HTTPException(status_code=400, detail="Update failed")
+
+    return {"message": "Updated successfully", "new_status": new_status}
+
+
+
 
 
 def ser_delete_table(table_id: str, table_collection: Collection):

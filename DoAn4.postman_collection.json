@@ -1213,6 +1213,25 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "set!Status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tables/updatestatus/6732cee752e9e56c542a2491",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tables",
+								"updatestatus",
+								"6732cee752e9e56c542a2491"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1840,7 +1859,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10\r\n}",
+							"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10,\r\n    \"category_name\":\"bim bim\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3029,6 +3048,300 @@
 			]
 		},
 		{
+			"name": "Carts",
+			"item": [
+				{
+					"name": "addCart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\":\"67344bc5537addcee8f599d5\",\r\n    \"item_id\":\"6728dbf2ca79a63e267e6760\",\r\n    \"quantity\":1,\r\n    \"status\":false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/carts/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"carts",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/carts/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"carts",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editCart",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"673453104ac71e053e4fea6a\",\r\n    \"user_id\":\"\",\r\n    \"item_id\":\"6728dbf2ca79a63e267e6760\",\r\n    \"quantity\":12,\r\n    \"status\":false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/carts/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"carts",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/carts/delete/673452426d0c33408020c2c1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"carts",
+								"delete",
+								"673452426d0c33408020c2c1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCartByUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/carts/get/67344bc5537addcee8f599d5",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"carts",
+								"get",
+								"67344bc5537addcee8f599d5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCartFalseStatus",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/carts/updatefalsestatus/67344bc5537addcee8f599d5",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"carts",
+								"updatefalsestatus",
+								"67344bc5537addcee8f599d5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Banners",
+			"item": [
+				{
+					"name": "addBanner",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"TEST\",\r\n    \"image\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/banners/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"banners",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBanner",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/banners/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"banners",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editBanner",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"6738528179211fc4beb78448\",\r\n    \"description\": \"TEST1\",\r\n    \"image\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/banners/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"banners",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteBanner",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/banners/delete/6738529c79211fc4beb78449",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"banners",
+								"delete",
+								"6738529c79211fc4beb78449"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getbyidBanner",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/banners/get/6738529c79211fc4beb78449",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"banners",
+								"get",
+								"6738529c79211fc4beb78449"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchBanner",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/banners/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"banners",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "upload",
 			"request": {
 				"method": "POST",
@@ -3063,7 +3376,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"quang1\",\r\n    \"password\":\"1\"\r\n}",
+					"raw": "{\r\n    \"username\":\"quang\",\r\n    \"password\":\"1\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

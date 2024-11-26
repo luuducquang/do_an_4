@@ -17,10 +17,10 @@
                     class="card text-center p-3 position-relative"
                     :class="table.status ? 'bg-danger' : 'bg-success'"
                 >
-                        <h1 class="text-white">{{ table.table_number }}</h1>
-                        <p class="m-0 text-white">
-                            {{ table.status ? "Đang sử dụng" : "Đang trống" }}
-                        </p>
+                    <h1 class="text-white">{{ table.table_number }}</h1>
+                    <p class="m-0 text-white">
+                        {{ table.status ? "Đang sử dụng" : "Đang trống" }}
+                    </p>
                     <button
                         class="btn btn-primary btn-booking"
                         v-if="!table.status"
@@ -36,16 +36,41 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { getAllTable } from "~/services/booking.service";
+import { io } from "socket.io-client";
+import { getAllTable, updateTableStatus } from "~/services/booking.service";
 import { type Tables } from "~/constant/api";
 
 const tableData = ref<Tables[]>([]);
 const loading = ref(true);
-const router = useRouter();
 
-const handleBooking = (id: string) => {
-    alert(`Đặt bàn có ID: ${id}`);
+const socket = io("http://127.0.0.1:8000/", {
+    transports: ["websocket"],
+});
+
+socket.on("connect", () => {
+    console.log("Connected to WebSocket server!");
+});
+
+socket.on("connect_error", (error) => {
+    console.error("Connection failed:", error);
+});
+
+socket.on("table_status_updated", (data) => {
+    // console.log("Table status updated", data);
+    const table = tableData.value.find((t) => t._id === data._id);
+    if (table) {
+        table.status = data.status;
+    }
+});
+
+const handleBooking = async (id: string) => {
+    try {
+        console.log("Gọi API cập nhật trạng thái bàn...");
+        await updateTableStatus(id);
+        console.log("Cập nhật trạng thái bàn thành công.");
+    } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+    }
 };
 
 const fetchData = async () => {
@@ -60,8 +85,8 @@ const fetchData = async () => {
     }
 };
 
-onMounted(() => {
-    fetchData();
+onMounted(async () => {
+    await fetchData();
 });
 </script>
 
@@ -100,7 +125,7 @@ onMounted(() => {
 
 .card:hover h1,
 .card:hover p {
-    opacity: 0.1; 
+    opacity: 0.1;
     transition: opacity 0.2s ease;
 }
 
@@ -111,25 +136,25 @@ onMounted(() => {
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
-    background: linear-gradient(90deg, #4caf50, #81c784); 
+    background: linear-gradient(90deg, #4caf50, #81c784);
     color: #fff;
     font-size: 1rem;
     font-weight: bold;
     border: none;
-    border-radius: 20px; 
+    border-radius: 20px;
     padding: 10px 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     cursor: pointer;
 }
 
 .btn-booking:hover {
-    background: linear-gradient(90deg, #388e3c, #66bb6a); 
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4); 
-    transform: translate(-50%, 60%) scale(1.05); 
+    background: linear-gradient(90deg, #388e3c, #66bb6a);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+    transform: translate(-50%, 60%) scale(1.05);
 }
 
 .card:hover .btn-booking {
-    opacity: 1; 
+    opacity: 1;
     visibility: visible;
 }
 

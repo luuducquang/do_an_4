@@ -17,6 +17,7 @@
     "js-cookie": "^3.0.5",
     "nuxt": "^3.12.4",
     "pinia": "^2.2.0",
+    "socket.io-client": "^4.8.1",
     "vue": "latest"
   },
   "devDependencies": {
