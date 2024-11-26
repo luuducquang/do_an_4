@@ -16,3 +16,4 @@ export const TableRentalItemUrl = "/tablerentalitems";
 export const PricingRuleUrl = "/pricingrules";
 export const MenuItemUrl = "/menuitems";
 export const RentalItemUrl = "/rentalitems";
+export const BannerUrl = "/banners";

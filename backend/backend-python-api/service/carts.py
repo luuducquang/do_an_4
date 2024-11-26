@@ -68,6 +68,23 @@ def ser_update_cart(_data: Carts, cart_collection: Collection):
 
     return {"message": "updated successfully"}
 
+def ser_update_cart_false_status(user_id: str, cart_collection: Collection):
+    try:
+        user_object_id = user_id
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid user ID format")
+
+    updated_carts = cart_collection.update_many(
+        {"user_id": user_object_id},  
+        {"$set": {"status": False}}   
+    )
+    
+    # if updated_carts.modified_count == 0:
+    #     raise HTTPException(status_code=404, detail="No carts found with the given user_id")
+
+    return {"message": f"{updated_carts.modified_count} cart(s) updated successfully"}
+
+
 
 def ser_delete_cart(cart_id: str, cart_collection: Collection):
     if not ObjectId.is_valid(cart_id):

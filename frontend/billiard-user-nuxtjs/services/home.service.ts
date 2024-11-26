@@ -22,11 +22,8 @@ export const getCategory = async (): Promise<Category[]> => {
 export const getProductHome = async (
     data: Record<string, string | number>
 ): Promise<ResponseData<Product>> => {
-    const res = await apiClient?.post(`${ProductUrl}/search-sanpham`, data);
+    const res = await apiClient?.post(`${ProductUrl}/search`, data);
     return res?.data;
 };
 
-export const getProductFavourite = async (): Promise<Product[]> => {
-    const res = await apiClient?.get(`${ProductUrl}/sp-uathich`);
-    return res?.data;
-};
+

@@ -19,17 +19,16 @@ const props = defineProps<{
 }
 
 .content_heder {
-    background: linear-gradient(90deg, var(--color-primary) 0%, #001815 100%) 0%
-        0% no-repeat;
     padding: 10px;
     margin: 8px 0;
-    color: #fff;
+    color: #000000;
     text-transform: uppercase;
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid #000000;
 }
 
 a {
-    color: #fff;
+    color: #000000;
 }
 </style>

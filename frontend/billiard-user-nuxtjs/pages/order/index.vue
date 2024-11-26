@@ -334,7 +334,7 @@ const handleSubmit = async () => {
             (item) => item.ward_id === formData.value.ward
         );
         const listIdDel: Array<number> = dataCart.value.map((item) =>
-            Number(item.maGioHang)
+            Number(item._id)
         );
         const customer = JSON.parse(customerData);
 
@@ -382,13 +382,14 @@ const fetchDataCart = async () => {
     if (customerData) {
         try {
             const customer = JSON.parse(customerData);
-            const dataTemp = await getGioHangByIdTaiKhoan(customer.mataikhoan);
-            const dataBuy = dataTemp.filter(
-                (value) => value.trangThai === true
-            );
+            const dataTemp = await getGioHangByIdTaiKhoan(customer._id);
+            const dataBuy = dataTemp.filter((value) => value.status === true);
             dataCart.value = dataBuy;
             const totalPriceBuy = dataBuy.reduce((total, item) => {
-                return total + item.giaGiam * item.soLuongMua;
+                return (
+                    total +
+                    Number(item?.rentalitem?.price_reduction) * item?.quantity
+                );
             }, 0);
             totalPrice.value = totalPriceBuy;
 

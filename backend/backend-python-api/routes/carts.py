@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from pymongo.collection import Collection
 from config.database import database
 from schemas.schemas import Carts
-from service.carts import ser_get_cart,ser_delete_cart, ser_insert_cart, ser_update_cart,ser_get_cart_by_user_id
+from service.carts import ser_get_cart,ser_delete_cart, ser_insert_cart, ser_update_cart,ser_get_cart_by_user_id,ser_update_cart_false_status
 
 
 router = APIRouter()
@@ -25,6 +25,11 @@ async def create_cart(_data: Carts):
 @router.put("/carts/update")
 def edit_cart(_data: Carts):
     result = ser_update_cart(_data, cart_collection)
+    return result
+
+@router.put("/carts/updatefalsestatus/{user_id}")
+def edit_cart_false_status(user_id: str):
+    result = ser_update_cart_false_status(user_id, cart_collection)
     return result
 
 @router.delete("/carts/delete/{cart_id}")

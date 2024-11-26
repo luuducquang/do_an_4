@@ -427,3 +427,10 @@ const resetForm = (formEl: FormInstance | undefined) => {
     fileListImg.value = [];
 };
 </script>
+
+<style>
+.ck-editor {
+    max-height: 500px;
+    overflow: auto;
+}
+</style>

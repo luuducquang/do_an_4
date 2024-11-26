@@ -71,42 +71,49 @@
             </el-menu-item>
         </router-link>
 
-        <el-sub-menu index="13-14">
+        <router-link to="/banner">
+            <el-menu-item index="13">
+                <el-icon><Files /></el-icon>
+                <template #title>Banner</template>
+            </el-menu-item>
+        </router-link>
+
+        <el-sub-menu index="14-15">
             <template #title>
                 <el-icon><CollectionTag /></el-icon>
                 <span>Danh mục</span>
             </template>
             <router-link to="/categorymenuitem">
-                <el-menu-item index="13">Danh mục đồ ăn</el-menu-item>
+                <el-menu-item index="14">Danh mục đồ ăn</el-menu-item>
             </router-link>
             <router-link to="/categoryrentalitem">
-                <el-menu-item index="14">Danh mục thuê</el-menu-item>
+                <el-menu-item index="15">Danh mục thuê</el-menu-item>
             </router-link>
         </el-sub-menu>
 
-        <el-sub-menu index="">
+        <el-sub-menu index="16-17">
             <template #title>
                 <el-icon><OfficeBuilding /></el-icon>
                 <span>Nhà cung cấp</span>
             </template>
             <router-link to="/manufactor">
-                <el-menu-item index="15">Hãng sản xuất</el-menu-item>
+                <el-menu-item index="16">Hãng sản xuất</el-menu-item>
             </router-link>
             <router-link to="/supplier">
-                <el-menu-item index="16">Nhà phân phối</el-menu-item>
+                <el-menu-item index="17">Nhà phân phối</el-menu-item>
             </router-link>
         </el-sub-menu>
 
-        <el-sub-menu index="">
+        <el-sub-menu index="18-19">
             <template #title>
                 <el-icon><User /></el-icon>
                 <span>Tài khoản</span>
             </template>
             <router-link to="/typeaccount">
-                <el-menu-item index="17">Loại tài khoản</el-menu-item>
+                <el-menu-item index="18">Loại tài khoản</el-menu-item>
             </router-link>
             <router-link to="/account">
-                <el-menu-item index="18">Tài khoản</el-menu-item>
+                <el-menu-item index="19">Tài khoản</el-menu-item>
             </router-link>
         </el-sub-menu>
     </el-menu>

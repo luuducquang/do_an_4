@@ -21,9 +21,9 @@ export const updateCart = async (
     return res?.data;
 };
 
-export const updateCartsFalse = async (mataikhoan: number): Promise<Cart> => {
+export const updateCartsFalse = async (mataikhoan: string): Promise<Cart> => {
     const res = await apiClient?.put(
-        `${CartUrl}/update-giohangfalse?mataikhoan=${mataikhoan}`
+        `${CartUrl}/updatefalsestatus/${mataikhoan}`
     );
     return res?.data;
 };

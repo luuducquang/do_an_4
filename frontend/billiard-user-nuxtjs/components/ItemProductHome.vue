@@ -11,7 +11,7 @@
             <h4 class="home-product-item_name">{{ product?.item_name }}</h4>
             <span class="decrip-item">{{ product?.description }} </span>
         </NuxtLink>
-        <span v-if="isSale" class="banner-sale">SALE</span>
+        <span v-if="isSale" class="banner-sale">NEW</span>
         <span class="sale-up"
             >{{
                 (
@@ -40,26 +40,26 @@
         </div>
         <!-- <div class="icon_item_product">
             <div class="home-icon-recommend">
-                <span v-if="product?.view > 0">{{
+                 <span v-if="product?.view > 0">{{
                     product?.view > 0 ? product?.view.toFixed(1) : ""
                 }}</span>
                 <i
                     v-if="product?.view > 0"
                     title="Đánh giá"
                     class="fa-solid fa-star"
-                ></i>
-                <span v-if="product?.view > 0">|</span>
-                <span title="Đã bán" class="fa-solid fa-shop"></span>
+                ></i> 
+                 <span v-if="product?.view > 0">|</span> 
+                <span v-if="Number(product?.sales) > 0" title="Đã bán" class="fa-solid fa-shop"></span>
                 <span title="Đã bán" class="amount-product">{{
-                    product?.luotBan > 0
-                        ? product?.luotBan.toLocaleString("DE-de")
+                    Number(product?.sales) > 0
+                        ? Number(product?.sales).toLocaleString("DE-de")
                         : ""
                 }}</span>
             </div>
             <span class="fa-solid fa-truck-fast free-ship"></span>
         </div> -->
         <div class="icon_item_product">
-            <div v-show="Number(product?.view) > 0" class="view">
+            <div v-if="Number(product?.view) > 0" class="view">
                 <i class="fa-solid fa-eye"></i>
                 {{
                     Number(product?.view) > 0
@@ -105,23 +105,24 @@ const props = defineProps<{
     position: relative;
 }
 
-.home-product-item_img:hover {
+.home-product-item_img img:hover {
     transform: scale(1.1);
 }
 
 .home-product-item_img {
-    transition: 0.2s ease-in-out;
+    overflow: hidden;
 }
 
 .home-product-item_img img {
     width: 100%;
     background-size: cover;
     background-position: center;
+    transition: 0.2s ease-in-out;
 }
 
 .banner-sale {
     position: absolute;
-    background-color: #ff6600;
+    background-color: #ff0000;
     color: #ffffff;
     padding: 5px;
     top: 10px;

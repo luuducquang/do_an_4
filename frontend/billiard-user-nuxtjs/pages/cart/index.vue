@@ -61,18 +61,23 @@ const fetchDataCart = async () => {
         try {
             const customer = JSON.parse(customerData);
             dataCart.value = await getGioHangByIdTaiKhoan(customer._id);
+            console.log(dataCart.value);
             const dataBuy = dataCart.value.filter(
                 (value) => value?.status === true
             );
             const total = dataBuy.reduce((total, item) => {
-                return total + Number(item?.rentalitem?.price_reduction) * Number(item?.quantity);
+                return (
+                    total +
+                    Number(item?.rentalitem?.price_reduction) *
+                        Number(item?.quantity)
+                );
             }, 0);
 
             totalPrice.value = total;
         } catch (error) {
             console.error("Failed to parse customer data from cookies:", error);
-            // Cookies.remove("customer");
-            // router.push("/login");
+            Cookies.remove("customer");
+            router.push("/login");
         }
     } else {
         router.push("/login");

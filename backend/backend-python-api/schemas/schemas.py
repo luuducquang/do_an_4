@@ -139,8 +139,9 @@ class RentalItems (BaseModel):
     price_reduction: int
     rental_price_day: int
     rental_price_hours: int
-    quantity_available: int
+    quantity_available: int = Field(default=0)
     view: int = Field(default=0)
+    sales: int = Field(default=0)
     origin: str
     description: str
     description_detail: str
@@ -207,5 +208,9 @@ class Carts(BaseModel):
     quantity:int
     status:bool
     
+class Banners(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
+    description:str
+    image:str
 
 

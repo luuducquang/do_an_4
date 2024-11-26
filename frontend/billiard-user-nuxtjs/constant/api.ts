@@ -5,6 +5,31 @@ export interface ResponseData<T> {
     totalItems: number;
 }
 
+export interface TableTypes {
+    _id?: string;
+    table_type_name: string;
+}
+
+export interface Tables {
+    _id?: string;
+    table_number: number;
+    table_type_id: string;
+    status: boolean;
+    start_date?: String;
+    end_date?: String;
+    tabletype?: TableTypes;
+    pricingrule?: PricingRules;
+}
+
+
+export interface PricingRules {
+    _id?: string;
+    type_table_id: string;
+    rate_per_hour: number;
+    rate_per_minute: number;
+    tabletype?: TableTypes;
+}
+
 export interface Product {
     _id?: string;
     manufactor_id: string;
@@ -17,6 +42,7 @@ export interface Product {
     rental_price_hours: number;
     quantity_available: number;
     view?: number;
+    sales?: number;
     origin: string;
     description: string;
     description_detail: string;
@@ -110,11 +136,10 @@ export interface CategoryOffer {
     noiDung: string;
 }
 
-export interface Slide {
-    maAnh?: number;
-    linkAnh: string;
-    tieuDe: string;
-    moTa: string;
+export interface Banner {
+    _id?: string;
+    description: string;
+    image: string;
 }
 
 export interface Account {

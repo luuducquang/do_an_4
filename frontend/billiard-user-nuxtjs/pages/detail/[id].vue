@@ -350,7 +350,7 @@ const addCart = async () => {
                 await updateCart({
                     _id: String(isEmptyProduct._id),
                     item_id: String(isEmptyProduct.item_id),
-                    user_id:"",
+                    user_id: "",
                     quantity:
                         amountProduct.value + Number(isEmptyProduct.quantity),
                     status: isEmptyProduct.status,
@@ -360,14 +360,12 @@ const addCart = async () => {
             } else {
                 await createCart({
                     item_id: String(id),
-                    user_id:customer._id,
+                    user_id: customer._id,
                     quantity: amountProduct.value,
                     status: false,
                 });
                 titleAddItem.value = "Sản phẩm đã được thêm vào giỏ hàng!";
-                const cartOld = await getGioHangByIdTaiKhoan(
-                    customer._id
-                );
+                const cartOld = await getGioHangByIdTaiKhoan(customer._id);
                 store.setCart(cartOld);
             }
             alertVisible.value = true;
@@ -389,31 +387,30 @@ const buyNow = async () => {
         try {
             const customer = JSON.parse(customerData);
 
-            await updateCartsFalse(customer.mataikhoan);
+            await updateCartsFalse(customer._id);
 
-            const cart = await getGioHangByIdTaiKhoan(customer.mataikhoan);
+            const cart = await getGioHangByIdTaiKhoan(customer._id);
 
             const isEmptyProduct = cart.find(
-                (value) => Number(value.maSanPham) === Number(id)
+                (value) => String(value.item_id) === String(id)
             );
 
             if (isEmptyProduct) {
                 await updateCart({
-                    MaGioHang: Number(isEmptyProduct.maGioHang),
-                    MaSanPham: Number(isEmptyProduct.maSanPham),
-                    SoLuongMua: amountProduct.value,
-                    TrangThai: true,
+                    _id: String(isEmptyProduct._id),
+                    item_id: String(isEmptyProduct._id),
+                    user_id: "",
+                    quantity: amountProduct.value,
+                    status: true,
                 });
             } else {
                 await createCart({
-                    MaTaiKhoan: customer.mataikhoan,
-                    MaSanPham: Number(id),
-                    SoLuongMua: amountProduct.value,
-                    TrangThai: true,
+                    item_id: String(id),
+                    user_id: customer._id,
+                    quantity: amountProduct.value,
+                    status: true,
                 });
-                const cartOld = await getGioHangByIdTaiKhoan(
-                    customer.mataikhoan
-                );
+                const cartOld = await getGioHangByIdTaiKhoan(customer._id);
                 store.setCart(cartOld);
             }
 

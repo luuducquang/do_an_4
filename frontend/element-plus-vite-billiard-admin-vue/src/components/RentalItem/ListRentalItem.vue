@@ -21,6 +21,19 @@
                         class="img_item"
                     /> </template
             ></el-table-column>
+            <el-table-column
+                label="Danh mục"
+                align="center"
+                prop="rental_price_hours"
+            >
+                <template #default="scope">
+                    <span
+                        :title="scope.row.categoryrentalitem.category_name"
+                        class="name_item"
+                        >{{ scope.row.categoryrentalitem.category_name }}</span
+                    >
+                </template>
+            </el-table-column>
             <el-table-column label="Giá" align="center" prop="price">
                 <template #default="scope">
                     <span
@@ -80,6 +93,13 @@
                         class="name_item"
                         >{{ scope.row.quantity_available }}</span
                     >
+                </template>
+            </el-table-column>
+            <el-table-column label="Lượt bán" align="center" prop="sales">
+                <template #default="scope">
+                    <span :title="scope.row.sales" class="name_item">{{
+                        scope.row.sales
+                    }}</span>
                 </template>
             </el-table-column>
             <el-table-column label="Lượt xem" align="center" prop="view" />

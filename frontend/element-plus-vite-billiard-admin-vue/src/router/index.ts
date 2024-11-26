@@ -424,6 +424,47 @@ const routes = [
                 ],
             },
             {
+                path: "banner",
+                name: "Banner",
+                component: LayoutView,
+                meta: {
+                    breadcrumbName: "Banner",
+                    requiresAuth: true,
+                },
+                children: [
+                    {
+                        path: "",
+                        name: "ListBanner",
+                        component: () =>
+                            import("~/components/Banner/ListBanner.vue"),
+                        meta: {
+                            breadcrumbName: "Danh sách",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "add",
+                        name: "AddBanner",
+                        component: () =>
+                            import("~/components/Banner/AddorEditBanner.vue"),
+                        meta: {
+                            breadcrumbName: "Thêm banner",
+                            requiresAuth: true,
+                        },
+                    },
+                    {
+                        path: "edit/:id",
+                        name: "EditBanner",
+                        component: () =>
+                            import("~/components/Banner/AddorEditBanner.vue"),
+                        meta: {
+                            breadcrumbName: "Sửa banner",
+                            requiresAuth: true,
+                        },
+                    },
+                ],
+            },
+            {
                 path: "categorymenuitem",
                 name: "CategoryMenuItem",
                 component: LayoutView,

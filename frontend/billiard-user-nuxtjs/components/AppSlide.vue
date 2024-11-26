@@ -23,7 +23,7 @@
                     :class="{ 'carousel-item': true, active: index === 0 }"
                 >
                     <img
-                        :src="apiImage + slide.linkAnh"
+                        :src="apiImage + slide.image"
                         class="d-block w-100"
                         alt="Slide Image"
                     />
@@ -59,15 +59,15 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { type Slide } from "~/constant/api";
+import { type Banner } from "~/constant/api";
 import { apiImage } from "~/constant/request";
-import { getAllImagesSlider } from "~/services/slider.service";
+import { getAllImagesBanner } from "~/services/banner.service";
 
-const listSlide = ref<Slide[]>([]);
+const listSlide = ref<Banner[]>([]);
 
 const fetchSlides = async () => {
     try {
-        const res = await getAllImagesSlider();
+        const res = await getAllImagesBanner();
         listSlide.value = res;
     } catch (error) {
         console.error("Failed to fetch slides:", error);

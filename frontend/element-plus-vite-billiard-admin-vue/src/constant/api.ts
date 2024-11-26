@@ -5,6 +5,12 @@ export interface ResponseData<T> {
     totalItems: number;
 }
 
+export interface Banner {
+    _id?: string;
+    description: string;
+    image: string;
+}
+
 export interface Product {
     maSanPham?: number;
     tenSanPham: string;
@@ -154,6 +160,7 @@ export interface RentalItems {
     rental_price_hours: number;
     quantity_available: number;
     view?: number;
+    sales?: number;
     origin: string;
     description: string;
     description_detail: string;

@@ -46,9 +46,9 @@
                                 class="text-muted text-decoration-line-through"
                             >
                                 {{
-                                    Number(value?.rentalitem.price) > 0
+                                    Number(value?.rentalitem?.price) > 0
                                         ? Number(
-                                              value?.rentalitem.price
+                                              value?.rentalitem?.price
                                           ).toLocaleString("DE-de")
                                         : 0
                                 }}

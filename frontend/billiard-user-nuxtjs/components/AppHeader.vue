@@ -55,6 +55,11 @@
                             </div>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <NuxtLink class="nav-link booking-link" to="/booking"
+                            >Đặt bàn</NuxtLink
+                        >
+                    </li>
                 </ul>
 
                 <form
@@ -182,9 +187,7 @@ onMounted(async () => {
         try {
             const parseCustomer = JSON.parse(customerData);
             customer.value = parseCustomer;
-            const listCarts = await getGioHangByIdTaiKhoan(
-                parseCustomer._id
-            );
+            const listCarts = await getGioHangByIdTaiKhoan(parseCustomer._id);
             store.setCart(listCarts);
         } catch (error) {
             console.error("Failed to parse customer data from cookies:", error);
@@ -284,4 +287,23 @@ input {
     color: #fff;
     cursor: pointer;
 }
+
+.booking-link {
+    position: relative;
+    display: inline-block; 
+}
+
+.booking-link::after {
+    content: "Mới"; 
+    position: absolute;
+    top: -5px; 
+    right: -20px; 
+    font-size: 10px; 
+    color: red; 
+    background-color: yellow; 
+    padding: 2px 5px; 
+    border-radius: 5px; 
+    font-weight: bold; 
+}
+
 </style>

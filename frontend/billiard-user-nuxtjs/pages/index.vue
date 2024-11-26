@@ -1,59 +1,48 @@
 <template>
     <AppSlide />
     <div class="container">
-        <HeaderComponent title="Sản phẩm sale" link="" :isShowLink="false" />
-        <div class="row" v-if="productSale">
+        <HeaderComponent
+            title="Sản phẩm mới nhất"
+            link=""
+            :isShowLink="false"
+        />
+        <div class="row" v-if="productNew">
             <div
                 class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 mb-4 d-flex"
-                v-for="product in productSale"
-                :key="product.maSanPham"
+                v-for="product in productNew"
+                :key="product._id"
             >
                 <ItemProductHome :product="product" :isSale="true" />
             </div>
         </div>
 
         <HeaderComponent
-            title="Sản phẩm ưa thích"
-            link=""
-            :isShowLink="false"
+            v-if="productCoBan"
+            title="Cơ bắn"
+            :link="'/category/cơ bắn'"
+            :isShowLink="true"
         />
-        <div class="row" v-if="productFavourite">
+        <div class="row" v-if="productCoBan">
             <div
                 class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 mb-4 d-flex"
-                v-for="product in productFavourite"
-                :key="product.maSanPham"
+                v-for="product in productCoBan"
+                :key="product._id"
             >
                 <ItemProductHome :product="product" :isSale="false" />
             </div>
         </div>
 
         <HeaderComponent
-            v-if="productSerum"
-            title="Serum"
-            :link="'/category/serum'"
+            v-if="productCoPha"
+            title="Cơ phá"
+            :link="'/category/cơ phá'"
             :isShowLink="true"
         />
-        <div class="row" v-if="productSerum">
+        <div class="row" v-if="productCoPha">
             <div
                 class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 mb-4 d-flex"
-                v-for="product in productSerum"
-                :key="product.maSanPham"
-            >
-                <ItemProductHome :product="product" :isSale="false" />
-            </div>
-        </div>
-
-        <HeaderComponent
-            v-if="productCleanser"
-            title="Sữa rửa mặt"
-            :link="'/category/sữa rửa mặt'"
-            :isShowLink="true"
-        />
-        <div class="row" v-if="productCleanser">
-            <div
-                class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 mb-4 d-flex"
-                v-for="product in productCleanser"
-                :key="product.maSanPham"
+                v-for="product in productCoPha"
+                :key="product._id"
             >
                 <ItemProductHome :product="product" :isSale="false" />
             </div>
@@ -63,7 +52,7 @@
 
 <script setup lang="ts">
 import { type Product } from "~/constant/api";
-import { getProductFavourite, getProductHome } from "~/services/home.service";
+import { getProductHome } from "~/services/home.service";
 import { onMounted, ref } from "vue";
 import Cookies from "js-cookie";
 import { getGioHangByIdTaiKhoan } from "~/services/cart.service";
@@ -73,72 +62,54 @@ useHead({
     title: "Trang chủ",
 });
 
-const productSale = ref<Product[]>([]);
-const productFavourite = ref<Product[]>([]);
-const productSerum = ref<Product[]>([]);
-const productCleanser = ref<Product[]>([]);
+const productNew = ref<Product[]>([]);
+const productCoBan = ref<Product[]>([]);
+const productCoPha = ref<Product[]>([]);
 const store = useCartStore();
 
-const { data: saleData, error: erSale } = await useAsyncData(
-    "productSale",
+const { data: newData, error: er } = await useAsyncData("productNew", () =>
+    getProductHome({
+        page: 1,
+        pageSize: 12,
+    })
+);
+
+if (newData.value) {
+    productNew.value = newData.value?.data;
+} else if (er.value) {
+    console.error("Error while fetching products:", er.value);
+}
+
+const { data: coBanData, error: erBan } = await useAsyncData(
+    "productCoBan",
     () =>
         getProductHome({
             page: 1,
             pageSize: 12,
-            Tendanhmucuudai: "FlagSale",
+            category_name: "Cơ bắn",
         })
 );
 
-if (saleData.value) {
-    productSale.value = saleData.value?.data;
-} else if (erSale.value) {
-    console.error("Error while fetching products:", erSale.value);
+if (coBanData.value) {
+    productCoBan.value = coBanData.value?.data;
+} else if (erBan.value) {
+    console.error("Error while fetching products:", erBan.value);
 }
 
-const { data: favouriteData, error: favouriteError } = await useAsyncData(
-    "productFavourite",
-    () => getProductFavourite()
-);
-
-if (favouriteData.value) {
-    productFavourite.value = favouriteData.value;
-} else if (favouriteError.value) {
-    console.error(
-        "Error while fetching favourite products:",
-        favouriteError.value
-    );
-}
-
-const { data: serumData, error: erSerum } = await useAsyncData(
-    "productSerum",
+const { data: cophaData, error: erCoPha } = await useAsyncData(
+    "productCoPha",
     () =>
         getProductHome({
             page: 1,
             pageSize: 12,
-            TenDanhMuc: "Serum",
+            category_name: "Cơ phá",
         })
 );
 
-if (serumData.value) {
-    productSerum.value = serumData.value?.data;
-} else if (erSerum.value) {
-    console.error("Error while fetching products:", erSale.value);
-}
-
-const { data: cleanserData, error: erCleanser } = await useAsyncData(
-    "productCleanser",
-    () =>
-        getProductHome({
-            page: 1,
-            pageSize: 12,
-            TenDanhMuc: "Sữa rửa mặt",
-        })
-);
-
-if (cleanserData.value) {
-    productCleanser.value = cleanserData.value?.data;
-} else if (erCleanser.value) {
-    console.error("Error while fetching products:", erSale.value);
+if (cophaData.value) {
+    productCoPha.value = cophaData.value?.data;
+} else if (erCoPha.value) {
+    console.error("Error while fetching products:", erCoPha.value);
 }
 
 onMounted(async () => {
@@ -146,7 +117,7 @@ onMounted(async () => {
     if (customerData) {
         try {
             const customer = JSON.parse(customerData);
-            const cart = await getGioHangByIdTaiKhoan(customer.mataikhoan);
+            const cart = await getGioHangByIdTaiKhoan(customer._id);
 
             store.setCart(cart);
         } catch (error) {
