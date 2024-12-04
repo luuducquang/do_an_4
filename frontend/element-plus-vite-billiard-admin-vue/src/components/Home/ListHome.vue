@@ -31,11 +31,31 @@
 <script lang="ts" setup>
 import { getAllTable } from "~/services/home.service";
 import { Tables } from "~/constant/api";
+import { io } from "socket.io-client";
 import { ref, onMounted } from "vue";
 import router from '~/router'
 
 const tableData = ref<Tables[]>([]);
 const loading = ref(true);
+
+const socket = io("http://127.0.0.1:8000/", {
+    transports: ["websocket"],
+});
+
+socket.on("connect", () => {
+    console.log("Connected to WebSocket server!");
+});
+
+socket.on("connect_error", (error) => {
+    console.error("Connection failed:", error);
+});
+
+socket.on("table_status_updated", (data) => {
+    const table = tableData.value.find((t) => t._id === data._id);
+    if (table) {
+        table.status = data.status;
+    }
+});
 
 const handleEdit = (id:string) => {
     router.push(`/${id}`);

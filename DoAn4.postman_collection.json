@@ -837,7 +837,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user_id\": \"fgfjfgjxsw5w534dg1\",\r\n    \"table_id\": \"fgfjfgjxsw5w534dg7\",\r\n    \"booking_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"start_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"end_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"status\": true\r\n}",
+							"raw": "{\r\n    \"user_id\": \"fgfjfgjxsw5w534dg1\",\r\n    \"table_id\": \"fgfjfgjxsw5w534dg7\",\r\n    \"start_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"end_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"status\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -864,7 +864,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\": \"66f7ebc98721b50fa6891900\",\r\n    \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"table_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"booking_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"start_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"end_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"status\": false\r\n}",
+							"raw": "{\r\n    \"_id\": \"66f7ebc98721b50fa6891900\",\r\n    \"table_id\": \"fgfjfgjxsw5w534dg7\",\r\n    \"name\": \"123\",\r\n    \"phone\": \"123\",\r\n    \"start_time\": \"2019-01-31T10:00:00\",\r\n    \"end_time\": \"2019-01-31T10:00:00\",\r\n    \"status\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -910,7 +910,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"page\": 1,\r\n    \"pageSize\": 3,\r\n    \"booking_date\": \"2019-01-31T10:00:00\",\r\n    \"status\": true\r\n\r\n}",
+							"raw": "{\r\n    \"page\": 1,\r\n    \"pageSize\": 3,\r\n    \"status\": true\r\n\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -925,6 +925,33 @@
 							"path": [
 								"bookings",
 								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "checkBooking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"table_id\": \"fgfjfgjxsw5w534dg7\",\r\n    \"start_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"end_time\": \"2020-01-31T10:00:00.000Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/bookings/check-availability-booking",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"bookings",
+								"check-availability-booking"
 							]
 						}
 					},

@@ -1,11 +1,4 @@
 <template>
-    <div class="container">
-        <div class="type">
-            <NuxtLink to="/">TRANG CHỦ</NuxtLink>
-            <i class="fa-solid fa-arrow-right"></i>
-            <NuxtLink to="/booking">Đặt bàn</NuxtLink>
-        </div>
-    </div>
     <div class="container py-4">
         <div class="row g-3">
             <div
@@ -24,9 +17,116 @@
                     <button
                         class="btn btn-primary btn-booking"
                         v-if="!table.status"
-                        @click="handleBooking(table._id)"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        @click="openModal(table._id)"
+                        href="#exampleModalToggle"
+                        role="button"
                     >
                         Đặt bàn
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+        v-show="isModalOpen"
+    >
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content shadow-lg border-0">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Thông tin đặt bàn
+                    </h5>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <form id="booking-form" @submit.prevent="submitBooking">
+                        <div class="mb-3">
+                            <label
+                                for="recipient-name"
+                                class="form-label fw-bold"
+                                >Tên khách hàng:</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control rounded-3"
+                                id="recipient-name"
+                                v-model="customerName"
+                                placeholder="Nhập tên khách hàng"
+                                required
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label
+                                for="recipient-phone"
+                                class="form-label fw-bold"
+                                >Số điện thoại:</label
+                            >
+                            <input
+                                type="tel"
+                                class="form-control rounded-3"
+                                id="recipient-phone"
+                                v-model="customerPhone"
+                                placeholder="Nhập số điện thoại"
+                                required
+                            />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label
+                                    for="start-time"
+                                    class="form-label fw-bold"
+                                    >Thời gian bắt đầu:</label
+                                >
+                                <input
+                                    type="datetime-local"
+                                    class="form-control rounded-3"
+                                    id="start-time"
+                                    v-model="startTime"
+                                    required
+                                />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="end-time" class="form-label fw-bold"
+                                    >Thời gian kết thúc:</label
+                                >
+                                <input
+                                    type="datetime-local"
+                                    class="form-control rounded-3"
+                                    id="end-time"
+                                    v-model="endTime"
+                                    required
+                                />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Đóng
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                        @click="submitBooking"
+                    >
+                        Đặt bàn ngay
                     </button>
                 </div>
             </div>
@@ -37,11 +137,27 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { io } from "socket.io-client";
-import { getAllTable, updateTableStatus } from "~/services/booking.service";
+import {
+    checkBooking,
+    createBooking,
+    getAllTable,
+} from "~/services/booking.service";
 import { type Tables } from "~/constant/api";
+import Swal from "sweetalert2";
+
+const getDefaultDateTime = () => {
+    const now = new Date();
+    return now.toISOString().slice(0, 16);
+};
 
 const tableData = ref<Tables[]>([]);
 const loading = ref(true);
+const customerName = ref("");
+const customerPhone = ref("");
+const startTime = ref(getDefaultDateTime());
+const endTime = ref(getDefaultDateTime());
+const selectedTableId = ref("");
+const isModalOpen = ref(false);
 
 const socket = io("http://127.0.0.1:8000/", {
     transports: ["websocket"],
@@ -56,21 +172,77 @@ socket.on("connect_error", (error) => {
 });
 
 socket.on("table_status_updated", (data) => {
-    // console.log("Table status updated", data);
     const table = tableData.value.find((t) => t._id === data._id);
     if (table) {
         table.status = data.status;
     }
 });
 
-const handleBooking = async (id: string) => {
-    try {
-        console.log("Gọi API cập nhật trạng thái bàn...");
-        await updateTableStatus(id);
-        console.log("Cập nhật trạng thái bàn thành công.");
-    } catch (error) {
-        console.error("Lỗi khi gọi API:", error);
+const openModal = (id: string) => {
+    selectedTableId.value = id;
+    isModalOpen.value = true;
+};
+
+const submitBooking = async () => {
+    if (!customerName.value.trim()) {
+        Swal.fire("Lỗi", "Vui lòng nhập tên khách hàng!", "error");
+        return;
     }
+    if (!customerPhone.value.trim()) {
+        Swal.fire("Lỗi", "Vui lòng nhập số điện thoại!", "error");
+        return;
+    }
+    if (!startTime.value) {
+        Swal.fire("Lỗi", "Vui lòng chọn thời gian bắt đầu!", "error");
+        return;
+    }
+    if (!endTime.value) {
+        Swal.fire("Lỗi", "Vui lòng chọn thời gian kết thúc!", "error");
+        return;
+    }
+
+    try {
+        const bookingData = {
+            table_id: selectedTableId.value,
+            name: customerName.value,
+            phone: customerPhone.value,
+            start_time: startTime.value,
+            end_time: endTime.value,
+            status: true,
+        };
+        // console.log("Booking Data:", bookingData);
+        const ischeckBooking = await checkBooking({
+            table_id: selectedTableId.value,
+            start_time: startTime.value,
+            end_time: endTime.value,
+        });
+        if (ischeckBooking) {
+            await createBooking(bookingData);
+            closeModal();
+            Swal.fire("Thành công", "Đặt bàn thành công!", "success");
+        } else {
+            Swal.fire("Thất bại", "Thời gian này đã có khách đặt!", "warning");
+        }
+    } catch (error) {
+        console.error("Lỗi khi đặt bàn:", error);
+        Swal.fire("Lỗi", "Có lỗi xảy ra. Vui lòng thử lại!", "error");
+    }
+};
+
+const onModalHidden = () => {
+    const backdrop = document.querySelector(".modal-backdrop");
+    if (backdrop) {
+        backdrop.remove();
+    }
+};
+
+const closeModal = () => {
+    const modalElement = document.getElementById("exampleModal");
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+    modalInstance.hide();
+    isModalOpen.value = false;
+    customerName.value = "";
+    customerPhone.value = "";
 };
 
 const fetchData = async () => {
@@ -87,6 +259,10 @@ const fetchData = async () => {
 
 onMounted(async () => {
     await fetchData();
+    const modalElement = document.getElementById("exampleModal");
+    if (modalElement) {
+        modalElement.addEventListener("hidden.bs.modal", onModalHidden);
+    }
 });
 </script>
 
@@ -175,5 +351,38 @@ onMounted(async () => {
 
 .bg-success {
     background-color: #2ecc71 !important;
+}
+
+.modal-content {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.modal-header {
+    background: linear-gradient(90deg, #007bff, #0056b3);
+}
+
+.btn-close-white {
+    filter: brightness(0) invert(1);
+}
+
+.modal-body {
+    background-color: #f8f9fa;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+.form-control {
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    box-shadow: none;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #007bff;
 }
 </style>

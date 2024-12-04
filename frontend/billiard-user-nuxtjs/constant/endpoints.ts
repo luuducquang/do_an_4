@@ -10,3 +10,4 @@ export const RateUrl = "/api-user/DanhGia";
 export const AdvertisementUrl = "/api-user/QuangCao";
 export const ImageUrl = "/api-user/Image";
 export const TableUrl = "/tables";
+export const BookingUrl = "/bookings";

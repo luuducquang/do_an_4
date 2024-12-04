@@ -4,7 +4,7 @@ from pymongo.collection import Collection
 from config.database import database
 from datetime import datetime
 from schemas.schemas import Bookings, Searchs
-from service.bookings import ser_get_booking,ser_search_booking,ser_delete_booking, ser_insert_booking, ser_update_booking
+from service.bookings import ser_get_booking,ser_search_booking,ser_delete_booking, ser_insert_booking, ser_update_booking,ser_check_availability_booking
 
 
 router = APIRouter()
@@ -14,6 +14,14 @@ booking_collection: Collection = database['Bookings']
 @router.get("/bookings/get")
 async def get_booking():
     return ser_get_booking()
+
+@router.post("/bookings/check-availability-booking")
+async def check_availability_booking(
+    table_id: str = Body(...),
+    start_time: datetime = Body(...),
+    end_time: datetime = Body(...),
+):
+    return await ser_check_availability_booking(table_id, start_time, end_time, booking_collection)
 
 @router.post("/bookings/search")
 async def search_booking(_data:Searchs):

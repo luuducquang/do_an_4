@@ -29,8 +29,10 @@ async def create_table(_data: Tables):
     return {"message": "Created successfully", "_id": _id}
 
 @router.put("/tables/update")
-def edit_table(_data: Tables):
+async def edit_table(_data: Tables):
     result = ser_update_table(_data, table_collection)
+    updated_table = await ser_getbyid_table(_data.id)
+    await sio.emit("table_status_updated", updated_table)
     return result
 
 @router.put("/tables/updatestatus/{table_id}")

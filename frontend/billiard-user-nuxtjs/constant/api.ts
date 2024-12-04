@@ -21,6 +21,15 @@ export interface Tables {
     pricingrule?: PricingRules;
 }
 
+export interface Bookings {
+    _id?: string;
+    table_id: string;
+    name: string;
+    phone: string;
+    start_time: Date;
+    end_time: Date;
+    status: Boolean;
+}
 
 export interface PricingRules {
     _id?: string;

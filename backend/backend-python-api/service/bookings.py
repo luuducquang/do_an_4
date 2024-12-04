@@ -1,3 +1,4 @@
+from datetime import datetime
 from bson import ObjectId
 from fastapi import HTTPException
 from pymongo.collection import Collection
@@ -12,6 +13,32 @@ def ser_get_booking():
         data["_id"] = str(data["_id"])
         datas.append(data)
     return datas
+
+async def ser_check_availability_booking(
+    table_id: str,
+    start_time: datetime,
+    end_time: datetime,
+    booking_collection
+):
+    conflict_count = booking_collection.count_documents({
+        "table_id": table_id,
+        "status": True,
+        "$or": [
+            {
+                "$and": [
+                    {"start_time": {"$lte": end_time}},  # start_time <= end_time
+                    {"end_time": {"$gte": start_time}}  # end_time >= start_time
+                ]
+            }
+        ]
+    })
+    
+    if conflict_count > 0:
+        return False
+
+    return True
+
+
 
 def ser_search_booking(_data:Searchs):
     if _data.page <= 0 or _data.pageSize <= 0:

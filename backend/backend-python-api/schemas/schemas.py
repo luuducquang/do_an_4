@@ -68,9 +68,9 @@ class EmployeePayments(BaseModel):
 
 class Bookings(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
-    user_id: str
     table_id: str
-    booking_date: datetime
+    name: str
+    phone: str
     start_time: datetime
     end_time: datetime
     status: Optional[bool]
