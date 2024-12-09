@@ -8,6 +8,7 @@ class Searchs(BaseModel):
     pageSize: int = Body(...),
     search_term: Optional[str] = Body(None)
     category_name:Optional[str] = Body(None)
+    status:Optional[bool] = Body(None)
 
 class LoginRequest(BaseModel):
     username: str

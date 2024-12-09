@@ -29,6 +29,8 @@ export interface Bookings {
     start_time: Date;
     end_time: Date;
     status: Boolean;
+    created_at:Date
+    table?: Tables;
 }
 
 export interface PricingRules {

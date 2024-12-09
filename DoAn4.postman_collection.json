@@ -837,7 +837,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user_id\": \"fgfjfgjxsw5w534dg1\",\r\n    \"table_id\": \"fgfjfgjxsw5w534dg7\",\r\n    \"start_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"end_time\": \"2019-01-31T10:00:00.000Z\",\r\n    \"status\": true\r\n}",
+							"raw": "{\r\n    \"table_id\": \"6732cee552e9e56c542a2490\",\r\n    \"name\": \"123\",\r\n    \"phone\": \"123\",\r\n    \"start_time\": \"2024-09-12T10:00:00.000Z\",\r\n    \"end_time\": \"2024-09-12T10:00:00.000Z\",\r\n    \"status\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -910,7 +910,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"page\": 1,\r\n    \"pageSize\": 3,\r\n    \"status\": true\r\n\r\n}",
+							"raw": "{\r\n    \"page\": 1,\r\n    \"pageSize\": 10,\r\n    \"status\": true\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"

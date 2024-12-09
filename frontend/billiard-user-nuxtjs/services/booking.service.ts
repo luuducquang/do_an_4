@@ -28,3 +28,10 @@ export const checkBooking = async (
     );
     return res?.data;
 };
+
+export const searchBooking = async (
+    data: Record<string, string | number | Boolean>
+): Promise<Bookings> => {
+    const res = await apiClient?.post(`${BookingUrl}/search`, data);
+    return res?.data;
+};

@@ -1,30 +1,63 @@
 <template>
     <div class="container py-4">
         <div class="row g-3">
-            <div
-                class="col-6 col-md-4 col-lg-3"
-                v-for="table in tableData"
-                :key="table._id"
-            >
-                <div
-                    class="card text-center p-3 position-relative"
-                    :class="table.status ? 'bg-danger' : 'bg-success'"
-                >
-                    <h1 class="text-white">{{ table.table_number }}</h1>
-                    <p class="m-0 text-white">
-                        {{ table.status ? "Đang sử dụng" : "Đang trống" }}
-                    </p>
-                    <button
-                        class="btn btn-primary btn-booking"
-                        v-if="!table.status"
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
-                        @click="openModal(table._id)"
-                        href="#exampleModalToggle"
-                        role="button"
+            <div class="col-12 col-lg-9 order-1 order-lg-1">
+                <div class="row g-3">
+                    <div
+                        class="col-6 col-md-6 col-lg-4"
+                        v-for="table in tableData"
+                        :key="table._id"
                     >
-                        Đặt bàn
-                    </button>
+                        <div
+                            class="card text-center p-3 position-relative"
+                            :class="table.status ? 'bg-danger' : 'bg-success'"
+                        >
+                            <h1 class="text-white">{{ table.table_number }}</h1>
+                            <p class="m-0 text-white">
+                                {{
+                                    table.status ? "Đang sử dụng" : "Đang trống"
+                                }}
+                            </p>
+                            <button
+                                class="btn btn-primary btn-booking"
+                                v-if="!table.status"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                                @click="openModal(table._id)"
+                                href="#exampleModalToggle"
+                                role="button"
+                            >
+                                Đặt bàn
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-3 order-2 order-lg-2">
+                <div class="p-3 border rounded shadow-sm bg-light list-booking">
+                    <h4>Danh sách đặt bàn</h4>
+                    <div v-if="searchBookingData && searchBookingData.length">
+                        <div
+                            v-for="(booking, index) in searchBookingData"
+                            :key="index"
+                            class="mb-3 p-2 border-bottom"
+                        >
+                            <p class="fw-bold">
+                                Bàn: {{ booking.table?.table_number }}
+                            </p>
+                            <p>Tên: {{ booking.name }}</p>
+                            <p>Điện thoại: {{ booking.phone }}</p>
+                            <p>Bắt đầu: {{ formatTime(booking.start_time) }}</p>
+                            <p>Kết thúc: {{ formatTime(booking.end_time) }}</p>
+                            <p class="text-end">
+                                {{ getTimeDifference(booking.created_at) }}
+                            </p>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <p>Không có dữ liệu đặt bàn.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -141,16 +174,20 @@ import {
     checkBooking,
     createBooking,
     getAllTable,
+    searchBooking,
 } from "~/services/booking.service";
-import { type Tables } from "~/constant/api";
+import { type Bookings, type Tables } from "~/constant/api";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const getDefaultDateTime = () => {
     const now = new Date();
-    return now.toISOString().slice(0, 16);
+    const vietnamTime = new Date(now.getTime() + 7 * 60 * 60 * 1000);
+    return vietnamTime.toISOString().slice(0, 16);
 };
 
 const tableData = ref<Tables[]>([]);
+const searchBookingData = ref<Bookings[]>([]);
 const loading = ref(true);
 const customerName = ref("");
 const customerPhone = ref("");
@@ -219,13 +256,16 @@ const submitBooking = async () => {
         if (ischeckBooking) {
             await createBooking(bookingData);
             closeModal();
+            fetchData();
             Swal.fire("Thành công", "Đặt bàn thành công!", "success");
         } else {
             Swal.fire("Thất bại", "Thời gian này đã có khách đặt!", "warning");
         }
     } catch (error) {
-        console.error("Lỗi khi đặt bàn:", error);
-        Swal.fire("Lỗi", "Có lỗi xảy ra. Vui lòng thử lại!", "error");
+        if (axios.isAxiosError(error)) {
+            Swal.fire("Lỗi", error.response?.data.detail, "error");
+            // console.log(error.response?.data.detail);
+        }
     }
 };
 
@@ -245,10 +285,44 @@ const closeModal = () => {
     customerPhone.value = "";
 };
 
+const getTimeDifference = (createdAt: Date) => {
+    const createdDate = new Date(createdAt);
+    const currentDate = new Date();
+    const differenceMs = currentDate - createdDate;
+    const differenceMinutes = Math.floor(differenceMs / (1000 * 60));
+    if (differenceMinutes < 60) {
+        return `${differenceMinutes} phút trước`;
+    } else if (differenceMinutes < 1440) {
+        const hours = Math.floor(differenceMinutes / 60);
+        return `${hours} giờ trước`;
+    } else {
+        const days = Math.floor(differenceMinutes / 1440);
+        return `${days} ngày trước`;
+    }
+};
+
+const formatTime = (datetime: Date) => {
+    const date = new Date(datetime);
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `${hours}:${minutes} | ${day}/${month}/${year}`;
+};
+
 const fetchData = async () => {
     try {
         const res = await getAllTable();
         tableData.value = res;
+
+        const resBooking = await searchBooking({
+            page: 1,
+            pageSize: 100,
+            status: true,
+        });
+        searchBookingData.value = resBooking?.data.reverse();
     } catch (error) {
         console.error("Error fetching:", error);
         tableData.value = [];
@@ -384,5 +458,10 @@ onMounted(async () => {
 .form-control:focus {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     border-color: #007bff;
+}
+
+.list-booking {
+    max-height: 560px;
+    overflow-y: scroll;
 }
 </style>
