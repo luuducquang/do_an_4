@@ -3369,6 +3369,198 @@
 			]
 		},
 		{
+			"name": "BillSell",
+			"item": [
+				{
+					"name": "getBillSell",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/billsells/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"billsells",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addBillSell",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"sell_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"name\": \"quang\",\r\n    \"email\": \"quang\",\r\n    \"phone\": \"quang\",\r\n    \"address\": \"quang\",\r\n    \"address_detail\": \"quang\",\r\n    \"total_price\": 100,\r\n    \"status\": \"đang chờ xử lý\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/billsells/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"billsells",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editBillSell",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"6758505573e9236a044d1e2d\",\r\n    \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"sell_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"name\": \"quang\",\r\n    \"email\": \"quang\",\r\n    \"phone\": \"quang\",\r\n    \"address\": \"quang\",\r\n    \"address_detail\": \"quangg\",\r\n    \"total_price\": 100,\r\n    \"status\": \"đang chờ xử lý\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/billsells/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"billsells",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteBillSell",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/billsells/delete/6758505573e9236a044d1e2d",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"billsells",
+								"delete",
+								"6758505573e9236a044d1e2d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SelItems",
+			"item": [
+				{
+					"name": "getSellItem",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sellitems/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sellitems",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addSellItem",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sell_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"item_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"quantity\": 1,\r\n    \"unit_price\": 100,\r\n    \"total_price\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/sellitems/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sellitems",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editSellItem",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\":\"675851aea881560136c65a25\",\r\n    \"sell_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"item_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"quantity\": 11,\r\n    \"unit_price\": 100,\r\n    \"total_price\": 100\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/sellitems/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sellitems",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteSellItem",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sellitems/delete/675851aea881560136c65a25",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sellitems",
+								"delete",
+								"675851aea881560136c65a25"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "upload",
 			"request": {
 				"method": "POST",

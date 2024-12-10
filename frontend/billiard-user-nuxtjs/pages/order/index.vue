@@ -222,7 +222,7 @@
                         </div>
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary">
-                                Thanh toán và giao hàng
+                                Đặt hàng
                             </button>
                         </div>
                     </form>

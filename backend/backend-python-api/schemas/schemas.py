@@ -202,6 +202,26 @@ class ImportItems(BaseModel):
     unit_price: int
     total_price: int
 
+class BillSells(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
+    user_id: str
+    sell_date: datetime
+    name:str
+    email:str
+    phone:str
+    address:str
+    address_detail:str
+    total_price: int
+    status:str
+
+class SellItems(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
+    sell_id: str
+    item_id: str
+    quantity: int
+    unit_price: int
+    total_price: int
+
 class Carts(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     user_id:str
