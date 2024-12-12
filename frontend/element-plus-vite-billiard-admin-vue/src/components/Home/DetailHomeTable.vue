@@ -337,7 +337,7 @@
                 />
             </el-form-item>
             <el-form-item
-                label="Giá bán"
+                label="Giá thuê/1h"
                 :label-width="formLabelWidth"
                 prop="unit_price"
             >
@@ -567,15 +567,6 @@ const confirmEventRentalItem = async (Id: string) => {
     }
 };
 
-const confirmEventPay = async () => {
-    try {
-        Notification("Xoá thành công", "success");
-    } catch (error) {
-        console.error("Error deleting =:", error);
-        Notification("Lỗi khi xoá =", "error");
-    }
-};
-
 const submitFormMenuItem = async (formEl: FormInstance | undefined) => {
     if (!formEl) return;
 
@@ -735,12 +726,12 @@ const fetchById = async (id: string) => {
     optionListRenTalItems.value = resListRentalItem?.map(function ({
         _id,
         item_name,
-        price_reduction,
+        rental_price_hours,
     }) {
         return {
             value: _id || 0,
             label: item_name || "",
-            price: price_reduction || 0,
+            price: rental_price_hours || 0,
         };
     });
 };

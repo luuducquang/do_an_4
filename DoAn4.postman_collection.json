@@ -234,6 +234,25 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "getByIdUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/get/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"get",
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -3214,6 +3233,33 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "deleteManyCart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n[\"67599e5650d3ad0b4806bbda\"]\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/carts/delete",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"carts",
+								"delete"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -3396,7 +3442,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"sell_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"name\": \"quang\",\r\n    \"email\": \"quang\",\r\n    \"phone\": \"quang\",\r\n    \"address\": \"quang\",\r\n    \"address_detail\": \"quang\",\r\n    \"total_price\": 100,\r\n    \"status\": \"đang chờ xử lý\"\r\n}",
+							"raw": "{\r\n  \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n  \"sell_date\": \"2024-12-11T10:30:00\",\r\n  \"name\": \"Nguyen Van A\",\r\n  \"email\": \"example@gmail.com\",\r\n  \"phone\": \"0123456789\",\r\n  \"address\": \"123 Street\",\r\n  \"address_detail\": \"Apartment 456\",\r\n  \"total_price\": 100000,\r\n  \"status\": \"đang chờ\",\r\n  \"sell_items\": [\r\n    {\r\n      \"item_id\": \"fgfjfgjxsw5w534dg\",\r\n      \"quantity\": 2,\r\n      \"unit_price\": 10000,\r\n      \"total_price\": 20000\r\n    },\r\n    {\r\n      \"item_id\": \"fgfjfgjxsw5w534dg\",\r\n      \"quantity\": 1,\r\n      \"unit_price\": 80000,\r\n      \"total_price\": 80000\r\n    }\r\n  ]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3457,6 +3503,44 @@
 								"billsells",
 								"delete",
 								"6758505573e9236a044d1e2d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getbyuser_id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/billsells/get/675843fd9b0d901f90eb92d5",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"billsells",
+								"get",
+								"675843fd9b0d901f90eb92d5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBySellId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/billsells/get-billsell-id/6759a2f250d3ad0b4806bbdb",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"billsells",
+								"get-billsell-id",
+								"6759a2f250d3ad0b4806bbdb"
 							]
 						}
 					},

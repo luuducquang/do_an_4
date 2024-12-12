@@ -24,7 +24,7 @@ def ser_get_table():
         datas.append(data)
     return datas
 
-async def ser_getbyid_table(table_id:str):
+def ser_getbyid_table(table_id:str):
     if not ObjectId.is_valid(table_id):
             raise HTTPException(status_code=400, detail="Invalid ID format")
 

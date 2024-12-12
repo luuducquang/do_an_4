@@ -31,7 +31,7 @@ async def create_table(_data: Tables):
 @router.put("/tables/update")
 async def edit_table(_data: Tables):
     result = ser_update_table(_data, table_collection)
-    updated_table = await ser_getbyid_table(_data.id)
+    updated_table = ser_getbyid_table(_data.id)
     await sio.emit("table_status_updated", updated_table)
     return result
 

@@ -57,10 +57,14 @@ def ser_insert_table_menuitem(_data: TableMenuItems) -> str:
             {"item_id": _data.item_id}, 
             {"$set": {"quantity": updated_quantity, "total_price": updated_total_price}} 
         )
+        if result.modified_count > 0:
+            return str(existing_menuitem["_id"])
+        else:
+            return str(existing_menuitem["_id"])
     else:
         result = table_menuitem_collection.insert_one(_data.dict(exclude={"id"}))
+        return str(result.inserted_id)
 
-    return str(result.upserted_id)
 
 def ser_update_table_menuitem(_data: TableMenuItems, table_menuitem_collection: Collection):
     if not _data.id:
