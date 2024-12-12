@@ -13,19 +13,19 @@
 import { onMounted, ref } from "vue";
 import Cookies from "js-cookie";
 import { useRouter } from "vue-router";
-import { type BillSell } from "~/constant/api";
+import { type BillSells } from "~/constant/api";
 import { getInvoiceAll } from "~/services/invoice.servie";
 
 const router = useRouter();
 
-const dataInvoice = ref<BillSell[]>([]);
+const dataInvoice = ref<BillSells[]>([]);
 
 const fetchData = async () => {
     const customerData = Cookies.get("customer");
     if (customerData) {
         try {
             const customer = JSON.parse(customerData);
-            const dataFetch = await getInvoiceAll(customer.mataikhoan);
+            const dataFetch = await getInvoiceAll(customer._id);
             dataInvoice.value = dataFetch;
         } catch (error) {
             console.error("Failed to parse customer data from cookies:", error);

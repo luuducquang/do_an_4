@@ -1,6 +1,6 @@
 from fastapi import Body
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import List, Optional
 from datetime import datetime
 
 class Searchs(BaseModel):
@@ -202,6 +202,14 @@ class ImportItems(BaseModel):
     unit_price: int
     total_price: int
 
+class SellItems(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
+    sell_id: Optional[str] = None
+    item_id: str
+    quantity: int
+    unit_price: int
+    total_price: int
+
 class BillSells(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     user_id: str
@@ -213,14 +221,7 @@ class BillSells(BaseModel):
     address_detail:str
     total_price: int
     status:str
-
-class SellItems(BaseModel):
-    id: Optional[str] = Field(None, alias="_id")  
-    sell_id: str
-    item_id: str
-    quantity: int
-    unit_price: int
-    total_price: int
+    sell_items: Optional[List[SellItems]] = None
 
 class Carts(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  

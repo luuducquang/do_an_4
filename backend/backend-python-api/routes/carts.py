@@ -1,8 +1,9 @@
-from fastapi import APIRouter
+from typing import List
+from fastapi import APIRouter, Body
 from pymongo.collection import Collection
 from config.database import database
 from schemas.schemas import Carts
-from service.carts import ser_get_cart,ser_delete_cart, ser_insert_cart, ser_update_cart,ser_get_cart_by_user_id,ser_update_cart_false_status
+from service.carts import ser_get_cart,ser_delete_cart, ser_insert_cart, ser_update_cart,ser_get_cart_by_user_id,ser_update_cart_false_status,ser_delete_carts
 
 
 router = APIRouter()
@@ -35,4 +36,9 @@ def edit_cart_false_status(user_id: str):
 @router.delete("/carts/delete/{cart_id}")
 def remove_cart(cart_id: str):
     response = ser_delete_cart(cart_id, cart_collection)
+    return response
+
+@router.delete("/carts/delete")
+def remove_carts(cart_ids: List[str] = Body(...)):
+    response = ser_delete_carts(cart_ids, cart_collection)
     return response

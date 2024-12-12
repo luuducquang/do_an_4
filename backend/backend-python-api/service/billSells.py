@@ -1,3 +1,4 @@
+from typing import List
 from bson import ObjectId
 from fastapi import HTTPException
 from pymongo.collection import Collection
@@ -5,6 +6,8 @@ from schemas.schemas import BillSells
 from config.database import database
 
 billsell_collection: Collection = database['BillSells']
+sellitem_collection: Collection = database['SellItems']
+rentalitem_collection: Collection = database['RentalItems']
 
 def ser_get_billsell():
     datas = []
@@ -13,9 +16,50 @@ def ser_get_billsell():
         datas.append(data)
     return datas
 
+def ser_get_billsell_by_user(user_id: str):
+    datas = []
+    for data in billsell_collection.find({"user_id": user_id}):
+        data["_id"] = str(data["_id"])
+        datas.append(data)
+    return datas
+
+def ser_get_billsell_by_sell_id(sell_id: str):
+    datas = []
+    for data in sellitem_collection.find({"sell_id": sell_id}):
+        data["_id"] = str(data["_id"])
+        rental_item_data = rentalitem_collection.find_one({"_id": ObjectId(data["item_id"])})
+        if rental_item_data:
+            rental_item_data["_id"] = str(rental_item_data["_id"])  
+            data["rentalitem"] = rental_item_data  
+        else:
+            data["rentalitem"] = None  
+        datas.append(data)
+    return datas
+
 def ser_insert_billsell(_data: BillSells) -> str:
-    result = billsell_collection.insert_one(_data.dict(exclude={"id"}))
-    return str(result.inserted_id)
+    bill_data = {
+        "user_id": _data.user_id,
+        "sell_date": _data.sell_date,
+        "name": _data.name,
+        "email": _data.email,
+        "phone": _data.phone,
+        "address": _data.address,
+        "address_detail": _data.address_detail,
+        "total_price": _data.total_price,
+        "status": _data.status
+    }
+
+    result = billsell_collection.insert_one(bill_data)
+    bill_id = str(result.inserted_id)
+
+    if _data.sell_items:
+        sell_items = _data.sell_items
+        for item in sell_items:
+            item.sell_id = bill_id 
+
+        sellitem_collection.insert_many([item.dict(exclude={"id"}) for item in sell_items])
+
+    return bill_id
 
 def ser_update_billsell(_data: BillSells, billsell_collection: Collection):
     if not _data.id:

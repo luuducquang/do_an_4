@@ -6,10 +6,10 @@
             <NuxtLink to="/cart">Giỏ Hàng</NuxtLink>
         </div>
         <div class="null_content">
-            <h1 class="null_item" v-if="dataCart.length === 0">
+            <h4 class="null_item" v-if="dataCart.length === 0">
                 Giỏ hàng trống
-            </h1>
-            <div class="null_item">
+            </h4>
+            <div class="text-center">
                 <NuxtLink v-if="dataCart.length === 0" to="/"
                     >Quay Lại trang chủ</NuxtLink
                 >
@@ -130,7 +130,6 @@ if (recomendData.value) {
 }
 
 .null_item {
-    font-size: 1rem;
     text-align: center;
     text-transform: uppercase;
     margin: 0;

@@ -131,14 +131,13 @@ const fetchDataCart = async () => {
     if (customerData) {
         try {
             const customer = JSON.parse(customerData);
-            const dataUser = await getInformation(customer.mataikhoan);
-            console.log(dataUser);
-            formData.hoTen = String(dataUser[0]?.hoTen);
-            formData.soDienThoai = String(dataUser[0]?.soDienThoai);
-            formData.email = String(dataUser[0]?.email);
-            formData.diaChi = String(dataUser[0]?.diaChi);
-            formData.matKhau = String(dataUser[0]?.matKhau);
-            formData.anhDaiDien = apiImage + dataUser[0]?.anhDaiDien;
+            const dataUser = await getInformation(customer._id);
+            formData.hoTen = String(dataUser?.fullname);
+            formData.soDienThoai = String(dataUser?.phone);
+            formData.email = String(dataUser?.email);
+            formData.diaChi = String(dataUser?.address);
+            formData.matKhau = String(dataUser?.password);
+            formData.anhDaiDien = apiImage + dataUser?.avatar;
             formData.fileName = "";
             formData.file = null;
         } catch (error) {
@@ -161,50 +160,40 @@ const handleUpdateInformation = async () => {
         const customerData = Cookies.get("customer");
         if (customerData) {
             const customer = JSON.parse(customerData);
-            const dataUser = await getInformation(customer.mataikhoan);
+            const dataUser = await getInformation(customer._id);
 
             if (formData.file) {
                 formData2.append("file", formData.file);
                 await uploadImage(formData2);
                 await updateInformation({
-                    MaTaiKhoan: customer.mataikhoan,
-                    TenTaiKhoan: customer.taikhoan,
-                    MatKhau: formData.matKhau,
-                    Email: formData.email,
-                    list_json_chitiet_taikhoan: [
-                        {
-                            MaChitietTaiKhoan: dataUser[0].maChitietTaiKhoan,
-                            MaLoaitaikhoan: dataUser[0].maLoaitaikhoan,
-                            AnhDaiDien: "/img/" + formData.fileName,
-                            HoTen: formData.hoTen,
-                            DiaChi: formData.diaChi,
-                            SoDienThoai: formData.soDienThoai,
-                            status: 2,
-                        },
-                    ],
+                    _id: customer._id,
+                    username: customer.username,
+                    password: formData.matKhau,
+                    fullname: formData.hoTen,
+                    email: formData.email,
+                    phone: formData.soDienThoai,
+                    address: formData.diaChi,
+                    avatar: "/static/uploads/" + formData.fileName,
+                    loyalty_points: customer.loyalty_points,
+                    role_name: customer.role_name,
                 });
             } else {
                 await updateInformation({
-                    MaTaiKhoan: customer.mataikhoan,
-                    TenTaiKhoan: customer.taikhoan,
-                    MatKhau: formData.matKhau,
-                    Email: formData.email,
-                    list_json_chitiet_taikhoan: [
-                        {
-                            MaChitietTaiKhoan: dataUser[0].maChitietTaiKhoan,
-                            MaLoaitaikhoan: dataUser[0].maLoaitaikhoan,
-                            AnhDaiDien: dataUser[0].anhDaiDien,
-                            HoTen: formData.hoTen,
-                            DiaChi: formData.diaChi,
-                            SoDienThoai: formData.soDienThoai,
-                            status: 2,
-                        },
-                    ],
+                    _id: customer._id,
+                    username: customer.username,
+                    password: formData.matKhau,
+                    fullname: formData.hoTen,
+                    email: formData.email,
+                    phone: formData.soDienThoai,
+                    address: formData.diaChi,
+                    avatar: dataUser.avatar,
+                    loyalty_points: customer.loyalty_points,
+                    role_name: customer.role_name,
                 });
             }
             const res = await login({
-                username: String(dataUser[0].tenTaiKhoan),
-                password: String(dataUser[0].matKhau),
+                username: String(dataUser.username),
+                password: String(dataUser.password),
             });
             Cookies.set("customer", JSON.stringify(res), { expires: 1 });
             window.location.reload();

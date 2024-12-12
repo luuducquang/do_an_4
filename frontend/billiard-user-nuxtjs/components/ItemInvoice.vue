@@ -1,32 +1,40 @@
 <template>
+    <div v-show="billsell.length === 0">
+        <h4 class="text-center m-0 pt-3">Bạn chưa có đơn hàng nào</h4>
+        <div class="text-center mt-2">
+            <NuxtLink v-if="billsell.length === 0" to="/"
+                >Quay Lại trang chủ</NuxtLink
+            >
+        </div>
+    </div>
     <div class="accordion" id="accordionExample">
         <div
             class="accordion-item"
             v-for="(value, index) in billsell"
             :key="index"
         >
-            <h2 class="accordion-header" :id="`heading${value?.maHoaDon}`">
+            <h2 class="accordion-header" :id="`heading${value?._id}`">
                 <button
                     class="accordion-button collapsed"
                     type="button"
                     data-bs-toggle="collapse"
-                    :data-bs-target="`#collapse${value?.maHoaDon}`"
+                    :data-bs-target="`#collapse${value?._id}`"
                     aria-expanded="false"
-                    :aria-controls="`collapse${value?.maHoaDon}`"
+                    :aria-controls="`collapse${value?._id}`"
                 >
                     {{
-                        `${value?.tenKH} | ${
-                            value?.tongGia > 0
-                                ? value?.tongGia.toLocaleString("DE-de")
+                        `${value?.name} | ${
+                            value?.total_price > 0
+                                ? value?.total_price.toLocaleString("DE-de")
                                 : 0
-                        }đ | ${value?.diaChiGiaoHang} | ${value?.trangThai}`
+                        }đ | ${value?.address_detail} | ${value?.status}`
                     }}
                 </button>
             </h2>
             <div
-                :id="`collapse${value?.maHoaDon}`"
+                :id="`collapse${value?._id}`"
                 class="accordion-collapse collapse"
-                :aria-labelledby="`heading${value?.maHoaDon}`"
+                :aria-labelledby="`heading${value?._id}`"
                 data-bs-parent="#accordionExample"
                 style=""
             >
@@ -36,26 +44,28 @@
                     :key="index"
                 >
                     <div
-                        v-if="item.maHoaDon === value?.maHoaDon"
+                        v-if="item.sell_id === value?._id"
                         class="d-flex accordion-body"
                     >
                         <img
-                            :src="apiImage + item.anhDaiDien"
+                            :src="apiImage + item.rentalitem.image"
                             alt="image"
                             width="200"
                             height="200"
                         />
                         <div class="p-3">
-                            <h5>{{ item.tenSanPham }}</h5>
+                            <h5>{{ item.rentalitem.item_name }}</h5>
                             <div>
                                 Số lượng:
-                                {{ item.soLuong }}
+                                {{ item.quantity }}
                             </div>
                             <div>
                                 Đơn giá:
                                 {{
-                                    item.donGia > 0
-                                        ? item.donGia.toLocaleString("De-de")
+                                    item.unit_price > 0
+                                        ? item.unit_price.toLocaleString(
+                                              "De-de"
+                                          )
                                         : 0
                                 }}đ
                             </div>
@@ -63,8 +73,8 @@
                                 Tổng giá:
                                 {{
                                     (
-                                        Number(item.soLuong) *
-                                        Number(item.donGia)
+                                        Number(item.quantity) *
+                                        Number(item.unit_price)
                                     ).toLocaleString("De-de")
                                 }}đ
                             </div>
@@ -89,15 +99,15 @@
 
 <script setup lang="ts">
 import { onMounted, ref, nextTick } from "vue";
-import type { BillSell, TableBillSell } from "~/constant/api";
+import type { BillSells, SellItems } from "~/constant/api";
 import { apiImage } from "~/constant/request";
 import { getInvoiceById } from "~/services/invoice.servie";
 
 const props = defineProps<{
-    billsell: BillSell[];
+    billsell: BillSells[];
 }>();
 
-const detailBillSells = ref<TableBillSell[]>([]);
+const detailBillSells = ref<SellItems[]>([]);
 
 // onMounted(async () => {
 //     await nextTick();
@@ -108,7 +118,7 @@ const fetchData = () => {
     setTimeout(async () => {
         const listDetail = await Promise.all(
             props.billsell.map(async (value) => {
-                const dataDetail = await getInvoiceById(Number(value.maHoaDon));
+                const dataDetail = await getInvoiceById(String(value._id));
                 return dataDetail;
             })
         );

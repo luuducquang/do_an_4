@@ -32,3 +32,10 @@ export const deleteCarts = async (id: string): Promise<Cart> => {
     const res = await apiClient?.delete(`${CartUrl}/delete/${id}`);
     return res?.data;
 };
+
+export const deleteManyCarts = async (listid: string[]): Promise<Cart> => {
+    const res = await apiClient?.delete(`${CartUrl}/delete`, {
+        data: listid,
+    });
+    return res?.data;
+};

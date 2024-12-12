@@ -1,17 +1,13 @@
-import type { BillSell, TableBillSell } from "~/constant/api";
+import type { BillSells, SellItems } from "~/constant/api";
 import { BillSellUrl } from "~/constant/endpoints";
 import { apiClient } from "~/constant/request";
 
-export const getInvoiceAll = async (id: number): Promise<BillSell[]> => {
-    const res = await apiClient?.get(
-        `${BillSellUrl}/getbytaikhoan-mahoadon-chitiethoadon/` + id
-    );
+export const getInvoiceAll = async (id: string): Promise<BillSells[]> => {
+    const res = await apiClient?.get(`${BillSellUrl}/get/` + id);
     return res?.data;
 };
 
-export const getInvoiceById = async (id: number): Promise<TableBillSell[]> => {
-    const res = await apiClient?.get(
-        `${BillSellUrl}/getbyid-mahoadon-chitiethoadon/` + id
-    );
+export const getInvoiceById = async (id: string): Promise<SellItems[]> => {
+    const res = await apiClient?.get(`${BillSellUrl}/get-billsell-id/` + id);
     return res?.data;
 };

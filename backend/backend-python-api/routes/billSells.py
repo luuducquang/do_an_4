@@ -1,8 +1,9 @@
+from typing import List
 from fastapi import APIRouter
 from pymongo.collection import Collection
 from config.database import database
 from schemas.schemas import BillSells
-from service.billSells import ser_get_billsell,ser_delete_billsell, ser_insert_billsell, ser_update_billsell
+from service.billSells import ser_get_billsell,ser_delete_billsell, ser_insert_billsell, ser_update_billsell,ser_get_billsell_by_user,ser_get_billsell_by_sell_id
 
 
 router = APIRouter()
@@ -13,9 +14,19 @@ billsell_collection: Collection = database['BillSells']
 async def get_billsell():
     return ser_get_billsell()
 
+@router.get("/billsells/get/{user_id}")
+async def get_billsell(user_id: str):
+    response = ser_get_billsell_by_user(user_id)
+    return response
+
+@router.get("/billsells/get-billsell-id/{sell_id}")
+async def get_billsell(sell_id: str):
+    response = ser_get_billsell_by_sell_id(sell_id)
+    return response
+
 @router.post("/billsells/add")
-async def create_billsell(_data: BillSells):
-    _id = ser_insert_billsell(_data)
+async def create_billsell(data: BillSells):
+    _id = ser_insert_billsell(data)
     return {"message": "Created successfully", "_id": _id}
 
 @router.put("/billsells/update")

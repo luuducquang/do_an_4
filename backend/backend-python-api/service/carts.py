@@ -1,3 +1,4 @@
+from typing import List
 from bson import ObjectId
 from fastapi import HTTPException
 from pymongo.collection import Collection
@@ -96,3 +97,26 @@ def ser_delete_cart(cart_id: str, cart_collection: Collection):
         raise HTTPException(status_code=404, detail="cart not found")
     
     return {"message": "cart deleted successfully"}
+
+
+def ser_delete_carts(cart_ids: List[str], cart_collection: Collection):
+    if not cart_ids:
+        raise HTTPException(status_code=400, detail="No cart IDs provided")
+
+    invalid_ids = [cart_id for cart_id in cart_ids if not ObjectId.is_valid(cart_id)]
+    if invalid_ids:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid cart IDs: {', '.join(invalid_ids)}"
+        )
+
+    object_ids = [ObjectId(cart_id) for cart_id in cart_ids]
+    result = cart_collection.delete_many({"_id": {"$in": object_ids}})
+
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="No carts found to delete")
+
+    return {
+        "message": f"Successfully deleted {result.deleted_count} carts",
+        "deleted_count": result.deleted_count
+    }

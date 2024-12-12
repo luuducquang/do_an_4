@@ -29,7 +29,7 @@ export interface Bookings {
     start_time: Date;
     end_time: Date;
     status: Boolean;
-    created_at:Date
+    created_at: Date;
     table?: Tables;
 }
 
@@ -94,34 +94,28 @@ export interface ImgDetail {
     status: number;
 }
 
-export interface BillSell {
-    maHoaDon?: number;
-    tenTaiKhoan?: string;
-    trangThai: string;
-    ngayTao?: Date;
-    tongGia: number;
-    tenKH: string;
-    diaChi?: string;
+export interface BillSells {
+    _id?: string;
+    user_id: string;
+    sell_date: Date | string;
+    name: string;
     email: string;
-    sdt: string;
-    diaChiGiaoHang?: string;
-    maSanPham?: number;
-    soLuong?: number;
-    donGia?: number;
-    tongTien?: number;
+    phone: string;
+    address: string;
+    address_detail: string;
+    total_price: number;
+    status: string;
+    sell_items?: SellItems[];
 }
 
-export interface TableBillSell {
-    maChiTietHoaDon?: number;
-    maHoaDon?: number;
-    stt?: number;
-    maSanPham: number;
-    tenSanPham?: string;
-    anhDaiDien?: string;
-    soLuong: number | string;
-    originalSoLuong?: number;
-    donGia: number;
-    tongGia: number;
+export interface SellItems {
+    id?: string ;
+    sell_id?: string;
+    item_id: string;
+    quantity: number;
+    unit_price: number;
+    total_price: number;
+    rentalitem: Product;
 }
 
 export interface News {

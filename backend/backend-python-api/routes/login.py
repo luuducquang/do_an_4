@@ -22,8 +22,7 @@ def login(request_data: LoginRequest):
     if user:
         token = generate_token(request_data.username)
     
-        return {"message": "Login successful",
-            "user": {
+        return {
                 "_id": str(user.get("_id")),   
                 "username": user["username"],
                 "password": user.get("password", ""),
@@ -35,7 +34,7 @@ def login(request_data: LoginRequest):
                 "loyalty_points": user.get("loyalty_points", ""),
                 "role_name": user.get("role_name", ""),
                 "token": token
-            }}
+            }
     else:
         raise HTTPException(status_code=401, detail="Invalid username or password")
     

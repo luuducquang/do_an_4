@@ -243,7 +243,10 @@ import {
     getDistrict,
     getWard,
 } from "~/services/apicountry.service";
-import { deleteCarts, getGioHangByIdTaiKhoan } from "~/services/cart.service";
+import {
+    deleteManyCarts,
+    getGioHangByIdTaiKhoan,
+} from "~/services/cart.service";
 import { sendOrder } from "~/services/order.service";
 
 const router = useRouter();
@@ -285,7 +288,7 @@ const handlerClickCountry = async (event: Event) => {
     const selectedProvinceId = target.value;
     await getDistrict(Number(selectedProvinceId))
         .then((districtData) => {
-            district.value = districtData.results;
+            district.value = districtData?.results;
             return districtData;
         })
         .catch((error) => {
@@ -299,13 +302,19 @@ const handlerClickDistrict = async (event: Event) => {
     const selectedDistrictId = target.value;
     await getWard(Number(selectedDistrictId))
         .then((wardData) => {
-            ward.value = wardData.results;
+            ward.value = wardData?.results;
             return wardData;
         })
         .catch((error) => {
             console.error("Error fetching country data:", error);
             return "";
         });
+};
+
+const getDefaultDateTime = () => {
+    const now = new Date();
+    const vietnamTime = new Date(now.getTime() + 7 * 60 * 60 * 1000);
+    return vietnamTime.toISOString().slice(0, 16);
 };
 
 const handleSubmit = async () => {
@@ -333,33 +342,36 @@ const handleSubmit = async () => {
         const wardName = ward.value.find(
             (item) => item.ward_id === formData.value.ward
         );
-        const listIdDel: Array<number> = dataCart.value.map((item) =>
-            Number(item._id)
+        const listIdDel: Array<string> = dataCart.value.map((item) =>
+            String(item._id)
         );
         const customer = JSON.parse(customerData);
 
         const listJsonBuy = dataCart.value.map(function (value: Cart) {
             return {
-                MaSanPham: value.maSanPham,
-                SoLuong: value.soLuongMua,
-                DonGia: value.giaGiam,
-                TongGia: Number(value.giaGiam) * Number(value.soLuongMua),
+                item_id: value.item_id,
+                quantity: value.quantity,
+                unit_price: value.rentalitem?.price_reduction || 0,
+                total_price:
+                    (Number(value.rentalitem?.price_reduction) || 0) *
+                    Number(value.quantity),
             };
         });
 
         if (countryName && districtName && wardName) {
             await sendOrder({
-                TrangThai: "Đang xử lý",
-                TongGia: Number(totalPrice.value),
-                TenKH: formData.value.hoTen,
-                DiaChi: `${countryName.province_name}-${districtName.district_name}-${wardName.ward_name}`,
-                Email: formData.value.email,
-                SDT: formData.value.soDienThoai,
-                DiaChiGiaoHang: formData.value.diaChi,
-                MaTaiKhoan: customer.mataikhoan,
-                list_json_chitiet_hoadon: listJsonBuy,
+                status: "Đang xử lý",
+                sell_date: getDefaultDateTime(),
+                total_price: Number(totalPrice.value) + 30000,
+                name: formData.value.hoTen,
+                address: `${countryName.province_name}-${districtName.district_name}-${wardName.ward_name}`,
+                email: formData.value.email,
+                phone: formData.value.soDienThoai,
+                address_detail: formData.value.diaChi,
+                user_id: customer._id,
+                sell_items: listJsonBuy,
             });
-            await deleteCarts(listIdDel);
+            await deleteManyCarts(listIdDel);
             TitleToast.value = "Đặt hàng thành công!";
             alertVisible.value = true;
 
