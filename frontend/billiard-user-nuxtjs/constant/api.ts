@@ -61,6 +61,11 @@ export interface Product {
     manufactor?: Manufactors;
 }
 
+export interface CheckorUpdateQuantityRequest{
+    ids: string[]
+    quantities: number[]
+}
+
 export interface CategoryRentalItems {
     _id?: string;
     category_name: string;

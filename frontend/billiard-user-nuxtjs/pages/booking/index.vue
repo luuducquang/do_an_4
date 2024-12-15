@@ -174,6 +174,7 @@ import {
     checkBooking,
     createBooking,
     getAllTable,
+    getTableById,
     searchBooking,
 } from "~/services/booking.service";
 import { type Bookings, type Tables } from "~/constant/api";
@@ -247,19 +248,31 @@ const submitBooking = async () => {
             end_time: endTime.value,
             status: true,
         };
-        // console.log("Booking Data:", bookingData);
-        const ischeckBooking = await checkBooking({
-            table_id: selectedTableId.value,
-            start_time: startTime.value,
-            end_time: endTime.value,
-        });
-        if (ischeckBooking) {
-            await createBooking(bookingData);
-            closeModal();
-            fetchData();
-            Swal.fire("Thành công", "Đặt bàn thành công!", "success");
+        const TableInfo = await getTableById(selectedTableId.value);
+        if (TableInfo?.status === true) {
+            Swal.fire(
+                "Thất bại",
+                "Bàn này đã có người chơi, vui lòng đặt bàn khác!",
+                "warning"
+            );
         } else {
-            Swal.fire("Thất bại", "Thời gian này đã có khách đặt!", "warning");
+            const ischeckBooking = await checkBooking({
+                table_id: selectedTableId.value,
+                start_time: startTime.value,
+                end_time: endTime.value,
+            });
+            if (ischeckBooking) {
+                await createBooking(bookingData);
+                closeModal();
+                fetchData();
+                Swal.fire("Thành công", "Đặt bàn thành công!", "success");
+            } else {
+                Swal.fire(
+                    "Thất bại",
+                    "Thời gian này đã có khách đặt!",
+                    "warning"
+                );
+            }
         }
     } catch (error) {
         if (axios.isAxiosError(error)) {

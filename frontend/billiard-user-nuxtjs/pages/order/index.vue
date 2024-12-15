@@ -234,6 +234,7 @@
 </template>
 
 <script setup lang="ts">
+import axios from "axios";
 import Cookies from "js-cookie";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
@@ -247,6 +248,10 @@ import {
     deleteManyCarts,
     getGioHangByIdTaiKhoan,
 } from "~/services/cart.service";
+import {
+    checkAndUpdateQuantityItems,
+    checkQuantityItems,
+} from "~/services/home.service";
 import { sendOrder } from "~/services/order.service";
 
 const router = useRouter();
@@ -359,28 +364,57 @@ const handleSubmit = async () => {
         });
 
         if (countryName && districtName && wardName) {
-            await sendOrder({
-                status: "Đang xử lý",
-                sell_date: getDefaultDateTime(),
-                total_price: Number(totalPrice.value) + 30000,
-                name: formData.value.hoTen,
-                address: `${countryName.province_name}-${districtName.district_name}-${wardName.ward_name}`,
-                email: formData.value.email,
-                phone: formData.value.soDienThoai,
-                address_detail: formData.value.diaChi,
-                user_id: customer._id,
-                sell_items: listJsonBuy,
-            });
-            await deleteManyCarts(listIdDel);
-            TitleToast.value = "Đặt hàng thành công!";
-            alertVisible.value = true;
+            try {
+                if (dataCart.value) {
+                    const listitems = dataCart.value.reduce(
+                        (
+                            acc: { ids: string[]; quantities: number[] },
+                            value: Cart
+                        ) => {
+                            acc.ids.push(value.item_id);
+                            acc.quantities.push(value.quantity);
+                            return acc;
+                        },
+                        { ids: [], quantities: [] }
+                    );
 
-            setTimeout(() => {
-                router.replace("/");
-            }, 1000);
-            setTimeout(() => {
-                alertVisible.value = false;
-            }, 3000);
+                    const checkQuantity = await checkQuantityItems(listitems);
+
+                    if (checkQuantity) {
+                        await checkAndUpdateQuantityItems(listitems);
+                        await sendOrder({
+                            status: "Đang xử lý",
+                            sell_date: getDefaultDateTime(),
+                            total_price: Number(totalPrice.value) + 30000,
+                            name: formData.value.hoTen,
+                            address: `${countryName.province_name}-${districtName.district_name}-${wardName.ward_name}`,
+                            email: formData.value.email,
+                            phone: formData.value.soDienThoai,
+                            address_detail: formData.value.diaChi,
+                            user_id: customer._id,
+                            sell_items: listJsonBuy,
+                        });
+                        await deleteManyCarts(listIdDel);
+                        TitleToast.value = "Đặt hàng thành công!";
+                        alertVisible.value = true;
+
+                        setTimeout(() => {
+                            router.replace("/");
+                        }, 1000);
+                        setTimeout(() => {
+                            alertVisible.value = false;
+                        }, 3000);
+                    }
+                }
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    TitleToast.value = `${error.response?.data?.detail?.insufficient_items.item_name} không đủ số lượng, trong kho chỉ còn ${error.response?.data?.detail?.insufficient_items?.quantity_available} sản phẩm`;
+                    alertVisible.value = true;
+                    setTimeout(() => {
+                        alertVisible.value = false;
+                    }, 3000);
+                }
+            }
         } else {
             console.error("Error api country");
         }
@@ -407,7 +441,7 @@ const fetchDataCart = async () => {
 
             await getCountry()
                 .then((countryData) => {
-                    country.value = countryData.results;
+                    country.value = countryData?.results;
                     return countryData;
                 })
                 .catch((error) => {

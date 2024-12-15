@@ -147,6 +147,10 @@ class RentalItems (BaseModel):
     description: str
     description_detail: str
 
+class CheckorUpdateQuantityRequest(BaseModel):
+    ids: List[str]
+    quantities: List[int]
+
 class FoodOrders(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     user_id: str

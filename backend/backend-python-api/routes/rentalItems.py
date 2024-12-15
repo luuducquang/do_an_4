@@ -1,8 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pymongo.collection import Collection
 from config.database import database
-from schemas.schemas import RentalItems, Searchs
-from service.rentalItems import ser_getbyid_rentalitem,ser_search_rentalitem,ser_get_rentalitem,ser_delete_rentalitem, ser_insert_rentalitem, ser_update_rentalitem
+from schemas.schemas import RentalItems, Searchs, CheckorUpdateQuantityRequest
+from service.rentalItems import ser_check_and_update_quantities, ser_check_quantities, ser_getbyid_rentalitem,ser_search_rentalitem,ser_get_rentalitem,ser_delete_rentalitem, ser_insert_rentalitem, ser_update_rentalitem
 
 
 router = APIRouter()
@@ -35,3 +35,39 @@ def edit_rentalitem(_data: RentalItems):
 def remove_rentalitem(rentalitem_id: str):
     response = ser_delete_rentalitem(rentalitem_id, rentalitem_collection)
     return response
+
+@router.post("/rentalitems/check-quantities")
+async def check_and_update_quantities(data: CheckorUpdateQuantityRequest):
+    if len(data.ids) != len(data.quantities):
+        raise HTTPException(status_code=400, detail="List of IDs and quantities must have the same length")
+
+    insufficient_items = ser_check_quantities(data.ids, data.quantities)
+
+    if insufficient_items:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "message": "Some items do not have enough quantity.",
+                "insufficient_items": insufficient_items,
+            }
+        )
+
+    return True
+
+@router.post("/rentalitems/check-and-update-quantities")
+async def check_and_update_quantities(data: CheckorUpdateQuantityRequest):
+    if len(data.ids) != len(data.quantities):
+        raise HTTPException(status_code=400, detail="List of IDs and quantities must have the same length")
+
+    insufficient_items = ser_check_and_update_quantities(data.ids, data.quantities)
+
+    if insufficient_items:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "message": "Some items do not have enough quantity.",
+                "insufficient_items": insufficient_items,
+            }
+        )
+
+    return {"message": "Quantities updated successfully"}

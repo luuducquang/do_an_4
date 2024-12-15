@@ -94,11 +94,13 @@
                 }}</span>
                 <sup>đ</sup>
             </div>
-            <NuxtLink v-if="totalPrice > 0" to="/order" class="goOrder"
+            <NuxtLink @click="buyNow" class="goOrder"
                 >Tiến hành đặt hàng</NuxtLink
             >
         </div>
     </div>
+
+    <alert-toast :visible="alertVisible" :message="titleAddItem" />
 </template>
 
 <script lang="ts" setup>
@@ -113,7 +115,13 @@ import {
     getGioHangByIdTaiKhoan,
     updateCart,
 } from "~/services/cart.service";
+import axios from "axios";
+import { checkQuantityItems } from "~/services/home.service";
 
+const alertVisible = ref(false);
+const titleAddItem = ref("");
+
+const router = useRouter();
 const props = defineProps<{
     dataCart: Cart[];
     totalPrice: number;
@@ -123,38 +131,35 @@ const props = defineProps<{
 
 const store = useCartStore();
 
-// const dataCart = ref([
-//     {
-//         anhDaiDien:
-//             "/img/sua-rua-mat-simple-kiem-dau-ngua-mun-cho-da-mun-150ml-1-1676456884_img_358x358_843626_fit_center.jpg",
-//         gia: 375000,
-//         giaGiam: 342000,
-//         maGioHang: 6,
-//         maSanPham: 94,
-//         maTaiKhoan: 22,
-//         soLuongMua: 2,
-//         tenSanPham:
-//             "Gel Rửa Mặt Simple Thanh Khiết, Giảm Bóng Nhờn 150ml\r\nPurifying Gel Wash",
-//         trangThai: false,
-//         trongLuong: "150ml",
-//         xuatXu: "Poland",
-//     },
-//     {
-//         anhDaiDien:
-//             "/img/sua-rua-mat-simple-kiem-dau-ngua-mun-cho-da-mun-150ml-1-1676456884_img_358x358_843626_fit_center.jpg",
-//         gia: 375000,
-//         giaGiam: 342000,
-//         maGioHang: 6,
-//         maSanPham: 94,
-//         maTaiKhoan: 22,
-//         soLuongMua: 2,
-//         tenSanPham:
-//             "Gel Rửa Mặt Simple Thanh Khiết, Giảm Bóng Nhờn 150ml\r\nPurifying Gel Wash",
-//         trangThai: false,
-//         trongLuong: "150ml",
-//         xuatXu: "Poland",
-//     },
-// ]);
+const buyNow = async () => {
+    try {
+        console.log(props.dataCart);
+        if (props.dataCart.length > 0) {
+            const listitems = props.dataCart.reduce(
+                (acc: { ids: string[]; quantities: number[] }, value: Cart) => {
+                    acc.ids.push(value.item_id);
+                    acc.quantities.push(value.quantity);
+                    return acc;
+                },
+                { ids: [], quantities: [] }
+            );
+
+            const checkQuantity = await checkQuantityItems(listitems);
+
+            if (checkQuantity) {
+                router.push("/order");
+            }
+        }
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            titleAddItem.value = `${error.response?.data?.detail?.insufficient_items.item_name} không đủ số lượng, trong kho chỉ còn ${error.response?.data?.detail?.insufficient_items?.quantity_available} sản phẩm`;
+            alertVisible.value = true;
+            setTimeout(() => {
+                alertVisible.value = false;
+            }, 3000);
+        }
+    }
+};
 
 const handlerChecked = async (item: Cart) => {
     await updateCart({

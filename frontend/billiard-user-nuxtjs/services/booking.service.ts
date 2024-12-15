@@ -7,6 +7,11 @@ export const getAllTable = async (): Promise<Tables[]> => {
     return res?.data;
 };
 
+export const getTableById = async (id: string): Promise<Tables> => {
+    const res = await apiClient?.get(`${TableUrl}/get/${id}`);
+    return res?.data;
+};
+
 export const updateTableStatus = async (id: string): Promise<Tables> => {
     const res = await apiClient?.put(`${TableUrl}/updatestatus/${id}`);
     return res?.data;

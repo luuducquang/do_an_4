@@ -1,3 +1,4 @@
+from typing import List, Tuple
 from bson import ObjectId
 from fastapi import HTTPException
 from pymongo.collection import Collection
@@ -204,3 +205,52 @@ def ser_delete_rentalitem(rentalitem_id: str, rentalitem_collection: Collection)
         raise HTTPException(status_code=404, detail="rentalitem not found")
     
     return {"message": "rentalitem deleted successfully"}
+
+def ser_check_quantities(ids: List[str], quantities: List[int]) -> List[dict]:
+    insufficient_items = ""
+
+    for item_id, quantity_to_add in zip(ids, quantities):
+        item = rentalitem_collection.find_one({"_id": ObjectId(item_id)})
+        if not item:
+            insufficient_items ={"id": item_id,"item_name":item['item_name'], "reason": "Item not found"}
+            continue
+
+        if item["quantity_available"] < quantity_to_add:
+            insufficient_items = {
+                "id": item_id,
+                "item_name":item['item_name'],
+                "quantity_available": item['quantity_available'],
+                "quantity_add": quantity_to_add
+            }
+
+    return insufficient_items
+
+
+def ser_check_and_update_quantities(ids: List[str], quantities: List[int]) -> List[dict]:
+    insufficient_items = [] 
+
+    for item_id, quantity_to_subtract in zip(ids, quantities):
+        item = rentalitem_collection.find_one({"_id": ObjectId(item_id)})
+        if not item:
+            insufficient_items.append({
+                "id": item_id,
+                "reason": "Item not found"
+            })
+            continue
+
+        if item["quantity_available"] < quantity_to_subtract:
+            insufficient_items.append({
+                "id": item_id,
+                "item_name": item['item_name'],
+                "quantity_available": item['quantity_available'],
+                "quantity_subtract": quantity_to_subtract,
+                "reason": "Not enough quantity"
+            })
+            continue
+
+        rentalitem_collection.update_one(
+            {"_id": ObjectId(item_id)},
+            {"$inc": {"quantity_available": -quantity_to_subtract}}
+        )
+
+    return insufficient_items

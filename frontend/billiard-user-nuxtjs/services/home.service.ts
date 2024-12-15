@@ -1,4 +1,9 @@
-import type { Category, Product, ResponseData } from "~/constant/api";
+import type {
+    Category,
+    CheckorUpdateQuantityRequest,
+    Product,
+    ResponseData,
+} from "~/constant/api";
 import {
     AdvertisementUrl,
     CategoryUrl,
@@ -26,4 +31,19 @@ export const getProductHome = async (
     return res?.data;
 };
 
+export const checkQuantityItems = async (
+    items: CheckorUpdateQuantityRequest
+): Promise<string | number | boolean> => {
+    const res = await apiClient?.post(`${ProductUrl}/check-quantities`, items);
+    return res?.data;
+};
 
+export const checkAndUpdateQuantityItems = async (
+    items: CheckorUpdateQuantityRequest
+): Promise<string | number | boolean> => {
+    const res = await apiClient?.post(
+        `${ProductUrl}/check-and-update-quantities`,
+        items
+    );
+    return res?.data;
+};

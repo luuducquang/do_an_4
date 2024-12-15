@@ -286,6 +286,8 @@ import {
     updateCartsFalse,
 } from "~/services/cart.service";
 import { useCartStore } from "~/store";
+import { checkQuantityItems } from "~/services/home.service";
+import axios from "axios";
 
 const route = useRoute();
 const router = useRouter();
@@ -341,37 +343,58 @@ const addCart = async () => {
         try {
             const customer = JSON.parse(customerData);
             const cart = await getGioHangByIdTaiKhoan(customer._id);
-            // console.log(cart);
-            const isEmptyProduct = cart.find(
-                (value) => String(value.item_id) === String(id)
-            );
 
-            if (isEmptyProduct) {
-                await updateCart({
-                    _id: String(isEmptyProduct._id),
-                    item_id: String(isEmptyProduct.item_id),
-                    user_id: "",
-                    quantity:
-                        amountProduct.value + Number(isEmptyProduct.quantity),
-                    status: isEmptyProduct.status,
+            try {
+                const checkQuantity = await checkQuantityItems({
+                    ids: [String(id)],
+                    quantities: [Number(amountProduct.value)],
                 });
-                titleAddItem.value =
-                    "Sản phẩm tồn tại, đã tăng số lượng trong giỏ hàng!";
-            } else {
-                await createCart({
-                    item_id: String(id),
-                    user_id: customer._id,
-                    quantity: amountProduct.value,
-                    status: false,
-                });
-                titleAddItem.value = "Sản phẩm đã được thêm vào giỏ hàng!";
-                const cartOld = await getGioHangByIdTaiKhoan(customer._id);
-                store.setCart(cartOld);
+
+                if (checkQuantity) {
+                    const isEmptyProduct = cart.find(
+                        (value) => String(value.item_id) === String(id)
+                    );
+
+                    if (isEmptyProduct) {
+                        await updateCart({
+                            _id: String(isEmptyProduct._id),
+                            item_id: String(isEmptyProduct.item_id),
+                            user_id: "",
+                            quantity:
+                                amountProduct.value +
+                                Number(isEmptyProduct.quantity),
+                            status: isEmptyProduct.status,
+                        });
+                        titleAddItem.value =
+                            "Sản phẩm tồn tại, đã tăng số lượng trong giỏ hàng!";
+                    } else {
+                        await createCart({
+                            item_id: String(id),
+                            user_id: customer._id,
+                            quantity: amountProduct.value,
+                            status: false,
+                        });
+                        titleAddItem.value =
+                            "Sản phẩm đã được thêm vào giỏ hàng!";
+                        const cartOld = await getGioHangByIdTaiKhoan(
+                            customer._id
+                        );
+                        store.setCart(cartOld);
+                    }
+                    alertVisible.value = true;
+                    setTimeout(() => {
+                        alertVisible.value = false;
+                    }, 3000);
+                }
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    titleAddItem.value = `${error.response?.data?.detail?.insufficient_items.item_name} không đủ số lượng, trong kho chỉ còn ${error.response?.data?.detail?.insufficient_items?.quantity_available} sản phẩm`;
+                    alertVisible.value = true;
+                    setTimeout(() => {
+                        alertVisible.value = false;
+                    }, 3000);
+                }
             }
-            alertVisible.value = true;
-            setTimeout(() => {
-                alertVisible.value = false;
-            }, 3000);
         } catch (error) {
             console.error("Failed to parse customer data from cookies:", error);
             Cookies.remove("customer");
@@ -387,34 +410,53 @@ const buyNow = async () => {
         try {
             const customer = JSON.parse(customerData);
 
-            await updateCartsFalse(customer._id);
-
-            const cart = await getGioHangByIdTaiKhoan(customer._id);
-
-            const isEmptyProduct = cart.find(
-                (value) => String(value.item_id) === String(id)
-            );
-
-            if (isEmptyProduct) {
-                await updateCart({
-                    _id: String(isEmptyProduct._id),
-                    item_id: String(isEmptyProduct._id),
-                    user_id: "",
-                    quantity: amountProduct.value,
-                    status: true,
+            try {
+                const checkQuantity = await checkQuantityItems({
+                    ids: [String(id)],
+                    quantities: [Number(amountProduct.value)],
                 });
-            } else {
-                await createCart({
-                    item_id: String(id),
-                    user_id: customer._id,
-                    quantity: amountProduct.value,
-                    status: true,
-                });
-                const cartOld = await getGioHangByIdTaiKhoan(customer._id);
-                store.setCart(cartOld);
+
+                if (checkQuantity) {
+                    await updateCartsFalse(customer._id);
+
+                    const cart = await getGioHangByIdTaiKhoan(customer._id);
+
+                    const isEmptyProduct = cart.find(
+                        (value) => String(value.item_id) === String(id)
+                    );
+
+                    if (isEmptyProduct) {
+                        await updateCart({
+                            _id: String(isEmptyProduct._id),
+                            item_id: String(isEmptyProduct.item_id),
+                            user_id: "",
+                            quantity: amountProduct.value,
+                            status: true,
+                        });
+                    } else {
+                        await createCart({
+                            item_id: String(id),
+                            user_id: customer._id,
+                            quantity: amountProduct.value,
+                            status: true,
+                        });
+                        const cartOld = await getGioHangByIdTaiKhoan(
+                            customer._id
+                        );
+                        store.setCart(cartOld);
+                    }
+
+                    router.push("/order");
+                }
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    titleAddItem.value = `${error.response?.data?.detail?.insufficient_items.item_name} không đủ số lượng, trong kho chỉ còn ${error.response?.data?.detail?.insufficient_items?.quantity_available} sản phẩm`;
+                    alertVisible.value = true;
+                    setTimeout(() => {
+                        alertVisible.value = false;
+                    }, 3000);
+                }
             }
-
-            router.push("/order");
         } catch (error) {
             console.error("Failed to parse customer data from cookies:", error);
             Cookies.remove("customer");
