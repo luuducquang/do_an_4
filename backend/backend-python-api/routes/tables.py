@@ -17,7 +17,8 @@ async def get_table():
 
 @router.get("/tables/get/{table_id}")
 async def get_table_by_id(table_id: str):
-    return ser_getbyid_table(table_id)
+    result =  ser_getbyid_table(table_id)
+    return result
 
 @router.post("/tables/search")
 async def search_table(_data:Searchs):

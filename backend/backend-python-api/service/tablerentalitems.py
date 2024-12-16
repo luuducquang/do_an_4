@@ -48,22 +48,8 @@ def ser_getbyid_table_tablerentalitem(table_id:str):
 
 
 def ser_insert_table_rentalitem(_data: TableRentalItems) -> str:
-    existing_rentalitem = table_rentalitem_collection.find_one({"item_id": _data.item_id})
-    
-    if existing_rentalitem:
-        updated_quantity = existing_rentalitem["quantity"] + _data.quantity
-        updated_total_price = updated_quantity * existing_rentalitem["unit_price"]
-        result = table_rentalitem_collection.update_one(
-            {"item_id": _data.item_id}, 
-            {"$set": {"quantity": updated_quantity, "total_price": updated_total_price}} 
-        )
-        if result.modified_count > 0:
-            return str(existing_rentalitem["_id"])
-        else:
-            return str(existing_rentalitem["_id"])
-    else:
-        result = table_rentalitem_collection.insert_one(_data.dict(exclude={"id"}))
-        return str(result.inserted_id)
+    result = table_rentalitem_collection.insert_one(_data.dict(exclude={"id"}))
+    return str(result.inserted_id)
 
 
 def ser_update_table_rentalitem(_data: TableRentalItems, table_rentalitem_collection: Collection):

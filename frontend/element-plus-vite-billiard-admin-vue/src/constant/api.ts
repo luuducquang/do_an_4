@@ -55,10 +55,9 @@ export interface TableRentalItems {
     _id?: string;
     table_id: string;
     item_id: string;
-    quantity: number;
     unit_price: number;
-    total_price: number;
     rentalitem?: RentalItems;
+    start_time: Date;
 }
 
 export interface News {

@@ -6,7 +6,7 @@
                     <h1 class="m-0">
                         Bàn số : {{ dataDetailTable?.table_number }}
                     </h1>
-                    <p>Thời gian sử dụng: {{ formattedTime }}</p>
+                    <p>Thời gian sử dụng: {{ formatTime(timeElapsed) }}</p>
                     <p>
                         Giá 1h:
                         {{
@@ -52,7 +52,7 @@
                     </el-button>
                 </div>
             </el-col>
-            <el-col :span="16">
+            <el-col v-show="dataDetailTable?.status === true" :span="16">
                 <div class="button_add">
                     <el-button
                         type="success"
@@ -169,21 +169,11 @@
                                 class="img_item"
                             /> </template
                     ></el-table-column>
-                    <el-table-column align="center" prop="quantity">
+                    <el-table-column align="center" prop="start_time">
                         <template #default="scope">
-                            <el-input-number
-                                v-model="scope.row.quantity"
-                                :min="1"
-                                :max="100"
-                                @change="
-                                    (value) =>
-                                        handleQuantityRentalItemChangeApi(
-                                            value,
-                                            scope.row
-                                        )
-                                "
-                                class="custom-input-number"
-                            />
+                            <span>{{
+                                formatTime(checkSeconds(scope.row.start_time))
+                            }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column align="center" prop="unit_price">
@@ -195,10 +185,13 @@
                             >
                         </template>
                     </el-table-column>
-                    <el-table-column align="center" prop="total_price">
+                    <el-table-column align="center">
                         <template #default="scope">
                             <span>{{
-                                ConvertPrice(scope.row.total_price)
+                                ConvertPrice(
+                                    (scope.row.unit_price / 60 / 60) *
+                                        checkSeconds(scope.row.start_time)
+                                )
                             }}</span>
                         </template>
                     </el-table-column>
@@ -325,18 +318,6 @@
                 </el-select>
             </el-form-item>
             <el-form-item
-                label="Số lượng"
-                :label-width="formLabelWidth"
-                prop="quantity"
-            >
-                <el-input-number
-                    v-model="form.quantity"
-                    :min="1"
-                    :max="100"
-                    @change="handleChangeQuantityMenuItem"
-                />
-            </el-form-item>
-            <el-form-item
                 label="Giá thuê/1h"
                 :label-width="formLabelWidth"
                 prop="unit_price"
@@ -397,7 +378,6 @@ import {
     getbyIdTableRentalItem,
     updateTable,
     updateTableMenuItem,
-    updateTableRentalItem,
 } from "~/services/home.service";
 import { getAllMenuItem } from "~/services/menuitem.service";
 import ConvertPrice from "~/utils/convertprice";
@@ -530,21 +510,6 @@ const handleQuantityMenuItemChangeApi = async (
     fetchById(String(route.params.id));
 };
 
-const handleQuantityRentalItemChangeApi = async (
-    value: number | undefined,
-    item: TableMenuItems
-) => {
-    await updateTableRentalItem({
-        _id: String(item._id),
-        table_id: String(item.table_id),
-        item_id: String(item.item_id),
-        quantity: Number(value),
-        unit_price: String(item.unit_price),
-        total_price: Number(value) * Number(item.unit_price),
-    });
-    fetchById(String(route.params.id));
-};
-
 const confirmEventMenuItem = async (Id: string) => {
     try {
         await deleteMenuItem(Id);
@@ -610,10 +575,8 @@ const submitFormRentalItem = async (formEl: FormInstance | undefined) => {
                 await createTableRentalItem({
                     table_id: String(route.params.id),
                     item_id: form.item_id,
-                    quantity: form.quantity,
                     unit_price: form.unit_price,
-                    total_price:
-                        Number(form.quantity) * Number(form.unit_price),
+                    start_time: getLocalISOString(),
                 });
                 Notification("Thêm thành công", "success");
                 dialogFormRentalItemVisible.value = false;
@@ -650,15 +613,17 @@ function getLocalISOString() {
 }
 
 async function toggleTimer() {
-    if (timer) {
-        clearInterval(timer);
-        timer = null;
-        startTime.value = null;
-    } else {
-        startTime.value = getLocalISOString();
-        timer = setInterval(updateElapsed, 1000);
-    }
-    if (dataDetailTable.value?.status === false) {
+    const tableDetail = await getbyIdTable(String(route.params.id));
+
+    if (tableDetail.status === false) {
+        if (timer) {
+            clearInterval(timer);
+            timer = null;
+            startTime.value = null;
+        } else {
+            startTime.value = getLocalISOString();
+            timer = setInterval(updateElapsed, 1000);
+        }
         await updateTable({
             _id: String(route.params.id),
             table_number: Number(dataDetailTable.value?.table_number),
@@ -667,17 +632,10 @@ async function toggleTimer() {
             start_date: String(startTime.value),
             end_date: String(startTime.value),
         });
+        fetchById(String(route.params.id));
     } else {
-        await updateTable({
-            _id: String(route.params.id),
-            table_number: Number(dataDetailTable.value?.table_number),
-            table_type_id: String(dataDetailTable.value?.table_type_id),
-            status: Boolean(!dataDetailTable.value?.status),
-            start_date: String(dataDetailTable.value?.start_date),
-            end_date: getLocalISOString(),
-        });
+        Notification("Bàn này đã được dùng", "warning");
     }
-    fetchById(String(route.params.id));
 }
 
 function updateElapsed() {
@@ -687,13 +645,31 @@ function updateElapsed() {
     }
 }
 
-const formattedTime = computed(() => {
-    const hours = Math.floor(timeElapsed.value / 3600);
-    const minutes = Math.floor((timeElapsed.value % 3600) / 60);
-    const seconds = timeElapsed.value % 60;
+function checkSeconds(time: string | Date): number {
+    let dateTime: Date;
+
+    if (typeof time === "string") {
+        dateTime = new Date(time);
+    } else if (time instanceof Date) {
+        dateTime = time;
+    } else {
+        throw new Error("Invalid input: time must be a string or Date object.");
+    }
+
+    if (isNaN(dateTime.getTime())) {
+        throw new Error("Invalid input: time is not a valid date.");
+    }
+
+    return Math.floor((Date.now() - dateTime.getTime()) / 1000);
+}
+
+const formatTime = (s: number): string => {
+    const hours = Math.floor(s / 3600);
+    const minutes = Math.floor((s % 3600) / 60);
+    const seconds = s % 60;
 
     return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-});
+};
 
 const fetchById = async (id: string) => {
     const resIdTable = await getbyIdTable(id);
@@ -702,12 +678,13 @@ const fetchById = async (id: string) => {
     const resTableMenuItem = await getbyIdTableMenuItem(id);
     tableDataMenuItem.value = resTableMenuItem;
 
-    const resTableRentalItem = await getbyIdTableRentalItem(id);
-    tableDataRentalItem.value = resTableRentalItem;
-
     if (dataDetailTable.value?.status === true) {
         startTime.value = String(dataDetailTable.value?.start_date);
-        timer = setInterval(updateElapsed, 1000);
+        timer = setInterval(async () => {
+            updateElapsed();
+            const resTableRentalItem = await getbyIdTableRentalItem(id);
+            tableDataRentalItem.value = resTableRentalItem;
+        }, 1000);
     }
     const resListMenuItem = await getAllMenuItem();
     optionListMenuItems.value = resListMenuItem?.map(function ({
@@ -748,7 +725,9 @@ const service_price = computed(() => {
     }, 0);
 
     const rentalItemTotal = tableDataRentalItem.value.reduce((total, item) => {
-        return total + item.quantity * item.unit_price;
+        return (
+            total + checkSeconds(item.start_time) * (item.unit_price / 60 / 60)
+        );
     }, 0);
 
     return menuItemTotal + rentalItemTotal;

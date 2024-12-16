@@ -2977,7 +2977,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"table_id\": \"6710887b9456a9b32225c7af\",\r\n    \"item_id\": \"6728dbf2ca79a63e267e6760\",\r\n    \"quantity\": 1,\r\n    \"unit_price\": 10000,\r\n    \"total_price\": 10000\r\n}",
+							"raw": "{\r\n    \"table_id\": \"6732cee052e9e56c542a248e\",\r\n    \"item_id\": \"67348ac300b08b54fe07fa86\",\r\n    \"unit_price\": 10000,\r\n    \"start_time\":\"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

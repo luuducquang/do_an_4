@@ -100,9 +100,8 @@ class TableRentalItems(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     table_id:str
     item_id: str
-    quantity: int
     unit_price: int
-    total_price: int
+    start_time:datetime
 
 class Suppliers(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  

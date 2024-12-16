@@ -48,22 +48,19 @@ def ser_getbyid_table_tablemenuitem(table_id:str):
 
 
 def ser_insert_table_menuitem(_data: TableMenuItems) -> str:
-    existing_menuitem = table_menuitem_collection.find_one({"item_id": _data.item_id})
-    
+    existing_menuitem = table_menuitem_collection.find_one({"table_id": _data.table_id, "item_id": _data.item_id})
+
     if existing_menuitem:
         updated_quantity = existing_menuitem["quantity"] + _data.quantity
         updated_total_price = updated_quantity * existing_menuitem["unit_price"]
         result = table_menuitem_collection.update_one(
-            {"item_id": _data.item_id}, 
-            {"$set": {"quantity": updated_quantity, "total_price": updated_total_price}} 
+            {"_id": existing_menuitem["_id"]},
+            {"$set": {"quantity": updated_quantity, "total_price": updated_total_price}}
         )
-        if result.modified_count > 0:
-            return str(existing_menuitem["_id"])
-        else:
-            return str(existing_menuitem["_id"])
+        return str(existing_menuitem["_id"])  
     else:
         result = table_menuitem_collection.insert_one(_data.dict(exclude={"id"}))
-        return str(result.inserted_id)
+        return str(result.inserted_id) 
 
 
 def ser_update_table_menuitem(_data: TableMenuItems, table_menuitem_collection: Collection):
