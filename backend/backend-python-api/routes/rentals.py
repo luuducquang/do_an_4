@@ -1,8 +1,9 @@
+from typing import List
 from fastapi import APIRouter
 from pymongo.collection import Collection
 from config.database import database
 from schemas.schemas import Rentals
-from service.rentals import ser_get_rental,ser_delete_rental, ser_insert_rental, ser_update_rental
+from service.rentals import ser_get_rental,ser_delete_rental, ser_insert_rentals, ser_update_rental
 
 
 router = APIRouter()
@@ -14,9 +15,9 @@ async def get_rental():
     return ser_get_rental()
 
 @router.post("/rentals/add")
-async def create_rental(_data: Rentals):
-    _id = ser_insert_rental(_data)
-    return {"message": "Created successfully", "_id": _id}
+async def create_rentals(_data: List[Rentals]):
+    inserted_ids = ser_insert_rentals(_data)  
+    return {"message": "Created successfully", "inserted_ids": inserted_ids}
 
 @router.put("/rentals/update")
 def edit_rental(_data: Rentals):

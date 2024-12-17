@@ -45,7 +45,7 @@ export const createTableRentalItem = async (
 };
 
 export const updateTable = async (
-    data: Record<string, string | number | boolean>
+    data: Record<string, string | number | boolean | Date>
 ): Promise<Tables> => {
     const res = await apiClient?.put(`${TableUrl}/update`, data);
     return res?.data;

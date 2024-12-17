@@ -35,8 +35,8 @@ export interface Tables {
     table_number: number;
     table_type_id: string;
     status: boolean;
-    start_date?: String;
-    end_date?: String;
+    start_date?: Date | string;
+    end_date?: Date | string;
     tabletype?: TableTypes;
     pricingrule?: PricingRules;
 }
@@ -57,7 +57,7 @@ export interface TableRentalItems {
     item_id: string;
     unit_price: number;
     rentalitem?: RentalItems;
-    start_time: Date;
+    start_time: Date | string;
 }
 
 export interface News {
@@ -145,6 +145,35 @@ export interface MenuItems {
     price: number;
     category_id: string;
     categorymenuitem?: CategoryMenuItems;
+}
+
+export interface Rentals {
+    _id?: string;
+    user_id: string;
+    item_id: string;
+    rental_date: Date | string;
+    return_date: Date | string;
+    price: number;
+    status: boolean;
+}
+
+export interface FoodOrders {
+    _id?: string;
+    user_id: string;
+    table_id: string;
+    item_id: string;
+    pay_date: Date | string;
+    quantity: number;
+    unit_price: number;
+    total_price: number;
+}
+
+export interface TimeSessions {
+    _id?: string;
+    table_id: string;
+    start_time: Date | string;
+    end_time: Date | string;
+    price: number;
 }
 
 export interface RentalItems {

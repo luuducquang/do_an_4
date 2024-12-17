@@ -33,6 +33,12 @@ async def create_table(_data: Tables):
 async def edit_table(_data: Tables):
     result = ser_update_table(_data, table_collection)
     updated_table = ser_getbyid_table(_data.id)
+
+    if "start_date" in updated_table:
+        updated_table["start_date"] = updated_table["start_date"].isoformat()
+    if "end_date" in updated_table:
+        updated_table["end_date"] = updated_table["end_date"].isoformat()
+        
     await sio.emit("table_status_updated", updated_table)
     return result
 

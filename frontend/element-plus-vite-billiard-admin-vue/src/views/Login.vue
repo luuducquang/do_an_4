@@ -111,12 +111,12 @@ const handleSubmit = async () => {
                         username: formState.username,
                         password: formState.password,
                     });
-                    if (res.maLoaitaikhoan === 1 || res.maLoaitaikhoan === 8) {
+                    if (res?.role_name === "ADMIN") {
                         loading.value = false;
                         userStore.setUser(res);
                         router.push("/");
                         Notification(
-                            `Đăng nhập thành công. Xin chào, ${res.hoten}`,
+                            `Đăng nhập thành công. Xin chào, ${res?.fullname}`,
                             "success"
                         );
                     } else {

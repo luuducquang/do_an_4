@@ -1,3 +1,4 @@
+from typing import List
 from bson import ObjectId
 from fastapi import HTTPException
 from pymongo.collection import Collection
@@ -13,9 +14,12 @@ def ser_get_rental():
         datas.append(data)
     return datas
 
-def ser_insert_rental(_data: Rentals) -> str:
-    result = rental_collection.insert_one(_data.dict(exclude={"id"}))
-    return str(result.inserted_id)
+def ser_insert_rentals(_data: List[Rentals]) -> List[str]:
+    rentals_to_insert = [rental.dict(exclude={"id"}) for rental in _data]
+    
+    result = rental_collection.insert_many(rentals_to_insert)
+    
+    return [str(inserted_id) for inserted_id in result.inserted_ids]
 
 def ser_update_rental(_data: Rentals, rental_collection: Collection):
     if not _data.id:

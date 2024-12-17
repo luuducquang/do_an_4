@@ -125,7 +125,6 @@ class Rentals(BaseModel):
     item_id: str
     rental_date: Optional[datetime]
     return_date: Optional[datetime]
-    quantity: int
     price: Optional[int]
     status: Optional[bool]
 
@@ -153,17 +152,12 @@ class CheckorUpdateQuantityRequest(BaseModel):
 class FoodOrders(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
     user_id: str
-    order_date: datetime
-    status: str
-    total_price: Optional[int]
-
-class OrderItems(BaseModel):
-    id: Optional[str] = Field(None, alias="_id")  
-    order_id: str
+    table_id: str
     item_id: str
+    pay_date: datetime
     quantity: int
     unit_price: int
-    total_price: int
+    total_price: Optional[int]
 
 class CategoryMenuItems(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  

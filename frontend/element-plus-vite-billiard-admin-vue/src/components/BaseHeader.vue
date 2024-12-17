@@ -47,8 +47,8 @@ import { apiImage } from "~/constant/request";
 import { useUserStore } from "~/store";
 
 interface User {
-    anhdaidien: string;
-    hoten: string;
+    avatar: string;
+    fullname: string;
 }
 
 const userStore = useUserStore();
@@ -57,8 +57,8 @@ const user = computed<User>(() => userStore.getUser);
 
 const info = computed(() => {
     return {
-        avt: apiImage + user.value.anhdaidien,
-        name: user.value.hoten,
+        avt: apiImage + user.value.avatar,
+        name: user.value.fullname,
     };
 });
 </script>
