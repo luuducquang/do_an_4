@@ -6,17 +6,20 @@
         @open="handleOpen"
         @close="handleClose"
     >
-        <el-sub-menu index="1">
+        <el-sub-menu index="1-2">
             <template #title>
                 <el-icon><House /></el-icon>
                 <span>Tổng quan</span>
             </template>
             <router-link to="/">
-                <el-menu-item index="1-1">Trang chủ</el-menu-item>
+                <el-menu-item index="1">Trang chủ</el-menu-item>
+            </router-link>
+            <router-link to="/statistic">
+                <el-menu-item index="2">Thống kê</el-menu-item>
             </router-link>
         </el-sub-menu>
 
-        <el-sub-menu index="">
+        <el-sub-menu index="3-4-5">
             <template #title>
                 <el-icon><Box /></el-icon>
                 <span>Quản lý bàn</span>
@@ -32,88 +35,101 @@
             </router-link>
         </el-sub-menu>
 
-        <el-sub-menu index="">
+        <el-sub-menu index="6-7">
+            <template #title>
+                <el-icon><Mug /></el-icon>
+                <span>Hoá đơn</span>
+            </template>
+            <router-link to="/billsell">
+                <el-menu-item index="6">Hoá đơn bán</el-menu-item>
+            </router-link>
+            <router-link to="/importbill">
+                <el-menu-item index="7">Hoá đơn nhập</el-menu-item>
+            </router-link>
+        </el-sub-menu>
+
+        <el-sub-menu index="8-9">
             <template #title>
                 <el-icon><Mug /></el-icon>
                 <span>Sản phẩm</span>
             </template>
             <router-link to="/menuitem">
-                <el-menu-item index="6">Đồ ăn</el-menu-item>
+                <el-menu-item index="8">Đồ ăn</el-menu-item>
             </router-link>
             <router-link to="/rentalitem">
-                <el-menu-item index="7">Đồ thuê</el-menu-item>
+                <el-menu-item index="9">Đồ thuê</el-menu-item>
             </router-link>
         </el-sub-menu>
 
-        <el-sub-menu index="3-4">
+        <el-sub-menu index="10-11-12-13">
             <template #title>
                 <el-icon><Ship /></el-icon>
                 <span>Nhân viên</span>
             </template>
             <router-link to="/employeetype">
-                <el-menu-item index="8">Loại nhân viên</el-menu-item>
+                <el-menu-item index="10">Loại nhân viên</el-menu-item>
             </router-link>
             <router-link to="/employee">
-                <el-menu-item index="9">Nhân viên</el-menu-item>
+                <el-menu-item index="11">Nhân viên</el-menu-item>
             </router-link>
             <router-link to="/shift">
-                <el-menu-item index="10">Ca làm việc</el-menu-item>
+                <el-menu-item index="12">Ca làm việc</el-menu-item>
             </router-link>
             <router-link to="/employeepayment">
-                <el-menu-item index="11">Lương</el-menu-item>
+                <el-menu-item index="13">Lương</el-menu-item>
             </router-link>
         </el-sub-menu>
 
         <router-link to="/news">
-            <el-menu-item index="12">
+            <el-menu-item index="14">
                 <el-icon><Files /></el-icon>
                 <template #title>Tin tức</template>
             </el-menu-item>
         </router-link>
 
         <router-link to="/banner">
-            <el-menu-item index="13">
+            <el-menu-item index="15">
                 <el-icon><Files /></el-icon>
                 <template #title>Banner</template>
             </el-menu-item>
         </router-link>
 
-        <el-sub-menu index="14-15">
+        <el-sub-menu index="16-17">
             <template #title>
                 <el-icon><CollectionTag /></el-icon>
                 <span>Danh mục</span>
             </template>
             <router-link to="/categorymenuitem">
-                <el-menu-item index="14">Danh mục đồ ăn</el-menu-item>
+                <el-menu-item index="16">Danh mục đồ ăn</el-menu-item>
             </router-link>
             <router-link to="/categoryrentalitem">
-                <el-menu-item index="15">Danh mục thuê</el-menu-item>
-            </router-link>
-        </el-sub-menu>
-
-        <el-sub-menu index="16-17">
-            <template #title>
-                <el-icon><OfficeBuilding /></el-icon>
-                <span>Nhà cung cấp</span>
-            </template>
-            <router-link to="/manufactor">
-                <el-menu-item index="16">Hãng sản xuất</el-menu-item>
-            </router-link>
-            <router-link to="/supplier">
-                <el-menu-item index="17">Nhà phân phối</el-menu-item>
+                <el-menu-item index="17">Danh mục thuê</el-menu-item>
             </router-link>
         </el-sub-menu>
 
         <el-sub-menu index="18-19">
             <template #title>
+                <el-icon><OfficeBuilding /></el-icon>
+                <span>Nhà cung cấp</span>
+            </template>
+            <router-link to="/manufactor">
+                <el-menu-item index="18">Hãng sản xuất</el-menu-item>
+            </router-link>
+            <router-link to="/supplier">
+                <el-menu-item index="19">Nhà phân phối</el-menu-item>
+            </router-link>
+        </el-sub-menu>
+
+        <el-sub-menu index="20-21">
+            <template #title>
                 <el-icon><User /></el-icon>
                 <span>Tài khoản</span>
             </template>
             <router-link to="/typeaccount">
-                <el-menu-item index="18">Loại tài khoản</el-menu-item>
+                <el-menu-item index="20">Loại tài khoản</el-menu-item>
             </router-link>
             <router-link to="/account">
-                <el-menu-item index="19">Tài khoản</el-menu-item>
+                <el-menu-item index="21">Tài khoản</el-menu-item>
             </router-link>
         </el-sub-menu>
     </el-menu>
@@ -149,20 +165,27 @@ const route = useRoute();
 
 const activeIndex = computed(() => {
     const path = route.path;
-    if (path === "/") return "1-1";
-    // if (path.startsWith("/product")) return "2";
-    // if (path.startsWith("/billsell")) return "3";
-    // if (path.startsWith("/importbill")) return "4";
-    // if (path.startsWith("/news")) return "5";
-    // if (path.startsWith("/rate")) return "6";
-    // if (path.startsWith("/category")) return "7";
-    // if (path.startsWith("/categoryoffer")) return "8";
-    // if (path.startsWith("/manufactor")) return "9";
-    // if (path.startsWith("/supplier")) return "10";
-    // if (path.startsWith("/advertisement")) return "11";
-    // if (path.startsWith("/slide")) return "12";
-    // if (path.startsWith("/typeaccount")) return "13";
-    // if (path.startsWith("/account")) return "14";
+    if (path === "/") return "1";
+    if (path.startsWith("/statistic")) return "2";
+    if (path.startsWith("/tabletype")) return "3";
+    if (path.startsWith("/table")) return "4";
+    if (path.startsWith("/pricingrule")) return "5";
+    if (path.startsWith("/billsell")) return "6";
+    if (path.startsWith("/importBill")) return "7";
+    if (path.startsWith("/menuitem")) return "8";
+    if (path.startsWith("/rentalitem")) return "9";
+    if (path.startsWith("/employeetype")) return "10";
+    if (path.startsWith("/employee")) return "11";
+    if (path.startsWith("/shift")) return "12";
+    if (path.startsWith("/employeepayment")) return "13";
+    if (path.startsWith("/news")) return "14";
+    if (path.startsWith("/banner")) return "15";
+    if (path.startsWith("/categorymenuitem")) return "16";
+    if (path.startsWith("/categoryrentalitem")) return "17";
+    if (path.startsWith("/manufactor")) return "18";
+    if (path.startsWith("/supplier")) return "19";
+    if (path.startsWith("/typeaccount")) return "20";
+    if (path.startsWith("/account")) return "21";
 
     return "0";
 });

@@ -9,7 +9,7 @@
             :size="formSize"
             status-icon
         >
-            <el-form-item label="Tên hãng" prop="name">
+            <el-form-item label="Tên nhà phân phối" prop="name">
                 <el-input v-model="ruleForm.name" />
             </el-form-item>
 

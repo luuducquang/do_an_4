@@ -185,19 +185,21 @@ class PricingRules(BaseModel):
     rate_per_hour: int
     rate_per_minute: int
 
-class ImportBills(BaseModel):
-    id: Optional[str] = Field(None, alias="_id")  
-    user_id: str
-    import_date: datetime
-    total_price: int
-
 class ImportItems(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  
-    import_id: str
+    import_id: Optional[str] = None
     item_id: str
     quantity: int
     unit_price: int
     total_price: int
+
+class ImportBills(BaseModel):
+    id: Optional[str] = Field(None, alias="_id")  
+    user_id: str
+    supplier_id:str
+    import_date: datetime
+    total_price: int
+    import_items: Optional[List[ImportItems]] = None
 
 class SellItems(BaseModel):
     id: Optional[str] = Field(None, alias="_id")  

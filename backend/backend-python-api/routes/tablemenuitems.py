@@ -8,6 +8,7 @@ from service.tablemenuitems import ser_delete_menuitem,ser_get_tablemenuitem,ser
 router = APIRouter()
 
 tablemenuitem_collection: Collection = database['TableMenuItems']
+menuitem_collection: Collection = database['MenuItems']
 
 @router.get("/tablemenuitems/get")
 async def get_tablemenuitem():
@@ -24,7 +25,7 @@ async def create_tablemenuitem(_data: TableMenuItems):
 
 @router.put("/tablemenuitems/update")
 def edit_tablemenuitem(_data: TableMenuItems):
-    result = ser_update_table_menuitem(_data, tablemenuitem_collection)
+    result = ser_update_table_menuitem(_data, tablemenuitem_collection,menuitem_collection)
     return result
 
 @router.delete("/tablemenuitems/deletes/{table_id}")
@@ -34,5 +35,5 @@ def remove_tablemenuitem(table_id: str):
 
 @router.delete("/tablemenuitems/deleteitem/{id}")
 def remove_menuitem(id: str):
-    response = ser_delete_menuitem(id, tablemenuitem_collection)
+    response = ser_delete_menuitem(id, tablemenuitem_collection, menuitem_collection)
     return response

@@ -526,6 +526,7 @@ import {
     createTableMenuItem,
     createTableRentalItem,
     deleteMenuItem,
+    deleteMenuItembyTable,
     deleteRentalItem,
     getbyIdTable,
     getbyIdTableMenuItem,
@@ -660,11 +661,21 @@ const PayAndPrintInvoice = async () => {
             }
         );
 
-        const listIdFoodOrderItem = tableDataMenuItem.value.map(
-            (value: TableMenuItems) => {
-                return value?._id;
-            }
-        );
+        await createTimeSession({
+            table_id: String(route.params.id),
+            start_time: String(dataDetailTable.value?.start_date),
+            end_time: getLocalISOString(),
+            price: Number(Number(totalPrice.value).toFixed(0)),
+        });
+
+        await updateTable({
+            _id: String(route.params.id),
+            table_number: Number(dataDetailTable.value?.table_number),
+            table_type_id: String(dataDetailTable.value?.table_type_id),
+            status: Boolean(!dataDetailTable.value?.status),
+            start_date: String(startTime.value),
+            end_date: String(startTime.value),
+        });
 
         if (listRentalItem.length > 0) {
             await createRental(listRentalItem);
@@ -682,29 +693,11 @@ const PayAndPrintInvoice = async () => {
             }
         }
 
-        for (const idFoodOrder of listIdFoodOrderItem) {
-            if (idFoodOrder) {
-                await deleteMenuItem(String(idFoodOrder));
-            }
-        }
-
-        await createTimeSession({
-            table_id: String(route.params.id),
-            start_time: String(dataDetailTable.value?.start_date),
-            end_time: getLocalISOString(),
-            price: Number(Number(totalPrice.value).toFixed(0)),
-        });
-
-        await updateTable({
-            _id: String(route.params.id),
-            table_number: Number(dataDetailTable.value?.table_number),
-            table_type_id: String(dataDetailTable.value?.table_type_id),
-            status: Boolean(!dataDetailTable.value?.status),
-            start_date: String(startTime.value),
-            end_date: String(startTime.value),
-        });
-
         await fetchById(String(route.params.id));
+
+        if (listFoodOrderItem.length > 0) {
+            await deleteMenuItembyTable(String(route.params.id));
+        }
 
         const printContent = document.getElementById("print-section");
         const originalContent = document.body.innerHTML;
@@ -764,15 +757,22 @@ const handleQuantityMenuItemChangeApi = async (
     value: number | undefined,
     item: TableMenuItems
 ) => {
-    await updateTableMenuItem({
-        _id: String(item._id),
-        table_id: String(item.table_id),
-        item_id: String(item.item_id),
-        quantity: Number(value),
-        unit_price: String(item.unit_price),
-        total_price: Number(value) * Number(item.unit_price),
-    });
-    fetchById(String(route.params.id));
+    try {
+        await updateTableMenuItem({
+            _id: String(item._id),
+            table_id: String(item.table_id),
+            item_id: String(item.item_id),
+            quantity: Number(value),
+            unit_price: String(item.unit_price),
+            total_price: Number(value) * Number(item.unit_price),
+        });
+        fetchById(String(route.params.id));
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            Notification(error.response?.data.detail, "warning");
+            fetchById(String(route.params.id));
+        }
+    }
 };
 
 const confirmEventMenuItem = async (Id: string) => {
@@ -986,30 +986,30 @@ const fetchById = async (id: string) => {
         }
     }
     const resListMenuItem = await getAllMenuItem();
-    optionListMenuItems.value = resListMenuItem?.map(function ({
-        _id,
-        name,
-        price,
-    }) {
-        return {
-            value: _id || 0,
-            label: name || "",
-            price: price || 0,
-        };
-    });
+    optionListMenuItems.value = resListMenuItem
+        ?.filter(function (item) {
+            return item?.stock_quantity > 0;
+        })
+        ?.map(function ({ _id, name, price }) {
+            return {
+                value: _id || 0,
+                label: name || "",
+                price: price || 0,
+            };
+        });
 
     const resListRentalItem = await getAllRentalItem();
-    optionListRenTalItems.value = resListRentalItem?.map(function ({
-        _id,
-        item_name,
-        rental_price_hours,
-    }) {
-        return {
-            value: _id || 0,
-            label: item_name || "",
-            price: rental_price_hours || 0,
-        };
-    });
+    optionListRenTalItems.value = resListRentalItem
+        ?.filter(function (item) {
+            return item?.quantity_available > 0;
+        })
+        ?.map(function ({ _id, item_name, rental_price_hours }) {
+            return {
+                value: _id || 0,
+                label: item_name || "",
+                price: rental_price_hours || 0,
+            };
+        });
 };
 
 const totalPrice = computed(() => {

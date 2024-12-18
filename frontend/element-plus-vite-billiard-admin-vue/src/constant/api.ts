@@ -196,8 +196,75 @@ export interface RentalItems {
     manufactor?: Manufactors;
 }
 
+export interface SellItems {
+    _id?: string;
+    sell_id: string;
+    item_id: string;
+    quantity: number;
+    unit_price: number;
+    total_price: number;
+    rentalitem?: RentalItems[];
+}
+
+export interface BillSells {
+    _id?: string;
+    user_id: string;
+    sell_date: Date | string;
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    address_detail: string;
+    total_price: number;
+    status: string;
+    sell_items?: SellItems[];
+    user_info?: Users[];
+}
+
+export interface TableBillSell {
+    maChiTietHoaDon?: string;
+    stt?: number;
+    maSanPham: string;
+    hinhAnh?: string;
+    soLuong: number | string;
+    donGia: number;
+    tongTien: number;
+}
+
+export interface ImportBills {
+    _id?: string;
+    user_id: string;
+    supplier_id: string;
+    import_date: Date | string;
+    total_price: number;
+    import_items?: ImportItems[];
+    user_info?: Users[];
+    supplier_info?: Suppliers[];
+}
+
+export interface ImportItems {
+    _id?: string;
+    import_id?: string;
+    item_id: string;
+    quantity: number;
+    unit_price: number;
+    total_price: number;
+}
+
+export interface TableImportBill {
+    maChiTietHoaDon?: string;
+    stt?: number;
+    maSanPham: string;
+    hinhAnh?: string;
+    soLuong: number | string;
+    donGia: number;
+    tongTien: number;
+}
+
 export interface OptionSelect {
     value: string | number;
     label: string;
     price?: number;
+    gia?: number;
+    hinhAnh?: string;
 }

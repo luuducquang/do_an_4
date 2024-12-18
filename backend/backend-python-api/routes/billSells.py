@@ -2,8 +2,8 @@ from typing import List
 from fastapi import APIRouter
 from pymongo.collection import Collection
 from config.database import database
-from schemas.schemas import BillSells
-from service.billSells import ser_get_billsell,ser_delete_billsell, ser_insert_billsell, ser_update_billsell,ser_get_billsell_by_user,ser_get_billsell_by_sell_id
+from schemas.schemas import BillSells, Searchs
+from service.billSells import ser_get_billsell_by_billsell_id,ser_get_billsell,ser_delete_billsell, ser_insert_billsell, ser_search_billsell, ser_update_billsell,ser_get_billsell_by_user,ser_get_billsell_by_sell_id
 
 
 router = APIRouter()
@@ -23,6 +23,16 @@ async def get_billsell(user_id: str):
 async def get_billsell(sell_id: str):
     response = ser_get_billsell_by_sell_id(sell_id)
     return response
+
+@router.get("/billsells/get-detail-billsell/{billsel_id}")
+async def get_billsell(billsel_id: str):
+    response = ser_get_billsell_by_billsell_id(billsel_id)
+    return response
+
+@router.post("/billsells/search")
+async def search_billsells(data: Searchs):
+    result = ser_search_billsell(data)
+    return result
 
 @router.post("/billsells/add")
 async def create_billsell(data: BillSells):

@@ -1,7 +1,6 @@
 export const UserUrl = "/api-admin/User";
 export const TypeAccountUrl = "/roles";
 export const AccountUrl = "/users";
-export const ProductUrl = "/api-admin/SanPham";
 export const CategoryMenuItemUrl = "/categorymenuitems";
 export const CategoryRentalItemUrl = "/categoryrentalitems";
 export const NewUrl = "/news";
@@ -19,4 +18,8 @@ export const RentalUrl = "/rentals";
 export const FoodOrderUrl = "/foodorders";
 export const RentalItemUrl = "/rentalitems";
 export const TimeSessionUrl = "/timesessions";
+export const BillSellUrl = "/billsells";
+export const SellItemUrl = "/sellitems";
+export const ImportBillUrl = "/importbills";
+export const ImportItemUrl = "/importitems";
 export const BannerUrl = "/banners";

@@ -2592,7 +2592,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"import_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"total_price\": 100\r\n}",
+							"raw": "{\r\n    \"user_id\": \"670f17f5279b5da63b9bdc7a\",\r\n    \"supplier_id\": \"6762c1d104b0eb68e11f96bb\",\r\n    \"import_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"total_price\": 100,\r\n    \"import_items\":[{\r\n        \"item_id\": \"67348ac300b08b54fe07fa86\",\r\n      \"quantity\": 2,\r\n      \"unit_price\": 2000000,\r\n      \"total_price\": 4000000\r\n    },{\r\n        \"item_id\": \"67330bd2f42c21ff9487b920\",\r\n      \"quantity\": 2,\r\n      \"unit_price\": 10000,\r\n      \"total_price\": 20000\r\n    }]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2619,7 +2619,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\":\"6703aa6aab75119c1201951a\",\r\n    \"user_id\": \"fgfjfgjxsw5w5314dg\",\r\n    \"import_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"total_price\": 100\r\n\r\n}",
+							"raw": "{\r\n    \"_id\":\"6703aa6aab75119c1201951a\",\r\n    \"user_id\": \"fgfjfgjxsw5w5314dg\",\r\n    \"supplier_id\": \"fgfjfgjxsw5w5314dg\",\r\n    \"import_date\": \"2019-01-31T10:00:00.000Z\",\r\n    \"total_price\": 100\r\n\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2653,6 +2653,33 @@
 								"importbills",
 								"delete",
 								"6703aa6aab75119c1201951a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchImportBill",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10,\r\n    \"search_term\":\"i\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/importbills/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"importbills",
+								"search"
 							]
 						}
 					},
@@ -2766,7 +2793,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"table_id\": \"6710887b9456a9b32225c7af\",\r\n    \"item_id\": \"6710887b9456a9b32225c7af\",\r\n    \"quantity\": 1,\r\n    \"unit_price\": 10000,\r\n    \"total_price\": 10000\r\n}",
+							"raw": "{\r\n    \"table_id\": \"6732cedd52e9e56c542a248d\",\r\n    \"item_id\": \"6710887b9456a9b32225c7af\",\r\n    \"quantity\": 1,\r\n    \"unit_price\": 10000,\r\n    \"total_price\": 10000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2875,14 +2902,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/tablemenuitems/get/6710887b9456a9b32225c7af",
+							"raw": "{{host}}/tablemenuitems/get/6759a2f250d3ad0b4806bbdb",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"tablemenuitems",
 								"get",
-								"6710887b9456a9b32225c7af"
+								"6759a2f250d3ad0b4806bbdb"
 							]
 						}
 					},
@@ -3476,6 +3503,52 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "searchBillSell",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10,\r\n    \"search_term\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/billsells/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"billsells",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDetalbyBillSellid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/billsells/get-detail-billsell/67625dc58d7efa64d5df9ddb",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"billsells",
+								"get-detail-billsell",
+								"67625dc58d7efa64d5df9ddb"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -3507,7 +3580,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"sell_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"item_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"quantity\": 1,\r\n    \"unit_price\": 100,\r\n    \"total_price\": 100\r\n}",
+							"raw": "{\r\n    \"sell_id\": \"67625dc58d7efa64d5df9ddb\",\r\n    \"item_id\": \"67348ac300b08b54fe07fa86\",\r\n    \"quantity\": 1,\r\n    \"unit_price\": 2800000,\r\n    \"total_price\": 2800000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3534,7 +3607,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\":\"675851aea881560136c65a25\",\r\n    \"sell_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"item_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"quantity\": 11,\r\n    \"unit_price\": 100,\r\n    \"total_price\": 100\r\n\r\n}",
+							"raw": "{\r\n    \"_id\":\"676267957a30b79c3e61682e\",\r\n    \"sell_id\": \"67625dc58d7efa64d5df9ddb\",\r\n    \"item_id\": \"67348ac300b08b54fe07fa86\",\r\n    \"quantity\": 4,\r\n    \"unit_price\": 2800000,\r\n    \"total_price\": 8400000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3560,14 +3633,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/sellitems/delete/675851aea881560136c65a25",
+							"raw": "{{host}}/sellitems/delete/67625dc58d7efa64d5df9ddc",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"sellitems",
 								"delete",
-								"675851aea881560136c65a25"
+								"67625dc58d7efa64d5df9ddc"
 							]
 						}
 					},

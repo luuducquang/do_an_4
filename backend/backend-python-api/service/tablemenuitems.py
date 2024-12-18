@@ -48,22 +48,48 @@ def ser_getbyid_table_tablemenuitem(table_id:str):
 
 
 def ser_insert_table_menuitem(_data: TableMenuItems) -> str:
+    menu_item = menuitem_collection.find_one({"_id": ObjectId(_data.item_id)})
+
+    if not menu_item:
+        raise HTTPException(status_code=404, detail="Menu item không tồn tại.")
+
+    if menu_item["stock_quantity"] < _data.quantity:
+        raise HTTPException(status_code=400, detail=f"Không đủ số lượng trong kho. Trong kho còn {menu_item['stock_quantity']} sản phẩm.")
+
     existing_menuitem = table_menuitem_collection.find_one({"table_id": _data.table_id, "item_id": _data.item_id})
 
     if existing_menuitem:
         updated_quantity = existing_menuitem["quantity"] + _data.quantity
+
+        if menu_item["stock_quantity"] < updated_quantity:
+            raise HTTPException(status_code=400, detail=f"Không đủ số lượng trong kho sau khi cập nhật. Trong kho còn {menu_item['stock_quantity']} sản phẩm.")
+
         updated_total_price = updated_quantity * existing_menuitem["unit_price"]
-        result = table_menuitem_collection.update_one(
+        
+        table_menuitem_collection.update_one(
             {"_id": existing_menuitem["_id"]},
             {"$set": {"quantity": updated_quantity, "total_price": updated_total_price}}
         )
-        return str(existing_menuitem["_id"])  
+
+        menuitem_collection.update_one(
+            {"_id": ObjectId(_data.item_id)},
+            {"$inc": {"stock_quantity": -_data.quantity}}
+        )
+        return str(existing_menuitem["_id"])
     else:
         result = table_menuitem_collection.insert_one(_data.dict(exclude={"id"}))
-        return str(result.inserted_id) 
+    
+        menuitem_collection.update_one(
+            {"_id": ObjectId(_data.item_id)},
+            {"$inc": {"stock_quantity": -_data.quantity}}
+        )
+        return str(result.inserted_id)
 
 
-def ser_update_table_menuitem(_data: TableMenuItems, table_menuitem_collection: Collection):
+
+def ser_update_table_menuitem(_data: TableMenuItems, 
+                              table_menuitem_collection: Collection, 
+                              menuitem_collection: Collection):
     if not _data.id:
         raise HTTPException(status_code=400, detail="ID is required for update")
 
@@ -74,17 +100,32 @@ def ser_update_table_menuitem(_data: TableMenuItems, table_menuitem_collection: 
 
     existing_menuitem = table_menuitem_collection.find_one({"_id": object_id})
     if not existing_menuitem:
-        raise HTTPException(status_code=404, detail="table menuitem not found")
-    
+        raise HTTPException(status_code=404, detail="Table menuitem not found")
+
+    menu_item = menuitem_collection.find_one({"_id": ObjectId(existing_menuitem["item_id"])})
+    if not menu_item:
+        raise HTTPException(status_code=404, detail="Menu item not found")
+
+    quantity_difference = _data.quantity - existing_menuitem["quantity"]
+
+    if quantity_difference > 0 and menu_item["stock_quantity"] < quantity_difference:
+        raise HTTPException(status_code=400, detail=f"Không đủ số lượng trong kho sau khi cập nhật. Trong kho còn {menu_item['stock_quantity']} sản phẩm.")
+
     updated_table_menuitem = table_menuitem_collection.update_one(
-    {"_id": ObjectId(_data.id)},  
-    {"$set": _data.dict(exclude={"id"})} 
-)
-    
+        {"_id": object_id},
+        {"$set": _data.dict(exclude={"id"})}
+    )
+
     if updated_table_menuitem.modified_count == 0:
         raise HTTPException(status_code=400, detail="Update failed")
 
-    return {"message": "updated successfully"}
+    menuitem_collection.update_one(
+        {"_id": ObjectId(existing_menuitem["item_id"])},
+        {"$inc": {"stock_quantity": -quantity_difference}}
+    )
+
+    return {"message": "Updated successfully"}
+
 
 
 def ser_delete_table_menuitem(table_id: str, table_menuitem_collection: Collection):
@@ -98,13 +139,21 @@ def ser_delete_table_menuitem(table_id: str, table_menuitem_collection: Collecti
     
     return {"message": "table menuitem deleted successfully"}
 
-def ser_delete_menuitem(id: str, table_menuitem_collection: Collection):
+def ser_delete_menuitem(id: str, table_menuitem_collection: Collection, menuitem_collection: Collection):
     if not ObjectId.is_valid(id):
         raise HTTPException(status_code=400, detail="Invalid menuitem ID")
 
+    existing_menuitem = table_menuitem_collection.find_one({"_id": ObjectId(id)})
+    if not existing_menuitem:
+        raise HTTPException(status_code=404, detail="Table menuitem not found")
+
     result = table_menuitem_collection.delete_one({"_id": ObjectId(id)})
-    
     if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="table menuitem not found")
-    
-    return {"message": "menuitem deleted successfully"}
+        raise HTTPException(status_code=404, detail="Delete failed")
+
+    menuitem_collection.update_one(
+        {"_id": ObjectId(existing_menuitem["item_id"])},
+        {"$inc": {"stock_quantity": +existing_menuitem["quantity"]}}
+    )
+
+    return {"message": "Menuitem deleted successfully"}

@@ -6,28 +6,51 @@
             ></el-button>
         </div>
         <el-table :data="tableData" class="table_content">
-            <el-table-column label="STT" align="center">
-                <template #default="scope">
-                    {{ (currentPage - 1) * currentPageSize + scope.$index + 1 }}
-                </template>
-            </el-table-column>
             <el-table-column label="Nhà phân phối" align="center" prop="name">
-            </el-table-column>
-            <el-table-column label="Số điện thoại" align="center" prop="phone">
                 <template #default="scope">
-                    <a :href="`tel://${scope.row.phone}`"
-                        ><span>{{ scope.row.phone }}</span></a
+                    <span
+                        :title="scope.row?.supplier_info.name"
+                        class="name_item"
+                        >{{ scope.row?.supplier_info.name }}</span
                     >
                 </template>
             </el-table-column>
-            <el-table-column label="Địa chỉ" align="center" prop="address">
+            <el-table-column label="Người tạo" align="center" prop="fullname">
+                <template #default="scope">
+                    <span
+                        :title="scope.row?.user_info.fullname"
+                        class="name_item"
+                        >{{ scope.row?.user_info.fullname }}</span
+                    >
+                </template></el-table-column
+            >
+            <el-table-column
+                label="Tổng tiền"
+                align="center"
+                prop="total_price"
+            >
+                <template #default="scope">
+                    <span
+                        >{{
+                            parseInt(scope.row.total_price).toLocaleString(
+                                "en-US"
+                            )
+                        }}
+                        đ</span
+                    >
+                </template>
+            </el-table-column>
+            <el-table-column label="Ngày tạo" align="center" prop="import_date">
+                <template #default="scope">
+                    <span>{{ convertDate(scope.row.import_date) }}</span>
+                </template>
             </el-table-column>
             <el-table-column align="right">
                 <template #header>
                     <el-input
                         v-model="search"
                         size="small"
-                        placeholder="Nhập thông tin cần tìm"
+                        placeholder="Nhập tên nhà phân phối"
                     />
                 </template>
                 <template #default="scope">
@@ -68,19 +91,21 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { CirclePlus, StarFilled } from "@element-plus/icons-vue";
 import debounce from "~/utils/debounce";
-import { apiImage } from "~/constant/request";
-import { Suppliers } from "~/constant/api";
-import { deleteSuppliers, searchSuppliers } from "~/services/supplier.service";
+import { ImportBills } from "~/constant/api";
+import {
+    deleteImportBill,
+    searchImportBill,
+} from "~/services/importbill.service";
 import router from "~/router";
 import { ElMessage } from "element-plus";
+import { convertDate } from "~/utils/convertDate";
 
 const search = ref("");
 const loading = ref(false);
 
-const tableData = ref<Suppliers[]>([]);
+const tableData = ref<ImportBills[]>([]);
 
 const currentPage = ref(1);
-const currentPageSize = ref(10);
 const totalItemPage = ref(0);
 
 const Notification = (
@@ -99,13 +124,13 @@ watch(currentPage, (newPage: number, oldPage: number) => {
     }
 });
 
-const handleEdit = (index: number, row: Suppliers) => {
-    router.push(`/supplier/edit/${row._id}`);
+const handleEdit = (index: number, row: ImportBills) => {
+    router.push(`/importbill/edit/${row._id}`);
 };
 
 const confirmEvent = async (Id: string) => {
     try {
-        await deleteSuppliers(Id);
+        await deleteImportBill(Id);
         Notification("Xoá thành công", "success");
         fetchData(search.value);
     } catch (error) {
@@ -119,12 +144,12 @@ const fetchData = async (searchTerm = "") => {
     try {
         const payLoad = {
             page: currentPage.value,
-            pageSize: currentPageSize.value,
+            pageSize: 10,
             search_term: searchTerm,
         };
-        const res = await searchSuppliers(payLoad);
+        const res = await searchImportBill(payLoad);
         totalItemPage.value = res.totalItems;
-        tableData.value = res.data;
+        tableData.value = res.data.reverse();
     } catch (error) {
         console.error("Error fetching:", error);
         tableData.value = [];
@@ -144,7 +169,7 @@ onMounted(() => {
 });
 
 const handlerAdd = () => {
-    router.push("/supplier/add");
+    router.push("/importbill/add");
 };
 </script>
 
@@ -164,9 +189,9 @@ const handlerAdd = () => {
 }
 
 .img_item {
-    width: 150px;
+    width: 70px;
     height: 70px;
-    object-fit: contain;
+    object-fit: cover;
 }
 .name_item {
     cursor: pointer;

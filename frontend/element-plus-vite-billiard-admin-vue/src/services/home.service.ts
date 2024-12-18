@@ -78,3 +78,8 @@ export const deleteRentalItem = async (
     );
     return res?.data;
 };
+
+export const deleteMenuItembyTable = async (id: string): Promise<TableMenuItems> => {
+    const res = await apiClient?.delete(`${TableMenuItemUrl}/deletes/${id}`);
+    return res?.data;
+};

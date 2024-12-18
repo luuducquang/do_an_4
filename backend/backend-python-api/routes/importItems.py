@@ -8,6 +8,8 @@ from service.importItems import ser_get_importitem,ser_delete_importitem, ser_in
 router = APIRouter()
 
 importitem_collection: Collection = database['ImportItems']
+rentalitem_collection: Collection = database['RentalItems']
+menuitem_collection: Collection = database['MenuItems']
 
 @router.get("/importitems/get")
 async def get_importitem():
@@ -25,5 +27,10 @@ def edit_importitem(_data: ImportItems):
 
 @router.delete("/importitems/delete/{importitem_id}")
 def remove_importitem(importitem_id: str):
-    response = ser_delete_importitem(importitem_id, importitem_collection)
+    response = ser_delete_importitem(
+        importitem_id, 
+        importitem_collection, 
+        rentalitem_collection, 
+        menuitem_collection
+    )
     return response

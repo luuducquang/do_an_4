@@ -6,32 +6,73 @@
             ></el-button>
         </div>
         <el-table :data="tableData" class="table_content">
-            <el-table-column label="STT" align="center">
+            <el-table-column label="Khách hàng" align="center" prop="name">
                 <template #default="scope">
-                    {{ (currentPage - 1) * currentPageSize + scope.$index + 1 }}
+                    <span :title="scope.row.name" class="name_item">{{
+                        scope.row.name
+                    }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="Nhà phân phối" align="center" prop="name">
-            </el-table-column>
-            <el-table-column label="Số điện thoại" align="center" prop="phone">
+            <el-table-column
+                label="Người tạo"
+                align="center"
+                prop="user_info.fullname"
+            />
+            <el-table-column
+                label="Tổng tiền"
+                align="center"
+                prop="total_price"
+            >
                 <template #default="scope">
-                    <a :href="`tel://${scope.row.phone}`"
-                        ><span>{{ scope.row.phone }}</span></a
+                    <span
+                        >{{
+                            parseInt(scope.row.total_price).toLocaleString(
+                                "en-US"
+                            )
+                        }}
+                        đ</span
                     >
                 </template>
             </el-table-column>
-            <el-table-column label="Địa chỉ" align="center" prop="address">
+            <el-table-column
+                label="Địa chỉ giao"
+                align="center"
+                prop="address_detail"
+            />
+            <el-table-column label="Số điện thoại" align="center" prop="phone">
+            </el-table-column>
+            <el-table-column label="Ngày tạo" align="center" prop="sell_date">
+                <template #default="scope">
+                    <p>
+                        {{ convertDate(scope.row.sell_date) }}
+                    </p>
+                </template>
+            </el-table-column>
+            <el-table-column label="Trạng thái" align="center" prop="status">
+                <template #default="scope">
+                    <p
+                        :style="{
+                            color:
+                                scope.row.status === 'Huỷ đơn'
+                                    ? '#CC3333'
+                                    : '#33CC33',
+                        }"
+                    >
+                        {{ scope.row.status }}
+                    </p>
+                </template>
             </el-table-column>
             <el-table-column align="right">
                 <template #header>
                     <el-input
-                        v-model="search"
+                        v-model="search_term"
                         size="small"
-                        placeholder="Nhập thông tin cần tìm"
+                        placeholder="Nhập tên khách hàng"
                     />
                 </template>
                 <template #default="scope">
                     <el-button
+                        v-if="scope.row.status != 'Huỷ đơn'"
                         size="small"
                         @click="handleEdit(scope.$index, scope.row)"
                     >
@@ -66,21 +107,21 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from "vue";
+import { useUserStore } from "~/store";
 import { CirclePlus, StarFilled } from "@element-plus/icons-vue";
 import debounce from "~/utils/debounce";
-import { apiImage } from "~/constant/request";
-import { Suppliers } from "~/constant/api";
-import { deleteSuppliers, searchSuppliers } from "~/services/supplier.service";
+import { BillSells } from "~/constant/api";
+import { deleteBillSell, searchBillSell } from "~/services/billsell.service";
 import router from "~/router";
 import { ElMessage } from "element-plus";
+import { convertDate } from "~/utils/convertDate";
 
-const search = ref("");
+const search_term = ref("");
 const loading = ref(false);
 
-const tableData = ref<Suppliers[]>([]);
+const tableData = ref<BillSells[]>([]);
 
 const currentPage = ref(1);
-const currentPageSize = ref(10);
 const totalItemPage = ref(0);
 
 const Notification = (
@@ -95,19 +136,19 @@ const Notification = (
 
 watch(currentPage, (newPage: number, oldPage: number) => {
     if (newPage !== oldPage) {
-        fetchData(search.value);
+        fetchData(search_term.value);
     }
 });
 
-const handleEdit = (index: number, row: Suppliers) => {
-    router.push(`/supplier/edit/${row._id}`);
+const handleEdit = (index: number, row: BillSells) => {
+    router.push(`/billsell/edit/${row._id}`);
 };
 
 const confirmEvent = async (Id: string) => {
     try {
-        await deleteSuppliers(Id);
+        await deleteBillSell(Id);
         Notification("Xoá thành công", "success");
-        fetchData(search.value);
+        fetchData(search_term.value);
     } catch (error) {
         console.error("Error deleting =:", error);
         Notification("Lỗi khi xoá =", "error");
@@ -119,12 +160,12 @@ const fetchData = async (searchTerm = "") => {
     try {
         const payLoad = {
             page: currentPage.value,
-            pageSize: currentPageSize.value,
+            pageSize: 10,
             search_term: searchTerm,
         };
-        const res = await searchSuppliers(payLoad);
+        const res = await searchBillSell(payLoad);
         totalItemPage.value = res.totalItems;
-        tableData.value = res.data;
+        tableData.value = res.data.reverse();
     } catch (error) {
         console.error("Error fetching:", error);
         tableData.value = [];
@@ -135,16 +176,16 @@ const fetchData = async (searchTerm = "") => {
 
 const debouncedFetchData = debounce(fetchData, 300);
 
-watch(search, (newSearch) => {
+watch(search_term, (newSearch) => {
     debouncedFetchData(newSearch);
 });
 
 onMounted(() => {
-    fetchData(search.value);
+    fetchData(search_term.value);
 });
 
 const handlerAdd = () => {
-    router.push("/supplier/add");
+    router.push("/billsell/add");
 };
 </script>
 
@@ -164,9 +205,9 @@ const handlerAdd = () => {
 }
 
 .img_item {
-    width: 150px;
+    width: 70px;
     height: 70px;
-    object-fit: contain;
+    object-fit: cover;
 }
 .name_item {
     cursor: pointer;
