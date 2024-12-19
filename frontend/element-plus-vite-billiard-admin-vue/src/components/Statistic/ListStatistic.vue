@@ -44,7 +44,7 @@ const formatCurrency = (value: any) => {
 
 const summaryStats = ref<any>([]);
 
-const revenueData = ref([]);
+const revenueData = ref<any>([]);
 
 onMounted(() => {
     Fetchdata();
@@ -85,9 +85,17 @@ const Fetchdata = async () => {
     summaryStats.value = dataOverview;
 
     const resRevenue = await getRevenue();
-    const dataRevenue = resRevenue.map((value: any) => {
-        return { date: value.date, revenue: value.revenue };
-    });
+    // const dataRevenue = resRevenue.map((value: any) => {
+    //     return {
+    //         date: value.date,
+    //         revenue:
+    //             Math.floor(Math.random() * (10000000 - 1000000 + 1)) + 1000000,
+    //     };
+    // });
+    const dataRevenue = Array.from({ length: 19 }, (_, index) => ({
+        date: `2024-12-${String(index + 1).padStart(2, "0")}`, //
+        revenue: Math.floor(Math.random() * (10000000 - 1000000 + 1)) + 1000000,
+    }));
     revenueData.value = dataRevenue;
 
     const chart = echarts.init(document.getElementById("revenueChart"));

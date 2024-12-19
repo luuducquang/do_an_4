@@ -54,7 +54,7 @@
                         <td>
                             <div class="product-item_price">
                                 <span class="product-item_price_old">{{
-                                    productDetail?.price > 0
+                                    Number(productDetail?.price) > 0
                                         ? productDetail?.price.toLocaleString(
                                               "de-DE"
                                           )
@@ -62,7 +62,7 @@
                                 }}</span
                                 ><sup>đ</sup>
                                 <span class="product-item_price_current">{{
-                                    productDetail?.price_reduction > 0
+                                    Number(productDetail?.price_reduction) > 0
                                         ? productDetail?.price_reduction.toLocaleString(
                                               "de-DE"
                                           )

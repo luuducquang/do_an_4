@@ -460,6 +460,29 @@ const handlerAddDetail = async () => {
                     unit_price: ruleForm.unit_price,
                     total_price: ruleForm.total_price_item,
                 });
+                const resSellItem = await getDetailSellItemById(
+                    String(route.params.id)
+                );
+
+                const totalTongTien = resSellItem.reduce(
+                    (acc, item) => acc + item.total_price,
+                    0
+                );
+
+                await updateBillSell({
+                    _id: String(route.params.id),
+                    user_id: store.user._id,
+                    sell_date: String(getCurrentDateTime()),
+                    name: ruleForm.name,
+                    email: ruleForm.email,
+                    phone: ruleForm.phone,
+                    address: String(ruleForm.address_detail),
+                    address_detail: String(ruleForm.address_detail),
+                    total_price: totalTongTien,
+                    status: ruleForm.status,
+                });
+
+                fetchById(String(route.params.id));
                 Notification("Thêm thành công", "success");
             } catch (error) {
                 if (axios.isAxiosError(error)) {

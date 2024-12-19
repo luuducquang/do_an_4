@@ -61,11 +61,11 @@
             </el-form-item>
 
             <el-form-item label="Giá" prop="price">
-                <el-input v-model="ruleForm.price" />
+                <el-input v-model="ruleForm.price" :disabled="true"/>
             </el-form-item>
 
             <el-form-item label="Giá Giảm" prop="price_reduction">
-                <el-input v-model="ruleForm.price_reduction" />
+                <el-input v-model="ruleForm.price_reduction"  :disabled="true"/>
             </el-form-item>
 
             <el-form-item label="Giá 1 giờ" prop="rental_price_hours">
@@ -77,7 +77,7 @@
             </el-form-item>
 
             <el-form-item label="Số lượng" prop="quantity_available">
-                <el-input v-model="ruleForm.quantity_available" />
+                <el-input v-model="ruleForm.quantity_available" :disabled="true" />
             </el-form-item>
 
             <el-form-item label="Xuất xứ" prop="origin">

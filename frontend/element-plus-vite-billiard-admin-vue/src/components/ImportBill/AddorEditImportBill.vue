@@ -443,6 +443,21 @@ const handlerAddDetail = async () => {
                     total_price:
                         Number(ruleForm.quantity) * Number(ruleForm.unit_price),
                 });
+                const listItem = await getListImportItemById(
+                    String(route.params.id)
+                );
+                const totalTongTien = listItem.reduce(
+                    (acc, item) => acc + item.total_price,
+                    0
+                );
+                await updateImportBill({
+                    _id: String(route.params.id),
+                    user_id: store.user._id,
+                    supplier_id: String(ruleForm.supplier_id),
+                    import_date: getCurrentDateTime(),
+                    total_price: Number(totalTongTien),
+                });
+                fetchById(String(route.params.id));
                 Notification("Thêm thành công", "success");
             } catch (error) {
                 if (axios.isAxiosError(error)) {

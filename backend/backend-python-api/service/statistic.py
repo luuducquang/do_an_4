@@ -39,7 +39,7 @@ def ser_get_info_overview():
     tables_available = tables_collection.count_documents({"status": False})
 
     
-    today_bookings = bookings_collection.count_documents({"created_at": {"$gte": today}})
+    today_bookings = bookings_collection.count_documents({"start_time": {"$gte": today}})
 
     
     total_bill_sells = billsells_collection.count_documents({"status": {"$ne": "Huỷ đơn"}})
@@ -55,7 +55,7 @@ def ser_get_info_overview():
         bookings_collection.distinct(
             "phone",
             {
-                "start_date": {
+                "start_time": {
                     "$gte": datetime(current_year, current_month, 1),
                     "$lt": datetime(next_month_year, next_month, 1)
                 }

@@ -42,11 +42,11 @@
             </el-form-item>
 
             <el-form-item label="Số lượng" prop="stock_quantity">
-                <el-input v-model="ruleForm.stock_quantity" />
+                <el-input v-model="ruleForm.stock_quantity" :disabled="true" />
             </el-form-item>
 
             <el-form-item label="Giá" prop="price">
-                <el-input v-model="ruleForm.price" />
+                <el-input v-model="ruleForm.price" :disabled="true" />
             </el-form-item>
 
             <el-form-item>
