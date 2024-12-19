@@ -11,6 +11,18 @@ export interface Banner {
     image: string;
 }
 
+export interface Bookings {
+    _id?: string;
+    table_id: string;
+    name: string;
+    phone: string;
+    start_time: Date;
+    end_time: Date;
+    status: Boolean;
+    created_at: Date;
+    table?: Tables;
+}
+
 export interface Product {
     maSanPham?: number;
     tenSanPham: string;

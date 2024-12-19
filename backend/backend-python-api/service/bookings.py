@@ -159,3 +159,17 @@ def ser_delete_booking(booking_id: str, booking_collection: Collection):
         raise HTTPException(status_code=404, detail="booking not found")
     
     return {"message": "booking deleted successfully"}
+
+def ser_update_booking_status(booking_id: str, booking_collection: Collection):
+    if not ObjectId.is_valid(booking_id):
+        raise HTTPException(status_code=400, detail="Invalid booking ID")
+
+    result = booking_collection.update_one(
+        {"_id": ObjectId(booking_id)},
+        {"$set": {"status": False}}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Booking not found or status already false")
+    
+    return {"message": "Booking status updated to false successfully"}

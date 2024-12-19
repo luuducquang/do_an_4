@@ -1,7 +1,6 @@
 <template>
     <el-container>
         <el-main>
-            <!-- Thống kê tổng quan -->
             <el-row :gutter="20" class="summary-row">
                 <el-col
                     :span="6"
@@ -14,8 +13,6 @@
                     </el-card>
                 </el-col>
             </el-row>
-
-            <!-- Biểu đồ doanh thu -->
             <el-row :gutter="20" class="chart-row">
                 <el-col :span="24">
                     <el-card>
@@ -33,76 +30,83 @@
     </el-container>
 </template>
 
-<script>
+<script setup lang="ts">
 import * as echarts from "echarts";
+import { ref, onMounted } from "vue";
+import { getOverview, getRevenue } from "~/services/statistic.service";
 
-export default {
-    name: "StatisticsPage",
-    data() {
-        return {
-            summaryStats: [
-                { label: "Tổng số bàn", value: 12 },
-                { label: "Bàn đang sử dụng", value: 5 },
-                { label: "Bàn trống", value: 7 },
-                { label: "Số lượng đặt bàn trong ngày", value: 8 },
-                { label: "Số lượng hoá đơn bán", value: 50 },
-                { label: "Số lượng hoá đơn nhập", value: 20 },
-                { label: "Tổng số khách hàng", value: 150 },
-                { label: "Khách hàng mới trong tháng", value: 10 },
-                { label: "Đơn hàng bị huỷ", value: 2 },
-                { label: "Đơn hàng chờ", value: 5 },
-                { label: "Đơn hàng đang giao", value: 3 },
-                { label: "Đơn hàng hoàn tất", value: 45 },
-                { label: "Đơn hàng đổi trả", value: 1 },
-                { label: "Tổng lượt xem sản phẩm", value: 2000 },
-                {
-                    label: "Tổng tiền nhập",
-                    value: this.formatCurrency(5000000),
-                },
-                {
-                    label: "Tổng doanh thu",
-                    value: this.formatCurrency(12500000),
-                },
-            ],
-            revenueData: [
-                { date: "2024-12-01", revenue: 200000 },
-                { date: "2024-12-02", revenue: 300000 },
-                { date: "2024-12-03", revenue: 250000 },
-                { date: "2024-12-04", revenue: 400000 },
-                { date: "2024-12-05", revenue: 350000 },
-            ],
-        };
-    },
-    mounted() {
-        this.renderRevenueChart();
-    },
-    methods: {
-        formatCurrency(value) {
-            return new Intl.NumberFormat("vi-VN", {
-                style: "currency",
-                currency: "VND",
-            }).format(value);
+const formatCurrency = (value: any) => {
+    return new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+    }).format(value);
+};
+
+const summaryStats = ref<any>([]);
+
+const revenueData = ref([]);
+
+onMounted(() => {
+    Fetchdata();
+});
+
+const Fetchdata = async () => {
+    const resOverview = await getOverview();
+    const dataOverview = [
+        { label: "Tổng số bàn", value: resOverview.tongSoBan },
+        { label: "Bàn đang sử dụng", value: resOverview.banDangDung },
+        { label: "Bàn trống", value: resOverview.banTrong },
+        {
+            label: "Số lượng đặt bàn trong ngày",
+            value: resOverview.soLuongBanNgay,
         },
-        renderRevenueChart() {
-            const chart = echarts.init(document.getElementById("revenueChart"));
-            const option = {
-                xAxis: {
-                    type: "category",
-                    data: this.revenueData.map((item) => item.date),
-                },
-                yAxis: { type: "value" },
-                series: [
-                    {
-                        data: this.revenueData.map((item) => item.revenue),
-                        type: "line",
-                        smooth: true,
-                    },
-                ],
-                tooltip: { trigger: "axis" },
-            };
-            chart.setOption(option);
+        { label: "Số lượng hoá đơn bán", value: resOverview.hoaDonBan },
+        { label: "Số lượng hoá đơn nhập", value: resOverview.hoaDonNhap },
+        { label: "Tổng số khách hàng", value: resOverview.khachHang },
+        {
+            label: "Khách hàng mới trong tháng",
+            value: resOverview.khachHangMoi,
         },
-    },
+        { label: "Đơn hàng bị huỷ", value: resOverview.donHuy },
+        { label: "Đơn hàng chờ", value: resOverview.donCho },
+        { label: "Đơn hàng đang giao", value: resOverview.dangGiao },
+        { label: "Đơn hàng hoàn tất", value: resOverview.hoantat },
+        { label: "Đơn hàng đổi trả", value: resOverview.doiTra },
+        { label: "Tổng lượt xem sản phẩm", value: resOverview.luotXem },
+        {
+            label: "Tổng tiền nhập",
+            value: formatCurrency(resOverview.tienNhap),
+        },
+        {
+            label: "Tổng doanh thu",
+            value: formatCurrency(resOverview.doanhThu),
+        },
+    ];
+    summaryStats.value = dataOverview;
+
+    const resRevenue = await getRevenue();
+    const dataRevenue = resRevenue.map((value: any) => {
+        return { date: value.date, revenue: value.revenue };
+    });
+    revenueData.value = dataRevenue;
+
+    const chart = echarts.init(document.getElementById("revenueChart"));
+    const option = {
+        xAxis: {
+            type: "category",
+            data: revenueData.value.map((item: any) => item.date),
+        },
+        yAxis: { type: "value" },
+        series: [
+            {
+                data: revenueData.value.map((item: any) => item.revenue),
+                type: "line",
+                smooth: true,
+            },
+        ],
+        tooltip: { trigger: "axis" },
+    };
+    chart.setOption(option);
 };
 </script>
 

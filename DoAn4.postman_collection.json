@@ -3649,6 +3649,47 @@
 			]
 		},
 		{
+			"name": "Statistic",
+			"item": [
+				{
+					"name": "getOverview",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/statistic/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"statistic",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRevenueMonth",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/statistic/monthly-revenue",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"statistic",
+								"monthly-revenue"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "upload",
 			"request": {
 				"method": "POST",
