@@ -2715,7 +2715,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"import_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"item_id\": \"fgfjfgjxsw5w534dg\",\r\n    \"quantity\": 1,\r\n    \"unit_price\": 100,\r\n    \"total_price\": 100\r\n}",
+							"raw": "{\r\n    \"import_id\": \"6762f557abc80fda99db914f\",\r\n    \"item_id\": \"67348b606ad45a91cc960feb\",\r\n    \"quantity\": 1,\r\n    \"unit_price\": 2650000,\r\n    \"total_price\": 2650000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

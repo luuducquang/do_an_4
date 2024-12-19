@@ -66,6 +66,27 @@ const routes = [
                 ],
             },
             {
+                path: "statistic",
+                name: "statistic",
+                component: LayoutView,
+                meta: {
+                    breadcrumbName: "Thống kê",
+                    requiresAuth: true,
+                },
+                children: [
+                    {
+                        path: "",
+                        name: "Statistic",
+                        component: () =>
+                            import("~/components/Statistic/ListStatistic.vue"),
+                        meta: {
+                            breadcrumbName: "Danh thống kê",
+                            requiresAuth: true,
+                        },
+                    },
+                ],
+            },
+            {
                 path: "tabletype",
                 name: "TableType",
                 component: LayoutView,

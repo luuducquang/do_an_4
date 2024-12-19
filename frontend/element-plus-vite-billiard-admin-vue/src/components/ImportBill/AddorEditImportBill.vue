@@ -487,6 +487,20 @@ const updateTotalPrice = async (row: TableImportBill) => {
                 unit_price: Number(row.donGia),
                 total_price: Number(row.soLuong) * Number(row.donGia),
             });
+            const listItem = await getListImportItemById(
+                String(route.params.id)
+            );
+            const totalTongTien = listItem.reduce(
+                (acc, item) => acc + item.total_price,
+                0
+            );
+            await updateImportBill({
+                _id: String(route.params.id),
+                user_id: store.user._id,
+                supplier_id: String(ruleForm.supplier_id),
+                import_date: getCurrentDateTime(),
+                total_price: Number(totalTongTien),
+            });
             fetchById(String(route.params.id));
             Notification("Điều chỉnh số lượng thành công", "success");
         } catch (error) {
@@ -504,7 +518,7 @@ watch(
             (acc: any, item: any) => acc + item.tongTien,
             0
         );
-        ruleForm.total_price = totalAmount;
+        ruleForm.total_price = Number(totalAmount);
     },
     { deep: true }
 );

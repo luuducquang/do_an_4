@@ -504,6 +504,28 @@ const updateTotalPrice = async (row: TableBillSell) => {
                 unit_price: Number(row.donGia),
                 total_price: Number(row.donGia) * Number(row.soLuong),
             });
+            const resSellItem = await getDetailSellItemById(
+                String(route.params.id)
+            );
+
+            const totalTongTien = resSellItem.reduce(
+                (acc, item) => acc + item.total_price,
+                0
+            );
+
+            await updateBillSell({
+                _id: String(route.params.id),
+                user_id: store.user._id,
+                sell_date: String(getCurrentDateTime()),
+                name: ruleForm.name,
+                email: ruleForm.email,
+                phone: ruleForm.phone,
+                address: String(ruleForm.address_detail),
+                address_detail: String(ruleForm.address_detail),
+                total_price: totalTongTien,
+                status: ruleForm.status,
+            });
+
             fetchById(String(route.params.id));
             Notification("Điều chỉnh số lượng thành công", "success");
         } catch (error) {

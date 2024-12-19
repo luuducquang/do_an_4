@@ -171,7 +171,7 @@ const activeIndex = computed(() => {
     if (path.startsWith("/table")) return "4";
     if (path.startsWith("/pricingrule")) return "5";
     if (path.startsWith("/billsell")) return "6";
-    if (path.startsWith("/importBill")) return "7";
+    if (path.startsWith("/importbill")) return "7";
     if (path.startsWith("/menuitem")) return "8";
     if (path.startsWith("/rentalitem")) return "9";
     if (path.startsWith("/employeetype")) return "10";
